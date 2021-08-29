@@ -10,6 +10,7 @@ LIBMLX =		libmlx.a
 LIBFT =			libft.a
 SRC =	main.c \
 		ft_free.c \
+		errors.c \
 		gestion_cmds.c \
 		cmd_part_one.c \
 		pipes.c	\
