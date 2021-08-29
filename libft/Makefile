@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: bbaudry <marvin@42.fr>                     +#+  +:+       +#+         #
+#    By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/26 15:24:00 by bbaudry           #+#    #+#              #
-#    Updated: 2019/10/26 15:24:03 by bbaudry          ###   ########.fr        #
+#    Updated: 2021/08/28 23:03:38 by bbaudry          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ ft_lstclear_bonus.c ft_lstiter_bonus.c ft_lstmap_bonus.c \
 OBJ= $(SRCS:.c=.o)
 OBJB = $(SRCS_B:.c=.o)
 INCLUDES=./
-CC = gcc
+CC = gcc -g
 CFLAGS = -Wall -Wextra -Werror -I
 
 all: $(NAME)

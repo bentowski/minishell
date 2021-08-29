@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/29 13:50:48 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/07/30 23:04:55 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/21 17:28:45 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_list	*ft_lstnew(void *content)
 	t_list	*lst;
 
 	lst = NULL;
-	lst = (t_list *)malloc(1);
+	lst = malloc(sizeof(t_list));
 	if (!(lst))
 		return (NULL);
 	lst->content = content;

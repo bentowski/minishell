@@ -1,18 +1,20 @@
 SHELL :=		/bin/bash
 
 NAME =			minishell
-CC =			clang -D BUFFER_SIZE=4
-FLAGS =			-Wall -Wextra -Werror -g
+CC =			clang -D BUFFER_SIZE=4 -g
+FLAGS =			-Wall -Wextra -Werror
 RM =			rm -rf
 DIR_SRCS =		./
 LINUX_FLAGS =	-lXext -lX11 -lm
 LIBMLX =		libmlx.a
 LIBFT =			libft.a
 SRC =	main.c \
-			ft_free.c \
-			cmd_part_one.c \
-			get_next_line/get_next_line.c \
-			get_next_line/get_next_line_utils.c
+		ft_free.c \
+		gestion_cmds.c \
+		cmd_part_one.c \
+		pipes.c	\
+		get_next_line/get_next_line.c \
+		get_next_line/get_next_line_utils.c
 
 SRCS =			$(addprefix $(DIR_SRCS), $(SRC))
 OBJS =			$(SRCS:.c=.o)
@@ -22,7 +24,7 @@ all:			$(NAME)
 				@echo "Compiled "$(NAME)" successfully!"
 
 $(NAME) :		$(OBJS)
-				@$(MAKE) -C ./libft
+				@$(MAKE) -C ./libft bonus
 				@cp ./libft/libft.a libft.a
 				@$(CC) $(COMPIL) $(NAME)
 
