@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 13:34:31 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/08/29 13:20:04 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/08/30 11:25:58 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,10 @@ int ft_echo(char **cmd_parts, char **env)
     int n;
 
     if (!(cmd_parts[1]))
+    {
+        // error(N_ERR, to_free, fatale or not)
         return (-1);
-        //error(N_ERR, to_free, fatale or not)
+    }
     x = 1;
     n = ft_strncmp(cmd_parts[1], "-n", 2);
     if (n == 0)
