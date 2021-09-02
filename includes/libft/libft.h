@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 10:19:07 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/08/31 16:11:01 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/09/02 22:25:15 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 typedef struct s_list
 {
 	char			*content;
+	int				file[2];
 	struct s_list	*next;
 }				t_list;
 
@@ -62,9 +63,9 @@ int				ft_isprint(int c);
 int				ft_tolower(int c);
 int				ft_toupper(int c);
 int				ft_lstsize(t_list *lst);
-t_list	*ft_lstnew(char *content);
-t_list			*ft_lstmap(t_list *lst, void *(*f)(void *),
-					void (*del)(void *));
+t_list			*ft_lstnew(char *content, int infile, int outfile);
+// t_list			*ft_lstmap(t_list *lst, void *(*f)(void *),
+					// void (*del)(void *));
 t_list			*ft_lstlast(t_list *lst);
 
 #endif

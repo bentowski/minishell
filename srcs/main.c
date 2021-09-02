@@ -13,11 +13,11 @@ int main(int argc, char **argv, char **env)
     lst = ft_parsing(lst);
     if (lst.cmds)
     {
-        if (lst.cmds->next)
+        // if (lst.cmds->next)
             ft_pipe(lst, env);
-        else
-            if (select_cmd(lst, env, 1) == 0)
-                end = 1;
+        // else
+        //     if (select_cmd(lst, env, 1) == 0)
+        //         end = 1;
     }
     lst_free(lst);
   }

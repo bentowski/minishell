@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 13:34:26 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/09/02 19:19:32 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/09/02 22:23:11 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@
 
 typedef struct s_struct
 {
-	int		file[2];
 	t_list	*cmds;
 }		t_struct;
 

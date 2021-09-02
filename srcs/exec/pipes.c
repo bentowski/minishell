@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/28 18:38:04 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/08/31 14:54:18 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/09/02 22:43:37 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	ft_childs(int in, int out, t_struct lst, char **env)
 	pid = fork();
 	if (pid == 0)
 	{
-		if (in != 0 && in != lst.file[0])
+		if (in != 0 && in != lst.cmds->file[0])
 		{
 			dup2(in, 0);
 			close(in);
@@ -43,7 +43,7 @@ static int	ft_father(int in, t_struct lst, char **env)
 
 	if (in != 0)
 		dup2(in, 0);
-	dup2(lst.file[1], 1);
+	dup2(lst.cmds->file[1], 1);
 	select_cmd(lst, env, 2);
 	return (1);
 }
@@ -63,7 +63,7 @@ static int	cmd_count(t_list *cmds)
 	return (x);
 }
 
-static int	ft_pipex(t_struct lst, char **env)
+static int	ft_pipex(t_struct lst, char **env, int opt)
 {
 	int	i;
 	int	n;
@@ -73,10 +73,10 @@ static int	ft_pipex(t_struct lst, char **env)
     in = 0;
 	n = cmd_count(lst.cmds);
 	i = 0;
-	while (i < n - 1)
+	while (i < n - 1 && opt == 1)
 	{
 		pipe(fd);
-        dup2(lst.file[0], 0);
+        dup2(lst.cmds->file[0], 0);
 		ft_childs(in, fd[1], lst, env);
 		close(fd[1]);
 		in = fd[0];
@@ -92,12 +92,17 @@ int	ft_pipe(t_struct lst, char **env)
 	int			ret;
 	int			pid;
 
-    lst.file[0] = 0;
-    lst.file[1] = 1;
-	pid = fork();
-	if (pid == 0)
-		ft_pipex(lst, env);
+    // lst.file[0] = 0;
+    // lst.file[1] = 1;
+	if (lst.cmds->next)
+	{
+		pid = fork();
+		if (pid == 0)
+			ft_pipex(lst, env, 1);
+		else
+			waitpid(pid, &ret, 0);
+	}
 	else
-		waitpid(pid, &ret, 0);
+		ft_pipex(lst, env, 2);
 	return (0);
 }

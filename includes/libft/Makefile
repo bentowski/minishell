@@ -6,7 +6,7 @@
 #    By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/26 15:24:00 by bbaudry           #+#    #+#              #
-#    Updated: 2021/08/28 23:03:38 by bbaudry          ###   ########.fr        #
+#    Updated: 2021/09/02 22:25:25 by bbaudry          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ ft_isdigit.c ft_memset.c ft_strdup.c ft_strtrim.c ft_itoa.c ft_strmapi.c \
 
 SRCS_B= ft_lstnew_bonus.c ft_lstadd_front_bonus.c ft_lstsize_bonus.c \
 ft_lstlast_bonus.c ft_lstadd_back_bonus.c ft_lstdelone_bonus.c \
-ft_lstclear_bonus.c ft_lstiter_bonus.c ft_lstmap_bonus.c \
+ft_lstclear_bonus.c ft_lstiter_bonus.c #ft_lstmap_bonus.c \
 
 OBJ= $(SRCS:.c=.o)
 OBJB = $(SRCS_B:.c=.o)
