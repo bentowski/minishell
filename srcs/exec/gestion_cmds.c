@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 13:32:42 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/08/31 14:54:21 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/09/02 19:59:04 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,26 +64,23 @@ static int ft_exec(char **cmd_parts, char **env, int opt)
 	char *path;
 	int pid;
 	int ret;
+
+	path = get_path(cmd_parts[0], env);
+	if (path == NULL)
+	{
+		ft_free(cmd_parts);
+		return (-1);
+	}
 	if (opt == 1)
 	{
 		pid = fork();
 		if (pid == 0)
-		{
-			path = get_path(cmd_parts[0], env);
-			if (path == NULL)
-				return (-1);
 			execve(path, cmd_parts, env);
-		}
 		else
 			waitpid(pid, &ret, 0);
 	}
 	else
-	{
-		path = get_path(cmd_parts[0], env);
-		if (path == NULL)
-			return (-1);
 		execve(path, cmd_parts, env);
-	}
 	ft_free(cmd_parts);
 	return (1);
 }

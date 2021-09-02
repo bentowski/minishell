@@ -6,49 +6,11 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 12:49:29 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/09/02 19:19:00 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/09/02 20:00:25 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-// char *change_line(char *line, int opt)
-// {
-//     char *new;
-//     int p;
-//     int x;
-//     int y;
-//
-//     x = 0;
-//     y = 0;
-//     p = 1;
-//     if (!(line))
-//         return (NULL);
-//     if (!(new = malloc(sizeof(char)*(ft_strlen(line) + 1))))
-//         return (NULL);
-//     while (line[x])
-//     {
-//         if (line[x] == '"')
-//         {
-//             x++;
-//             while (line[x] && line[x++] != '"')
-//                 new[y++] = line[x - 1];
-//         }
-//         if (line[x] == 39)
-//         {
-//             x++;
-//             while (line[x] && line[x++] != 39)
-//                 new[y++] = line[x - 1];
-//         }
-//         if (line[x++] == ' ')
-//             new[y++] = '\n';
-//         else
-//             new[y++] = line[x - 1];
-//     }
-//     new[y] = '\0';
-//     free(line);
-//     return (new);
-// }
 
 static char *second_lecture(char *line)
 {
@@ -75,8 +37,6 @@ static char *second_lecture(char *line)
     free(line);
     return (new);
 }
-
-
 
 t_struct ft_parsing(t_struct lst)
 {
