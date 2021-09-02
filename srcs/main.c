@@ -10,7 +10,6 @@ int main(int argc, char **argv, char **env)
   end = 0;
   while (end == 0)
   {
-    // write(1, "minishell $> ", 13);
     lst = ft_parsing(lst);
     if (lst.cmds)
     {

@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 13:34:26 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/09/01 21:13:45 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/09/02 19:19:32 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ typedef struct s_struct
 }		t_struct;
 
 char    **ft_split(char const *s, char c);
-char    *get_next_line(int fd, char **line);
 int     ft_strncmp(const char *s1, const char *s2, size_t n);
 int     ft_echo(char **cmd_parts, char **env);
 int     ft_cd(char **cmd_parts, char **env);
@@ -49,5 +48,6 @@ void	lst_free(t_struct);
 char *change_line(char *line, int opt);
 void	handle_sigint(int signal);
 void	handle_sigquit(int signal);
+char	*first_lecture(char *line);
 
 #endif

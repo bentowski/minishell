@@ -11,12 +11,11 @@ READLINE_DIR =  ./includes/readline-8.1
 SRC =	srcs/main.c \
 		srcs/ft_free.c \
 		srcs/parsing/parsing.c \
+		srcs/parsing/first_lecture.c \
 		srcs/errors/errors.c \
 		srcs/exec/gestion_cmds.c \
 		srcs/exec/cmd_part_one.c \
 		srcs/exec/pipes.c \
-		get_next_line/get_next_line.c \
-		get_next_line/get_next_line_utils.c \
 		srcs/signals.c
 
 SRCS =			$(addprefix $(DIR_SRCS), $(SRC))

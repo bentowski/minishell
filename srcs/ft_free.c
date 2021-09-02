@@ -21,6 +21,7 @@ void	lst_free(t_struct lst)
 	while (tmp)
 	{
 		fr = tmp->next;
+        free(tmp->content);
 		free(tmp);
 		tmp = fr;
 	}
