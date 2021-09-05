@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 13:32:42 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/09/02 22:40:27 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/09/05 09:24:54 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,41 +59,32 @@ static char	*get_path(void *cmd, char **env)
 	return (ret);
 }
 
-static int ft_exec(char **cmd_parts, char **env, int opt)
+static int ft_exec(char **cmd_parts, char **env)
 {
 	char *path;
 	int pid;
 	int ret;
+	int x;
 
+	x = 0;
 	path = get_path(cmd_parts[0], env);
 	if (path == NULL)
 	{
 		ft_free(cmd_parts);
 		return (-1);
 	}
-	if (opt == 1)
-	{
-		pid = fork();
-		if (pid == 0)
-			execve(path, cmd_parts, env);
-		else
-			waitpid(pid, &ret, 0);
-	}
-	else
-		execve(path, cmd_parts, env);
+	ret = execve(path, cmd_parts, env);
 	ft_free(cmd_parts);
-	return (1);
+	return (ret);
 }
 
-int select_cmd(t_struct lst, char **env, int opt)
+int select_cmd(t_struct lst, char **cmd_parts)
 {
 	char *bltin[8] = { "echo", "cd", "pwd", "export", "unset", "env", "exit" };
-	char **cmd_parts;
 	int (*functions[7])(char **cmd_parts, char **env);
 	int len;
 	int x;
 
-	cmd_parts = ft_split(lst.cmds->content, ' ');
 	functions[0] = ft_echo;
 	functions[1] = ft_cd;
 	functions[2] = ft_pwd;
@@ -106,9 +97,9 @@ int select_cmd(t_struct lst, char **env, int opt)
 	while (bltin[++x])
 		if (ft_strncmp(cmd_parts[0], bltin[x], len) == 0)
 		{
-			len = (*functions[x])(cmd_parts, env);
-			ft_free(cmd_parts);
+			len = (*functions[x])(cmd_parts, lst.env);
+			// ft_free(cmd_parts);
 			return (len);
 		}
-	return (ft_exec(cmd_parts, env, opt));
+	return (ft_exec(cmd_parts, lst.env));
 }
