@@ -15,11 +15,9 @@ int main(int argc, char **argv, char **env)
     lst = ft_parsing(lst);
     if (lst.cmds)
     {
-        // if (lst.cmds->next)
-            ret = ft_pipe(lst);
-        // else
-            if (ret == 1 || ret == -1)
-                return (1);
+        ret = ft_run(lst);
+        if (ret == 1 || ret == -1)
+            return (1);
     }
     lst_free(lst);
   }

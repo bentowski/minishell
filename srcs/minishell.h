@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 13:34:26 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/09/04 13:15:06 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/09/06 19:10:08 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ size_t  	ft_strlen(const char *s);
 void    	ft_putstr_fd(char *s, int fd);
 void    	ft_free(char **cmd_parts);
 int     	select_cmd(t_struct lst, char **cmd_parts);
-int     	ft_pipe(t_struct lst);
+int     	ft_run(t_struct lst);
 t_struct	ft_parsing(t_struct lst);
 void		lst_free(t_struct);
 char		*change_line(char *line, int opt);
