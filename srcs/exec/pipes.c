@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/28 18:38:04 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/09/06 23:34:03 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/09/08 00:46:21 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,54 @@ static int test(char **cmd_parts, int x, int ret)
 	return (ret);
 }
 
+static char *third_lecture(char *line)
+{
+	int x;
+	int y;
+	int count;
+	char *new;
+
+	x = 0;
+	count = 0;
+	while (line[x])
+	{
+		if (line[x] == 39)
+		{
+			while (line[++x] && line[x] != 39)
+				count++;
+			if (!line[x])
+				return (NULL);
+			count--;
+		}
+		else if (line[x] == 34)
+		{
+			while (line[++x] && line[x] != 34)
+				count++;
+			if (!line[x])
+				return (NULL);
+			count--;
+		}
+		count++;
+		x++;
+	}
+	new = malloc(sizeof(char) * (count + 1));
+	if (!new)
+		return (NULL);
+	x = 0;
+	y = 0;
+	while (line[x])
+		if (line[x] == 34)
+			while (line[x++] && line[x] != 34)
+				new[y++] = line[x];
+		else if (line[x] == 39)
+			while (line[x++] && line[x] != 39)
+				new[y++] = line[x];
+		else
+			new[y++] = line[x++];
+	new[y] = '\0';
+	return (new);
+}
+
 static int gestion_file(t_struct lst, char **cmd_parts)
 {
 	int x;
@@ -41,6 +89,9 @@ static int gestion_file(t_struct lst, char **cmd_parts)
 	ret = 0;
 	while (cmd_parts[x])
 	{
+		printf("%s\n", cmd_parts[x]);
+		cmd_parts[x] = third_lecture(cmd_parts[x]);
+		printf("%s\n", cmd_parts[x]);
 		if (cmd_parts[x][0] == '<')
 		{
 			if (cmd_parts[x][1] == '\0')
@@ -105,6 +156,8 @@ static int	ft_childs(int in, int out, t_struct lst, char **cmd_parts)
 	int x;
 
 	x = 0;
+	if (lst.cmds->file[1] != 1)
+		out = lst.cmds->file[1];
 	pid = fork();
 	if (pid == 0)
 	{
@@ -130,11 +183,11 @@ static int ft_pipes(int n, int x, t_struct lst, char **cmd_parts)
 	int	fd[2];
 
 	in = lst.cmds->file[0];
+	i = 0;
+	lst.cmds->content = third_lecture(lst.cmds->content);
 	while (i < n - 1)
 	{
 		pipe(fd);
-		if (lst.cmds->file[1] != 1)
-			fd[1] = lst.cmds->file[1];
 		ft_childs(in, fd[1], lst, &cmd_parts[x]);
 		in = fd[0];
 		close(fd[1]);
@@ -142,13 +195,13 @@ static int ft_pipes(int n, int x, t_struct lst, char **cmd_parts)
 		lst.cmds = lst.cmds->next;
 		ft_free(cmd_parts);
 		x = 0;
+		lst.cmds->content = third_lecture(lst.cmds->content);
 		cmd_parts = ft_split(lst.cmds->content, ' ');
 		x = gestion_file(lst, cmd_parts);
 		if (x == -1)
 			return (0);
 	}
-	if (in != 0)
-		dup2(in, 0);
+	dup2(in, 0);
 	dup2(lst.cmds->file[1], 1);
 	return (select_cmd(lst, &cmd_parts[x]));
 }
