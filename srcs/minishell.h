@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 13:34:26 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/09/02 19:19:32 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/09/10 11:28:50 by jfoucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,11 @@ char *change_line(char *line, int opt);
 void	handle_sigint(int signal);
 void	handle_sigquit(int signal);
 char	*first_lecture(char *line);
+char	**first_env(char **env);
+void    free_array_content(void **array);
+void	clear_env(char **env);
+int		str_array_size(char **array);
+int		ft_unsetenv(char **env, char *name);
+int		ft_setenv(char **env, char *string);
 
 #endif

@@ -8,6 +8,7 @@ int main(int argc, char **argv, char **env)
   signal(SIGINT, handle_sigint);
   signal(SIGQUIT, handle_sigquit);
   end = 0;
+  env = first_env(env);
   while (end == 0)
   {
     lst = ft_parsing(lst);

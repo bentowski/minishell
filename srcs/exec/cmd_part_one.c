@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 13:34:31 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/08/31 14:54:23 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/09/10 11:28:16 by jfoucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,11 +161,27 @@ int ft_env(char **cmd_parts, char **env)
 
 int ft_export(char **cmd_parts, char **env)
 {
+	int	i;
+
+	i = 1;
+	while (cmd_parts[i])
+	{
+		ft_setenv(env, cmd_parts[i]);
+		i++;
+	}
     return (1);
 }
 
 int ft_unset(char **cmd_parts, char **env)
 {
+	int	i;
+
+	i = 1;
+	while (cmd_parts[i])
+	{
+		ft_unsetenv(env, cmd_parts[i]);
+		i++;
+	}
     return (1);
 }
 

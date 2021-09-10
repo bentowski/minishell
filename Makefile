@@ -16,7 +16,10 @@ SRC =	srcs/main.c \
 		srcs/exec/gestion_cmds.c \
 		srcs/exec/cmd_part_one.c \
 		srcs/exec/pipes.c \
-		srcs/signals.c
+		srcs/signals.c \
+		srcs/env.c \
+		srcs/util/free_array.c \
+		srcs/util/array_size.c
 
 SRCS =			$(addprefix $(DIR_SRCS), $(SRC))
 OBJS =			$(SRCS:.c=.o)
