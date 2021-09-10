@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 13:32:42 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/09/02 19:59:04 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/09/10 11:54:28 by jfoucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,13 @@ static char	*get_path_deux(char **possible, char **i, char *end_path)
 	return (NULL);
 }
 
-static char	*get_path(void *cmd, char **env)
+static char	*get_path(void *cmd, char ***env)
 {
 	char	**possible;
 	char	*path_line;
 	char	**i;
 	char	*ret;
+	(void)env;
 
 	path_line = getenv("PATH");
 	if (!path_line)
@@ -59,7 +60,7 @@ static char	*get_path(void *cmd, char **env)
 	return (ret);
 }
 
-static int ft_exec(char **cmd_parts, char **env, int opt)
+static int ft_exec(char **cmd_parts, char ***env, int opt)
 {
 	char *path;
 	int pid;
@@ -75,21 +76,21 @@ static int ft_exec(char **cmd_parts, char **env, int opt)
 	{
 		pid = fork();
 		if (pid == 0)
-			execve(path, cmd_parts, env);
+			execve(path, cmd_parts, *env);
 		else
 			waitpid(pid, &ret, 0);
 	}
 	else
-		execve(path, cmd_parts, env);
+		execve(path, cmd_parts, *env);
 	ft_free(cmd_parts);
 	return (1);
 }
 
-int select_cmd(t_struct lst, char **env, int opt)
+int select_cmd(t_struct lst, char ***env, int opt)
 {
 	char *bltin[8] = { "echo", "cd", "pwd", "export", "unset", "env", "exit" };
 	char **cmd_parts;
-	int (*functions[7])(char **cmd_parts, char **env);
+	int (*functions[7])(char **cmd_parts, char ***env);
 	int len;
 	int x;
 

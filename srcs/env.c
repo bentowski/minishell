@@ -1,27 +1,32 @@
 #include <unistd.h>
 #include "minishell.h"
 
-static	char **new_env(char **env, char *var)
+static	char **new_env(char ***env, char *var)
 {
 	int	i;
 	char **new_env;
 
-	new_env = malloc(sizeof(char *) * (str_array_size(env) + 2));
+	i = 0;
+	new_env = malloc(sizeof(char *) * (str_array_size(*env) + 2));
 	if (!new_env)
 		return (NULL);
-	while (env[i])
+	while ((*env)[i])
 	{
-		new_env[i] = env[i];
+		new_env[i] = (*env)[i];
 		i++;
 	}
-	new_env[i] = var;
+	new_env[i] = ft_strdup(var);
+	if (!new_env[i])
+	{
+		free(new_env);
+		return (NULL);
+	}
 	new_env[i + 1] = NULL;
-	free(env);
-	env = new_env;
+	free(*env);
 	return (new_env);
 }
 
-void	clear_env(char **env)
+void	clear_env(char ***env)
 {
 	int	i;
 
@@ -34,7 +39,7 @@ void	clear_env(char **env)
 	free(env);
 }
 
-int	ft_unsetenv(char **env, char *name)
+int	ft_unsetenv(char ***env, char *name)
 {
 	int	i;
 	int	len;
@@ -43,20 +48,20 @@ int	ft_unsetenv(char **env, char *name)
 		return (-1);
 	i = 0;
 	len = ft_strlen(name);
-	while (env[i] && (ft_strncmp(env[i], name, len) || env[i][len] != '='))
+	while ((*env)[i] && (ft_strncmp((*env)[i], name, len) || (*env)[i][len] != '='))
 		i++;
-	if (!env[i])
+	if (!(*env)[i])
 		return (0);
-	free(env[i]);
-	while (env[i])
+	free((*env)[i]);
+	while ((*env)[i])
 	{
-		env[i] = env[i + 1];
+		(*env)[i] = (*env)[i + 1];
 		i++;
 	}
 	return (0);
 }
 
-int	ft_setenv(char **env, char *string)
+int	ft_setenv(char ***env, char *string)
 {
 	char	*name;
 	int		len;
@@ -70,19 +75,19 @@ int	ft_setenv(char **env, char *string)
 		return (-1);
 	strncpy(name, string, len);
 	i = 0;
-	while (env[i] && (ft_strncmp(env[i], name, len) || env[i][len] != '='))
+	while ((*env)[i] && (ft_strncmp((*env)[i], name, len) || (*env)[i][len] != '='))
 		i++;
 	free(name);
-	if (env[i])
+	if ((*env)[i])
 	{
-		free(env[i]);
-		env[i] = ft_strdup(string);
-		if (!env[i])
+		free((*env)[i]);
+		(*env)[i] = ft_strdup(string);
+		if (!(*env)[i])
 			return (-1);
 		return (0);
 	}
-	env = new_env(env, string);
-	if (!env)
+	(*env) = new_env(env, string);
+	if (!(*env))
 		return (-1);
 	return (0);
 }
@@ -92,6 +97,7 @@ char	**first_env(char **env)
 	char	**tmp_env;
 	int		i;
 
+	i = 0;
 	tmp_env = ft_calloc(1, sizeof(char *) * (str_array_size(env) + 1));
 	if (!tmp_env)
 		return (0);

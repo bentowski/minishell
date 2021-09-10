@@ -37,7 +37,7 @@ $(NAME) :		$(OBJS)
 				@$(CC) $(COMPIL) $(NAME)
 
 %.o: %.c
-				@$(CC) -c $< -o $@
+				@$(CC) $(FLAGS) -c $< -o $@
 				@echo "Compiled "$<" successfully!"
 
 clean:

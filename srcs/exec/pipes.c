@@ -6,17 +6,17 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/28 18:38:04 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/08/31 14:54:18 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/09/10 12:03:48 by jfoucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int	ft_childs(int in, int out, t_struct lst, char **env)
+static int	ft_childs(int in, int out, t_struct lst, char ***env)
 {
 	pid_t	pid;
-	char	*path;
-	char	**cmd;
+	//char	*path;
+	//char	**cmd;
 
 	pid = fork();
 	if (pid == 0)
@@ -36,10 +36,10 @@ static int	ft_childs(int in, int out, t_struct lst, char **env)
 	return (1);
 }
 
-static int	ft_father(int in, t_struct lst, char **env)
+static int	ft_father(int in, t_struct lst, char ***env)
 {
-	char	*path;
-	char	**cmd;
+//	char	*path;
+//	char	**cmd;
 
 	if (in != 0)
 		dup2(in, 0);
@@ -63,7 +63,7 @@ static int	cmd_count(t_list *cmds)
 	return (x);
 }
 
-static int	ft_pipex(t_struct lst, char **env)
+static int	ft_pipex(t_struct lst, char ***env)
 {
 	int	i;
 	int	n;
@@ -87,7 +87,7 @@ static int	ft_pipex(t_struct lst, char **env)
 	return (1);
 }
 
-int	ft_pipe(t_struct lst, char **env)
+int	ft_pipe(t_struct lst, char ***env)
 {
 	int			ret;
 	int			pid;

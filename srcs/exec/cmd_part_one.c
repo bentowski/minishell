@@ -6,16 +6,17 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 13:34:31 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/09/10 11:28:16 by jfoucher         ###   ########.fr       */
+/*   Updated: 2021/09/10 12:00:03 by jfoucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int ft_echo(char **cmd_parts, char **env)
+int ft_echo(char **cmd_parts, char ***env)
 {
     int x;
     int n;
+	(void)env;
 
     if (!(cmd_parts[1]))
     {
@@ -43,6 +44,9 @@ int cd_base(char **cmd_parts, int lenght, char *buf)
     int len;
     int x;
     int y;
+	(void)len;
+	(void)cmd_parts;
+	(void)lenght;
 
     x = 0;
     y = 0;
@@ -88,10 +92,11 @@ int cd_relative(char **cmd_parts, char *buf, size_t len)
     return (0);
 }
 
-int ft_cd(char **cmd_parts, char **env)
+int ft_cd(char **cmd_parts, char ***env)
 {
     char *buf;
     size_t len;
+	(void)env;
 
     len = 0;
     if (!(buf = malloc(len * sizeof(char))))
@@ -126,10 +131,12 @@ int ft_cd(char **cmd_parts, char **env)
     return (1);
 }
 
-int ft_pwd(char **cmd_parts, char **env)
+int ft_pwd(char **cmd_parts, char ***env)
 {
     char *buf;
     size_t len;
+	(void)cmd_parts;
+	(void)env;
 
     len = 0;
     if (!(buf = malloc(len * sizeof(char))))
@@ -149,17 +156,18 @@ int ft_pwd(char **cmd_parts, char **env)
     return (1);
 }
 
-int ft_env(char **cmd_parts, char **env)
+int ft_env(char **cmd_parts, char ***env)
 {
     int i;
+	(void)cmd_parts;
 
     i = 0;
-    while (env[i])
-        printf("%s\n", env[i++]);
+    while ((*env)[i])
+        printf("%s\n", (*env)[i++]);
     return (1);
 }
 
-int ft_export(char **cmd_parts, char **env)
+int ft_export(char **cmd_parts, char ***env)
 {
 	int	i;
 
@@ -172,7 +180,7 @@ int ft_export(char **cmd_parts, char **env)
     return (1);
 }
 
-int ft_unset(char **cmd_parts, char **env)
+int ft_unset(char **cmd_parts, char ***env)
 {
 	int	i;
 
@@ -185,8 +193,10 @@ int ft_unset(char **cmd_parts, char **env)
     return (1);
 }
 
-int ft_exit(char **cmd_parts, char **env)
+int ft_exit(char **cmd_parts, char ***env)
 {
+	(void)env;
+	(void)cmd_parts;
     //ft_free
     return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 19:02:45 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/09/02 19:07:00 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/09/10 11:53:52 by jfoucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static char *first_part_3(char *new, char *line, char **vars_name)
 
 static char *first_part_2(char *line, char **vars_name, int lenght)
 {
-    char *new;
+    char *new = NULL;
     int x;
     int y;
 
@@ -100,7 +100,7 @@ static char *first_part_2(char *line, char **vars_name, int lenght)
 
 char *first_lecture(char *line)
 {
-    char *new;
+    char *new = NULL;
     char **vars_name;
     int lenght;
     int x;

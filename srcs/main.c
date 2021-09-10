@@ -4,6 +4,8 @@ int main(int argc, char **argv, char **env)
 {
   t_struct lst;
   int end;
+  (void)argc;
+  (void)argv;
 
   signal(SIGINT, handle_sigint);
   signal(SIGQUIT, handle_sigquit);
@@ -15,9 +17,9 @@ int main(int argc, char **argv, char **env)
     if (lst.cmds)
     {
         if (lst.cmds->next)
-            ft_pipe(lst, env);
+            ft_pipe(lst, &env);
         else
-            if (select_cmd(lst, env, 1) == 0)
+            if (select_cmd(lst, &env, 1) == 0)
                 end = 1;
     }
     lst_free(lst);
