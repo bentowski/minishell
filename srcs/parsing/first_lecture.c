@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 19:02:45 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/09/08 01:12:26 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/09/08 17:02:19 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,76 +18,54 @@ static char *first_part_4(char *new, char *line, char **vars_name, int lenght)
     int x;
     int y;
     int i;
-    int in;
 
     x = 0;
     y = 0;
     lenght = 0;
-    in = 1;
     while (line[x])
-    {
-        if (line[x] == 34)
-            in = -in;
-        if (line[x] == '$' && in > 0)
+        if (line[x] == '$')
         {
             i = 0;
             tmp = getenv(vars_name[lenght]);
             if (tmp)
             {
                 while (tmp[i])
-                new[y++] = tmp[i++];
+                    new[y++] = tmp[i++];
             }
             x++;
             while (line[x] && line[x] != ' ' && line[x] != '$')
-            x++;
+                x++;
         }
         else
             new[y++] = line[x++];
-    }
     new[y] = '\0';
     ft_free(vars_name);
     return (new);
 }
+
 
 static char *first_part_3(char *new, char *line, char **vars_name)
 {
     int x;
     int y;
     int lenght;
-    int in;
 
     y = 0;
     x = 0;
-    in = 1;
     while (line[x])
-    {
-        printf("%d\n", in);
-        if (line[x] == 34)
-        {
-            printf("%s\n", "OKKKKKK");
-            in = in * -in;
-        }
-        printf("%d\n", in);
-        if (line[x++] == '$' && in > 0)
+        if (line[x++] == '$')
         {
             lenght = 0;
             while (line[x] && line[x] != ' ' && line[x] != '$')
-            {
-                printf("%d, %c\n", in, line[x]);
                 vars_name[y][lenght++] = line[x++];
-            }
             vars_name[y][lenght] = '\0';
             y++;
         }
-    }
     x = 0;
     lenght = ft_strlen(line) + 1;
     while (vars_name[x])
-    {
-        printf("%s\n", vars_name[x]);
         if (getenv(vars_name[x++]))
             lenght += ft_strlen(getenv(vars_name[x - 1]));
-    }
     new = malloc(sizeof(char) * lenght);
     if (new)
         return (new = first_part_4(new, line, vars_name, lenght));
@@ -100,22 +78,15 @@ static char *first_part_2(char *line, char **vars_name, int lenght)
     char *new;
     int x;
     int y;
-    int in;
 
     x = 0;
     y = 0;
-    in = 1;
     while (line[++x])
-    {
-        if (line[x] == 34)
-            in = -in;
-        if (line[x] == '$' && in > 0)
+        if (line[x] == '$')
         {
             lenght = 0;
-            while (line[x] && line[x] != ' ' && line[x] != '$')
-            {
+            while (line[x] && line[x] != ' ' && line[x++] != '$')
                 lenght++;
-            }
             vars_name[y] = malloc(sizeof(char) * (lenght + 1));
             if (!vars_name[y++])
             {
@@ -123,7 +94,6 @@ static char *first_part_2(char *line, char **vars_name, int lenght)
                 return (NULL);
             }
         }
-    }
     new = first_part_3(new, line, vars_name);
     return (new);
 }
@@ -134,18 +104,12 @@ char *first_lecture(char *line)
     char **vars_name;
     int lenght;
     int x;
-    int in;
 
     lenght = 0;
     x = 0;
-    in = 1;
     while (line[x])
-    {
-        if (line[x] == 34)
-            in = -in;
-        if (line[x++] == '$' && in > 0)
+        if (line[x++] == '$')
             lenght++;
-    }
     vars_name = NULL;
     if (lenght > 0)
     {
@@ -154,6 +118,7 @@ char *first_lecture(char *line)
             return (NULL);
         vars_name[lenght] = NULL;
         new = first_part_2(line, vars_name, lenght);
+        printf("%s\n", new);
         return (new);
     }
     return (line);

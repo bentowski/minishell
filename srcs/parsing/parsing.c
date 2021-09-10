@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 12:49:29 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/09/07 15:29:54 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/09/08 13:41:41 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ t_struct ft_parsing(t_struct lst)
     if (!line)
         exit(EXIT_SUCCESS);
     line = first_lecture(line);
+    if (!line)
+        return (lst);
     line = second_lecture(line);
     cmds = ft_split(line, 124);
     free(line);

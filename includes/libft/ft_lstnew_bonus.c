@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/29 13:50:48 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/09/04 13:49:43 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/09/10 11:44:31 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_list	*ft_lstnew(char *content, int infile, int outfile)
 	lst = malloc(sizeof(t_list));
 	if (!(lst))
 		return (NULL);
-	lst->content = malloc(sizeof(char) * ft_strlen(content));
+	lst->content = malloc(sizeof(char) * (ft_strlen(content) + 1));
 	ft_strlcpy(lst->content, content, ft_strlen(content) + 1);
 	lst->file[0] = infile;
 	lst->file[1] = outfile;

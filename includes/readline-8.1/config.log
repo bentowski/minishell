@@ -2096,7 +2096,7 @@ configure:6102: $? = 0
 configure:6102: result: yes
 configure:6129: checking for tgetent
 configure:6129: gcc -o conftest -g -O2   conftest.c  >&5
-/tmp/ccCWwUOf.o: In function `main':
+/tmp/cc59QsJL.o: In function `main':
 /home/user42/Documents/minishell/includes/readline-8.1/conftest.c:114: undefined reference to `tgetent'
 collect2: error: ld returned 1 exit status
 configure:6129: $? = 1
@@ -2480,7 +2480,7 @@ configure:6452: $? = 0
 configure:6452: result: yes
 configure:6458: checking for mbscasecmp
 configure:6458: gcc -o conftest -g -O2   conftest.c  >&5
-/tmp/cc2jRuBJ.o: In function `main':
+/tmp/ccYtse8a.o: In function `main':
 /home/user42/Documents/minishell/includes/readline-8.1/conftest.c:118: undefined reference to `mbscasecmp'
 collect2: error: ld returned 1 exit status
 configure:6458: $? = 1
@@ -2609,7 +2609,7 @@ configure: failed program was:
 configure:6458: result: no
 configure:6464: checking for mbscmp
 configure:6464: gcc -o conftest -g -O2   conftest.c  >&5
-/tmp/cco9UN8O.o: In function `main':
+/tmp/ccgPlhpg.o: In function `main':
 /home/user42/Documents/minishell/includes/readline-8.1/conftest.c:118: undefined reference to `mbscmp'
 collect2: error: ld returned 1 exit status
 configure:6464: $? = 1
@@ -2746,7 +2746,7 @@ configure:6476: $? = 0
 configure:6476: result: yes
 configure:6483: checking for mbschr
 configure:6483: gcc -o conftest -g -O2   conftest.c  >&5
-/tmp/cczcW5CU.o: In function `main':
+/tmp/cc52Tglv.o: In function `main':
 /home/user42/Documents/minishell/includes/readline-8.1/conftest.c:120: undefined reference to `mbschr'
 collect2: error: ld returned 1 exit status
 configure:6483: $? = 1

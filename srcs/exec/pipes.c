@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/28 18:38:04 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/09/08 00:46:21 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/09/08 15:46:07 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ static char *third_lecture(char *line)
 		else
 			new[y++] = line[x++];
 	new[y] = '\0';
+	free(line);
 	return (new);
 }
 
@@ -89,9 +90,7 @@ static int gestion_file(t_struct lst, char **cmd_parts)
 	ret = 0;
 	while (cmd_parts[x])
 	{
-		printf("%s\n", cmd_parts[x]);
 		cmd_parts[x] = third_lecture(cmd_parts[x]);
-		printf("%s\n", cmd_parts[x]);
 		if (cmd_parts[x][0] == '<')
 		{
 			if (cmd_parts[x][1] == '\0')

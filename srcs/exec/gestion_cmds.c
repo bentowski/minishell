@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 13:32:42 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/09/05 09:24:54 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/09/08 15:43:42 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int select_cmd(t_struct lst, char **cmd_parts)
 		if (ft_strncmp(cmd_parts[0], bltin[x], len) == 0)
 		{
 			len = (*functions[x])(cmd_parts, lst.env);
-			// ft_free(cmd_parts);
+			ft_free(cmd_parts);
 			return (len);
 		}
 	return (ft_exec(cmd_parts, lst.env));
