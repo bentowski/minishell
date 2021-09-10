@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 12:49:29 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/09/08 13:41:41 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/09/10 22:30:38 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ t_struct ft_parsing(t_struct lst)
     char **cmds;
 
     lst.cmds = NULL;
-    cmds = NULL;
     line = readline("minishell $>");
     if (!line)
         exit(EXIT_SUCCESS);
@@ -58,6 +57,7 @@ t_struct ft_parsing(t_struct lst)
     x = -1;
     while (cmds[++x])
         ft_lstadd_back(&lst.cmds, ft_lstnew(cmds[x], 0, 1));
+    ft_lstadd_back(&lst.cmds, NULL);
     ft_free(cmds);
     return (lst);
 }
