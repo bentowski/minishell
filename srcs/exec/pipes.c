@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/28 18:38:04 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/09/10 22:41:02 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/09/11 13:44:53 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,6 @@ static int ft_pipes(int n, int x, t_struct lst, char **cmd_parts)
 	int in;
 	int i;
 	int	fd[2];
-	t_list *ptr;
 
 	in = lst.cmds->file[0];
 	i = 0;
@@ -191,10 +190,7 @@ static int ft_pipes(int n, int x, t_struct lst, char **cmd_parts)
 		in = fd[0];
 		close(fd[1]);
 		i++;
-		ptr = lst.cmds;
 		lst.cmds = lst.cmds->next;
-		free(ptr->content);
-		free(ptr);
 		lst.cmds->content = third_lecture(lst.cmds->content);
 		ft_free(cmd_parts);
 		x = 0;

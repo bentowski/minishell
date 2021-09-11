@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 19:02:45 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/09/10 22:07:09 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/09/11 13:27:24 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,31 @@ static char *first_part_4(char *new, char *line, char **vars_name)
     y = 0;
     lenght = 0;
     while (line[x])
-        if (line[x] == '$')
+    {
+        if (line[x] == 34)
+        {
+            x++;
+            while (line[x] && line[x] != 34)
+            {
+                if (line[x] == '$')
+                {
+                    i = 0;
+                    tmp = getenv(vars_name[lenght]);
+                    if (tmp)
+                    {
+                        while (tmp[i])
+                            new[y++] = tmp[i++];
+                    }
+                    x++;
+                    while (line[x] && line[x] != ' ' && line[x] != '$' && line[x] != 34)
+                        x++;
+                }
+                else
+                    new[y++] = line[x++];
+            }
+            x++;
+        }
+        else if (line[x] == '$')
         {
             i = 0;
             tmp = getenv(vars_name[lenght]);
@@ -39,6 +63,7 @@ static char *first_part_4(char *new, char *line, char **vars_name)
         }
         else
             new[y++] = line[x++];
+    }
     new[y] = '\0';
     return (new);
 }
@@ -53,7 +78,23 @@ static char *first_part_3(char *new, char *line, char **vars_name)
     y = 0;
     x = 0;
     while (line[x])
-        if (line[x++] == '$')
+    {
+        if (line[x] == 34)
+        {
+            x++;
+            if (line[x++] == '$')
+            {
+                lenght = 0;
+                while (line[x] && line[x] != ' ' && line[x] != '$' && line[x] != 34)
+                {
+                    vars_name[y][lenght++] = line[x++];
+                }
+                vars_name[y][lenght] = '\0';
+                y++;
+            }
+            x++;
+        }
+        else if (line[x++] == '$')
         {
             lenght = 0;
             while (line[x] && line[x] != ' ' && line[x] != '$')
@@ -63,8 +104,24 @@ static char *first_part_3(char *new, char *line, char **vars_name)
             vars_name[y][lenght] = '\0';
             y++;
         }
+    }
     x = 0;
-    lenght = ft_strlen(line) + 1;
+    lenght = 1;
+    while (line[x])
+    {
+        if (line[x] == 34)
+        {
+            while (line[x] && line[x] != 34)
+            {
+                lenght++;
+                x++;
+            }
+        }
+        else
+            lenght++;
+        x++;
+    }
+    x = 0;
     while (vars_name[x])
         if (getenv(vars_name[x++]))
             lenght += ft_strlen(getenv(vars_name[x - 1]));
@@ -84,7 +141,26 @@ static char *first_part_2(char *line, char **vars_name)
     x = 0;
     y = 0;
     while (line[x])
-        if (line[x] == '$')
+    {
+        if (line[x] == 34)
+        {
+            x++;
+            while (line[x] && line[x] != 34)
+            {
+                if (line[x] == '$')
+                {
+                    lenght = 0;
+                    while (line[++x] && line[x] != ' ' && line[x] != '$' && line[x] != 34)
+                        lenght++;
+                    vars_name[y] = malloc(sizeof(char) * (lenght + 1));
+                    if (!vars_name[y++])
+                        return (NULL);
+                }
+                else
+                    x++;
+            }
+        }
+        else if (line[x] == '$')
         {
             lenght = 0;
             while (line[++x] && line[x] != ' ' && line[x] != '$')
@@ -95,6 +171,7 @@ static char *first_part_2(char *line, char **vars_name)
         }
         else
             x++;
+    }
     new = first_part_3(new, line, vars_name);
     return (new);
 }
@@ -109,8 +186,20 @@ char *first_lecture(char *line)
     lenght = 0;
     x = 0;
     while (line[x])
-        if (line[x++] == '$')
+    {
+        if (line[x] == 34)
+        {
+            x++;
+            while (line[x] && line[x] != 34)
+            {
+                if (line[x] == '$')
+                    lenght++;
+                x++;
+            }
+        }
+        else if (line[x++] == '$')
             lenght++;
+    }
     vars_name = NULL;
     if (lenght > 0)
     {
