@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/28 18:38:04 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/09/11 13:44:53 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/09/12 02:37:30 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,22 +45,33 @@ static char *third_lecture(char *line)
 	{
 		if (line[x] == 39)
 		{
-			while (line[++x] && line[x] != 39)
+			x++;
+			while (line[x] && line[x] != 39)
+			{
 				count++;
+				x++;
+			}
 			if (!line[x])
 				return (NULL);
-			count--;
+			x++;
 		}
 		else if (line[x] == 34)
 		{
-			while (line[++x] && line[x] != 34)
+			x++;
+			while (line[x] && line[x] != 34)
+			{
 				count++;
+				x++;
+			}
 			if (!line[x])
 				return (NULL);
-			count--;
+			x++;
 		}
-		count++;
-		x++;
+		else
+		{
+			count++;
+			x++;
+		}
 	}
 	new = malloc(sizeof(char) * (count + 1));
 	if (!new)
@@ -170,8 +181,13 @@ static int	ft_childs(int in, int out, t_struct lst, char **cmd_parts)
 			close(out);
 		}
 		select_cmd(lst, cmd_parts);
+		exit(EXIT_SUCCESS);
 	}
-	return (1);
+	else
+	{
+		waitpid(pid, &x, 0);
+		return (1);
+	}
 }
 
 static int ft_pipes(int n, int x, t_struct lst, char **cmd_parts)
@@ -179,22 +195,23 @@ static int ft_pipes(int n, int x, t_struct lst, char **cmd_parts)
 	int in;
 	int i;
 	int	fd[2];
+	t_list *ptr;
 
+	ptr = lst.cmds;
 	in = lst.cmds->file[0];
 	i = 0;
-	lst.cmds->content = third_lecture(lst.cmds->content);
 	while (i < n - 1)
 	{
+		printf("%s\n", "OK");
 		pipe(fd);
 		ft_childs(in, fd[1], lst, &cmd_parts[x]);
 		in = fd[0];
 		close(fd[1]);
 		i++;
+		x = 0;
 		lst.cmds = lst.cmds->next;
 		lst.cmds->content = third_lecture(lst.cmds->content);
 		ft_free(cmd_parts);
-		x = 0;
-		lst.cmds->content = third_lecture(lst.cmds->content);
 		cmd_parts = ft_split(lst.cmds->content, ' ');
 		x = gestion_file(lst, cmd_parts);
 		if (x == -1)

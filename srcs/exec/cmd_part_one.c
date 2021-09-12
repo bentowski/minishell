@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 13:34:31 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/09/11 12:58:54 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/09/12 02:44:25 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,17 +93,17 @@ int ft_cd(char **cmd_parts, char **env)
     char *buf;
     size_t len;
 
-    len = 0;
+    len = 1;
     if (!(buf = malloc(len * sizeof(char))))
         return (-1);
         //error(N_ERR, to_free, fatale or not)
     while (getcwd(buf, len) == NULL)
     {
         free(buf);
+        len++;
         if (!(buf = malloc(len * sizeof(char))))
             return (-1);
             //error(N_ERR, to_free, fatale or not)
-        len++;
     }
     if (cmd_parts[1] == NULL)
     {
@@ -138,10 +138,10 @@ int ft_pwd(char **cmd_parts, char **env)
     while (getcwd(buf, len) == NULL)
     {
         free(buf);
+        len++;
         if (!(buf = malloc(len * sizeof(char))))
             return (-1);
             //error(N_ERR, to_free, fatale or not)
-        len++;
     }
     ft_putstr_fd(buf, 1);
     write(1, "\n", 1);
