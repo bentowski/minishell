@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 13:32:42 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/09/12 02:42:46 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/09/13 20:41:13 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static char	*get_path_deux(char **possible, char **i, char *end_path)
 	return (NULL);
 }
 
-static char	*get_path(void *cmd, char **env)
+static char	*get_path(void *cmd, char ***env)
 {
 	char	**possible;
 	char	*path_line;
@@ -59,7 +59,7 @@ static char	*get_path(void *cmd, char **env)
 	return (ret);
 }
 
-static int ft_exec(char **cmd_parts, char **env)
+static int ft_exec(char **cmd_parts, char ***env)
 {
 	char *path;
 	int pid;
@@ -73,7 +73,7 @@ static int ft_exec(char **cmd_parts, char **env)
 		ft_free(cmd_parts);
 		return (-1);
 	}
-	ret = execve(path, cmd_parts, env);
+	ret = execve(path, cmd_parts, *env);
 	ft_free(cmd_parts);
 	return (ret);
 }
@@ -81,7 +81,7 @@ static int ft_exec(char **cmd_parts, char **env)
 int select_cmd(t_struct lst, char **cmd_parts)
 {
 	char *bltin[8] = { "echo", "cd", "pwd", "export", "unset", "env", "exit" };
-	int (*functions[7])(char **cmd_parts, char **env);
+	int (*functions[7])(char **cmd_parts, char ***env);
 	int len;
 	int x;
 
@@ -93,6 +93,7 @@ int select_cmd(t_struct lst, char **cmd_parts)
 	functions[5] = ft_env;
 	functions[6] = ft_exit;
 	x = -1;
+	printf("%s\n", "BLA");
 	len = ft_strlen(cmd_parts[0]);
 	while (bltin[++x])
 		if (ft_strncmp(cmd_parts[0], bltin[x], len) == 0)

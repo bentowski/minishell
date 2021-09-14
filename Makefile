@@ -16,6 +16,9 @@ SRC =	srcs/main.c \
 		srcs/exec/gestion_cmds.c \
 		srcs/exec/cmd_part_one.c \
 		srcs/exec/pipes.c \
+		srcs/util/free_array.c \
+		srcs/util/array_size.c \
+		srcs/env.c \
 		srcs/signals.c
 
 SRCS =			$(addprefix $(DIR_SRCS), $(SRC))

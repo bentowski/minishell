@@ -9,17 +9,20 @@ int main(int argc, char **argv, char **env)
   signal(SIGINT, handle_sigint);
   signal(SIGQUIT, handle_sigquit);
   end = 0;
-  lst.env = env;
+  env = first_env(env);
+  lst.env = &env;
   while (end == 0)
   {
     lst = ft_parsing(lst);
     if (lst.cmds)
     {
         ret = ft_run(lst);
-        if (ret == 1 || ret == -1)
-            return (1);
+        // if (ret == 1 || ret == -1)
+        //     return (1);
     }
     lst_free(lst);
   }
+  printf("%s\n", "FIN");
+  rl_clear_history();
   return (EXIT_SUCCESS);
 }

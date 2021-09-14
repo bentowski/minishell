@@ -6,13 +6,13 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 13:34:31 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/09/12 02:44:25 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/09/13 20:40:18 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int ft_echo(char **cmd_parts, char **env)
+int ft_echo(char **cmd_parts, char ***env)
 {
     int x;
     int n;
@@ -88,7 +88,7 @@ int cd_relative(char **cmd_parts, char *buf, size_t len)
     return (0);
 }
 
-int ft_cd(char **cmd_parts, char **env)
+int ft_cd(char **cmd_parts, char ***env)
 {
     char *buf;
     size_t len;
@@ -126,7 +126,7 @@ int ft_cd(char **cmd_parts, char **env)
     return (1);
 }
 
-int ft_pwd(char **cmd_parts, char **env)
+int ft_pwd(char **cmd_parts, char ***env)
 {
     char *buf;
     size_t len;
@@ -149,28 +149,49 @@ int ft_pwd(char **cmd_parts, char **env)
     return (1);
 }
 
-int ft_env(char **cmd_parts, char **env)
+int ft_env(char **cmd_parts, char ***env)
 {
     int i;
+	(void)cmd_parts;
 
     i = 0;
-    while (env[i])
-        printf("%s\n", env[i++]);
+    while ((*env)[i])
+        printf("%s\n", (*env)[i++]);
     return (1);
 }
 
-int ft_export(char **cmd_parts, char **env)
+int ft_export(char **cmd_parts, char ***env)
 {
+	int	i;
+
+	i = 1;
+	while (cmd_parts[i])
+	{
+		ft_setenv(env, cmd_parts[i]);
+		i++;
+	}
+    ft_env(cmd_parts, env);
     return (1);
 }
 
-int ft_unset(char **cmd_parts, char **env)
+int ft_unset(char **cmd_parts, char ***env)
 {
+	int	i;
+
+	i = 1;
+	while (cmd_parts[i])
+	{
+		ft_unsetenv(env, cmd_parts[i]);
+		i++;
+	}
     return (1);
 }
 
-int ft_exit(char **cmd_parts, char **env)
+int ft_exit(char **cmd_parts, char ***env)
 {
+    printf("%s\n", "FIN");
+	(void)env;
+	(void)cmd_parts;
     //ft_free
-    return (0);
+    exit(EXIT_SUCCESS);
 }
