@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 19:02:45 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/09/11 13:27:24 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/09/16 12:22:39 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,20 @@ static char *first_part_4(char *new, char *line, char **vars_name)
     int y;
     int i;
     int lenght;
+    int in;
 
     x = 0;
     y = 0;
+    in = 1;
     lenght = 0;
     while (line[x])
     {
-        if (line[x] == 34)
+        if (line[x] == 39)
+        {
+            x++;
+            in = -in;
+        }
+        if (line[x] == 34 && in > 0)
         {
             x++;
             while (line[x] && line[x] != 34)
@@ -74,12 +81,19 @@ static char *first_part_3(char *new, char *line, char **vars_name)
     int x;
     int y;
     int lenght;
+    int in;
 
     y = 0;
     x = 0;
+    in = 1;
     while (line[x])
     {
-        if (line[x] == 34)
+        if (line[x] == 39)
+        {
+            x++;
+            in = -in;
+        }
+        if (line[x] == 34 && in > 0)
         {
             x++;
             if (line[x++] == '$')
@@ -109,7 +123,12 @@ static char *first_part_3(char *new, char *line, char **vars_name)
     lenght = 1;
     while (line[x])
     {
-        if (line[x] == 34)
+        if (line[x] == 39)
+        {
+            x++;
+            in = -in;
+        }
+        if (line[x] == 34 && in > 0)
         {
             while (line[x] && line[x] != 34)
             {
@@ -137,12 +156,19 @@ static char *first_part_2(char *line, char **vars_name)
     int x;
     int y;
     int lenght;
+    int in;
 
     x = 0;
     y = 0;
+    in = 0;
     while (line[x])
     {
-        if (line[x] == 34)
+        if (line[x] == 39)
+        {
+            x++;
+            in = -in;
+        }
+        if (line[x] == 34 && in > 0)
         {
             x++;
             while (line[x] && line[x] != 34)
@@ -187,6 +213,14 @@ char *first_lecture(char *line)
     x = 0;
     while (line[x])
     {
+        if (line[x] == 39)
+        {
+            x++;
+            while (line[x] && line[x] != 39)
+                x++;
+            if (!line[x])
+                return (NULL);
+        }
         if (line[x] == 34)
         {
             x++;
