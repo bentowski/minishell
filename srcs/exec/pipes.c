@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/28 18:38:04 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/09/13 20:42:16 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/09/15 21:37:34 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,7 +202,6 @@ static int ft_pipes(int n, int x, t_struct lst, char **cmd_parts)
 	i = 0;
 	while (i < n - 1)
 	{
-		printf("%s\n", "OK");
 		pipe(fd);
 		ft_childs(in, fd[1], lst, &cmd_parts[x]);
 		in = fd[0];
@@ -217,7 +216,6 @@ static int ft_pipes(int n, int x, t_struct lst, char **cmd_parts)
 		if (x == -1)
 			return (0);
 	}
-	printf("%s\n", "ICI");
 	dup2(in, 0);
 	dup2(lst.cmds->file[1], 1);
 	return (select_cmd(lst, &cmd_parts[x]));
@@ -230,8 +228,8 @@ int	ft_run(t_struct lst)
 	int x;
 	char **cmd_parts;
 
-	if (cmd_count(lst.cmds) > 1)
-	{
+	// if (cmd_count(lst.cmds) > 1)
+	// {
 		pid = fork();
 		if (pid == 0)
 		{
@@ -245,15 +243,14 @@ int	ft_run(t_struct lst)
 		else
 			waitpid(pid, &ret, 0);
 		return (0);
-	}
-	else
-	{
-		printf("%s\n", "OK");
-		lst.cmds->content = third_lecture(lst.cmds->content);
-		cmd_parts = ft_split(lst.cmds->content, ' ');
-		x = gestion_file(lst, cmd_parts);
-		if (x == -1)
-			return (0);
-		return (ft_pipes(cmd_count(lst.cmds), x, lst, cmd_parts));
-	}
+	// }
+	// else
+	// {
+	// 	lst.cmds->content = third_lecture(lst.cmds->content);
+	// 	cmd_parts = ft_split(lst.cmds->content, ' ');
+	// 	x = gestion_file(lst, cmd_parts);
+	// 	if (x == -1)
+	// 		return (0);
+	// 	return (ft_pipes(cmd_count(lst.cmds), x, lst, cmd_parts));
+	// }
 }
