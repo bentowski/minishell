@@ -17,13 +17,12 @@ int main(int argc, char **argv, char **env)
     if (lst.cmds)
     {
         ret = ft_run(lst);
-        if (ret == 1 || ret == -1)
+        if (ret == -1)
             end = 1;
     }
     lst_free(lst);
   }
   ft_free(env);
-  printf("%s\n", "FIN");
   rl_clear_history();
   return (EXIT_SUCCESS);
 }

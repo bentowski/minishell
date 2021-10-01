@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 13:32:42 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/09/13 20:41:13 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/09/22 20:25:08 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ int select_cmd(t_struct lst, char **cmd_parts)
 	functions[5] = ft_env;
 	functions[6] = ft_exit;
 	x = -1;
-	printf("%s\n", "BLA");
 	len = ft_strlen(cmd_parts[0]);
 	while (bltin[++x])
 		if (ft_strncmp(cmd_parts[0], bltin[x], len) == 0)
