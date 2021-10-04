@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 19:02:45 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/09/29 12:38:11 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/10/04 14:06:00 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,9 +138,7 @@ static char *take_vars_values(t_struct lst, char *new_line, char *line, char **v
             {
                 lenght = 0;
                 while (line[x] && line[x] != ' ' && line[x] != '$' && line[x] != 34)
-                {
                     vars_name[y][lenght++] = line[x++];
-                }
                 vars_name[y][lenght] = '\0';
                 y++;
             }
@@ -150,15 +148,12 @@ static char *take_vars_values(t_struct lst, char *new_line, char *line, char **v
         {
             lenght = 0;
             while (line[x] && line[x] != ' ' && line[x] != '$')
-            {
                 vars_name[y][lenght++] = line[x++];
-            }
             vars_name[y][lenght] = '\0';
             y++;
         }
     }
     lenght = get_new_lenght(line, vars_name, in);
-    printf("%d : %s\n", lenght, "OKKKKK");
     new_line = malloc(sizeof(char) * lenght);
     if (!new_line)
         error(MEM_ERR, lst, NULL, 1);
