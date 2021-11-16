@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/28 18:38:04 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/09/27 19:07:17 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/10/06 12:14:53 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,45 +202,27 @@ static int	ft_childs(int in, int out, t_struct lst, char **cmd_parts)
 	x = 0;
 	if (lst.cmds->file[1] != 1)
 		out = lst.cmds->file[1];
-	// if (!is_bltin(cmd_parts))
-	// {
-		pid = fork();
-		if (pid == 0)
+	pid = fork();
+	if (pid == 0)
+	{
+		if (in != 0)
 		{
-			if (in != 0)
-			{
-				dup2(in, 0);
-				close(in);
-			}
-			if (out != 1)
-			{
-				dup2(out, 1);
-				close(out);
-			}
-			select_cmd(lst, cmd_parts);
-			exit(EXIT_SUCCESS);
+			dup2(in, 0);
+			close(in);
 		}
-		else
+		if (out != 1)
 		{
-			waitpid(pid, &x, 0);
-			return (1);
+			dup2(out, 1);
+			close(out);
 		}
-	// }
-	// else
-	// {
-	// 	if (in != 0)
-	// 	{
-	// 		dup2(in, 0);
-	// 		close(in);
-	// 	}
-	// 	if (out != 1)
-	// 	{
-	// 		dup2(out, 1);
-	// 		close(out);
-	// 	}
-	// 	select_cmd(lst, cmd_parts);
-	// 	return (1);
-	// }
+		select_cmd(lst, cmd_parts);
+		exit(EXIT_SUCCESS);
+	}
+	else
+	{
+		waitpid(pid, &x, 0);
+		return (1);
+	}
 }
 
 static int ft_pipes(int n, int x, t_struct lst, char **cmd_parts)
@@ -256,7 +238,6 @@ static int ft_pipes(int n, int x, t_struct lst, char **cmd_parts)
 	i = 0;
 	while (i < n - 1)
 	{
-		printf("%s\n", "ERROR");
 		pipe(fd);
 		ft_childs(in, fd[1], lst, &cmd_parts[x]);
 		in = fd[0];
@@ -269,9 +250,7 @@ static int ft_pipes(int n, int x, t_struct lst, char **cmd_parts)
 		cmd_parts = ft_split(lst.cmds->content, ' ');
 		x = gestion_file(lst, cmd_parts);
 		if (x == -1)
-		{
 			return (0);
-		}
 	}
 	dup2(1, 1);
 	dup2(in, 0);
@@ -304,8 +283,6 @@ int	ft_run(t_struct lst)
 		}
 	}
 	else
-	{
 		return (ft_pipes(cmd_count(lst.cmds), x, lst, cmd_parts));
-	}
 	return (0);
 }
