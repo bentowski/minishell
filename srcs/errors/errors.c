@@ -6,11 +6,11 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/29 14:30:16 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/09/28 16:15:38 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/11/21 19:42:24 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "errors.h"
+#include "../minishell.h"
 
 static t_error	g_errors[] =
 {
@@ -18,7 +18,7 @@ static t_error	g_errors[] =
 	{MEM_ERR, "Memory allocation failed while parsing shapes." },
 	{QUOTE_ERR, "quotes or double quotes not closed." },
 	{BAD_FILE, "no such file or directory." }
-	// {NB_ARG, "Invalid call: Incorrect number of arguments." },
+	// {NO_CMD, "Invalid call: Incorrect number of arguments." },
 	// {FILE_FRMT, "Invalid file: Use the '.ber' extension." },
 	// {READ_ERR, "Invalid file: cannot read input file." },
 	// {CLOSEMAP_ERR, "Invalid map: unclosed." },
@@ -42,13 +42,11 @@ int	error(t_err raised, t_struct lst, char *line, int critical)
 
 	// if (line)
 	// 	free(line);
-	// if (env)
-	// 	ft_free(env);
 	msg = get_error_msg(raised);
 	printf("%s: %s\n", line, msg);
 	if (critical)
 	{
-		rl_clear_history();
+		clear_history();
 		exit(EXIT_FAILURE);
 	}
 	else

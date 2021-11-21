@@ -73,7 +73,7 @@ int	ft_setenv(char ***env, char *string)
 	name = malloc(sizeof(char) * (len + 1));
 	if (!name)
 		return (-1);
-	strncpy(name, string, len);
+	ft_strlcpy(name, string, len);
 	i = 0;
 	while ((*env)[i] && (ft_strncmp((*env)[i], name, len) || (*env)[i][len] != '='))
 		i++;

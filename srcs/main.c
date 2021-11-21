@@ -23,6 +23,6 @@ int main(int argc, char **argv, char **env)
     lst_free(lst);
   }
   ft_free(env);
-  rl_clear_history();
+  // rl_clear_history();
   return (EXIT_SUCCESS);
 }

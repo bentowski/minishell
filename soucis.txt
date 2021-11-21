@@ -1,0 +1,3 @@
+export ARG=test ; echo $ARG -> NULL (prendre nouveau env au lieu du premier)
+./minishell ; exit -> fin du premier minishell (donc pas d'ouverture du second)
+echo $PATH | cut -c2- | cd .. -> affichage 2 prompt sur une seule ligne

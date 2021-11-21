@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 13:34:26 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/09/28 13:40:24 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/11/21 19:46:19 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,43 @@
 # include <readline/history.h>
 # include <signal.h>
 # include <fcntl.h>
+# include "./errors/errors.h"
 # include "../includes/libft/libft.h"
+# include <errno.h>
+# include <string.h>
+// # include "../minishell.h"
+
+typedef enum e_err
+{
+	ERRNO_TO_STR = -1,
+	UKN_ERR,
+	MEM_ERR,
+	QUOTE_ERR,
+	BAD_FILE
+	// NB_ARG,
+	// FILE_FRMT,
+	// READ_ERR,
+	// CLOSEMAP_ERR,
+	// MAP_CFG,
+	// BADCHAR_ERR,
+	// NOE_ERR,
+	// NOP_ERR,
+	// NOC_ERR,
+}		t_err;
+
+typedef struct s_error
+{
+	t_err	u_id;
+	char	*msg;
+}		t_error;
 
 typedef struct s_struct
 {
 	t_list	*cmds;
 	char	***env;
 }		t_struct;
+int	error(t_err raised, t_struct lst, char *line, int critical);
+char *ft_pwd_in(char **cmd_parts, char ***env);
 
 char    	**ft_split(char const *s, char c);
 int     	ft_strncmp(const char *s1, const char *s2, size_t n);

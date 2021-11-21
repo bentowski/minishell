@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 13:32:42 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/10/04 14:07:54 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/11/21 20:26:37 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,16 @@ static char	*get_path(void *cmd, char ***env)
 	return (ret);
 }
 
+static int get_name_exec(char *str)
+{
+	int x;
+
+	x = ft_strlen(str);
+	while (str[x] != '.')
+		x--;
+	return (x + 1);
+}
+
 static int ft_exec(char **cmd_parts, char ***env)
 {
 	char *path;
@@ -70,9 +80,16 @@ static int ft_exec(char **cmd_parts, char ***env)
 	path = get_path(cmd_parts[0], env);
 	if (path == NULL)
 	{
-		ft_free(cmd_parts);
-		return (-1);
+		if (!(cmd_parts[0][0] == '.'))
+		{
+			ft_free(cmd_parts);
+			return (-1);
+		}
+		// attention, si on mets "../philopopo/philosophers" ca ne fonctionne pas et n'affiche pas de msg \
+		d'erreurs, pareil si on mets ./nimp ou ../nimp ou .nimp, plus de selection a avoir
+		path = ft_strjoin(ft_pwd_in(cmd_parts, env), &cmd_parts[0][get_name_exec(cmd_parts[0])]);
 	}
+	printf("%s\n", path);
 	ret = execve(path, cmd_parts, *env);
 	ft_free(cmd_parts);
 	return (ret);

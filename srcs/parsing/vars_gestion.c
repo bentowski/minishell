@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 19:02:45 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/10/07 15:17:21 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/11/21 12:23:12 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,6 @@ static char *test(char *line, char *voidline, int *xvalue)
         new[lenght++] = line[x++];
     new[lenght] = '\0';
     *xvalue = x;
-    printf("var_name : %s\n", new);
     return (new);
 }
 
