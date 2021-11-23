@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 19:02:45 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/11/21 12:23:12 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/11/23 17:45:31 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,7 +204,7 @@ static char *tab_fill(t_struct lst, char *line, char **vars_name)
 
     x = 0;
     y = 0;
-    in = 0;
+    in = 1;
     while (line[x])
     {
         if (line[x] == 39)
