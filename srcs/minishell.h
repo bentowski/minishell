@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 13:34:26 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/11/21 19:46:19 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/11/24 17:24:52 by vgallois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,6 @@ int			str_array_size(char **array);
 int			ft_unsetenv(char ***env, char *name);
 int			ft_setenv(char ***env, char *string);
 int 		do_fork(char **cmd_parts);
+char		*v_itoa(int n);
 
 #endif

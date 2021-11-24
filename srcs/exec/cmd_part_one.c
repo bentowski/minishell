@@ -162,7 +162,7 @@ int ft_pwd(char **cmd_parts, char ***env)
     ft_putstr_fd(buf, 1);
     write(1, "\n", 1);
     free(buf);
-    return (1);
+    return (0);
 }
 
 int ft_env(char **cmd_parts, char ***env)
@@ -173,7 +173,7 @@ int ft_env(char **cmd_parts, char ***env)
     i = 0;
     while ((*env)[i])
         printf("%s\n", (*env)[i++]);
-    return (1);
+    return (0);
 }
 
 int ft_export(char **cmd_parts, char ***env)
@@ -187,7 +187,7 @@ int ft_export(char **cmd_parts, char ***env)
 		i++;
 	}
     ft_env(cmd_parts, env);
-    return (1);
+    return (0);
 }
 
 int ft_unset(char **cmd_parts, char ***env)
@@ -200,7 +200,7 @@ int ft_unset(char **cmd_parts, char ***env)
 		ft_unsetenv(env, cmd_parts[i]);
 		i++;
 	}
-    return (1);
+    return (0);
 }
 
 int ft_exit(char **cmd_parts, char ***env)
