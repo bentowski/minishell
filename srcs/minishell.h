@@ -87,5 +87,5 @@ int			str_array_size(char **array);
 int			ft_unsetenv(char ***env, char *name);
 int			ft_setenv(char ***env, char *string);
 int 		do_fork(char **cmd_parts);
-
+char		*v_itoa(int n);
 #endif

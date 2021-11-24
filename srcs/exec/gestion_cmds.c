@@ -89,7 +89,7 @@ static int ft_exec(char **cmd_parts, char ***env)
 		d'erreurs, pareil si on mets ./nimp ou ../nimp ou .nimp, plus de selection a avoir
 		path = ft_strjoin(ft_pwd_in(cmd_parts, env), &cmd_parts[0][get_name_exec(cmd_parts[0])]);
 	}
-	printf("%s\n", path);
+	//printf("%s\n", path);
 	ret = execve(path, cmd_parts, *env);
 	ft_free(cmd_parts);
 	return (ret);
