@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 12:49:29 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/11/21 12:17:15 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/11/24 14:17:49 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,10 @@ t_struct ft_parsing(t_struct lst)
     if (!line)
         return (lst);
     line = pipe_gestion(lst, line);
-    cmds = ft_split(line, 124);
+    cmds = ft_split(line, '|');
     free(line);
     x = -1;
+	// attention si ft_lstnew est nUULL gros soucis
     while (cmds[++x])
         ft_lstadd_back(&lst.cmds, ft_lstnew(cmds[x], 0, 1));
     ft_free(cmds);

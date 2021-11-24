@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 13:32:42 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/11/23 15:59:56 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/11/24 16:16:42 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,16 @@ static char	*get_path_deux(char **possible, char **i, char *end_path)
 		x++;
 	}
 	x = 0;
-	while (i[x])
-		free(i[x++]);
-	free(i);
+	// while (i[x])
+	// 	free(i[x++]);
+	// free(i);
 	x = 0;
 	while (possible[x])
 		free(possible[x++]);
 	free(possible);
 	return (NULL);
 }
-
+ // a refondre avec ndup(cmds, strchr(space)) au lieu du split
 static char	*get_path(void *cmd, char ***env)
 {
 	char	**possible;
@@ -56,6 +56,7 @@ static char	*get_path(void *cmd, char ***env)
 	free(path_line);
 	i = ft_split(cmd, ' ');
 	ret = get_path_deux(possible, i, i[0]);
+	free(i);
 	return (ret);
 }
 
@@ -80,14 +81,14 @@ static int ft_exec(char **cmd_parts, char ***env)
 	path = get_path(cmd_parts[0], env);
 	if (path == NULL)
 	{
-		if (!(cmd_parts[0][0] == '.'))
-		{
+		// if (!(cmd_parts[0][0] == '.'))
+		// {
 			ft_free(cmd_parts);
 			return (-1);
-		}
+		// }
 		// attention, si on mets "../philopopo/philosophers" ca ne fonctionne pas et n'affiche pas de msg \
 		d'erreurs, pareil si on mets ./nimp ou ../nimp ou .nimp, plus de selection a avoir
-		path = ft_strjoin(ft_pwd_in(cmd_parts, env), &cmd_parts[0][get_name_exec(cmd_parts[0])]);
+		// path = ft_strjoin(ft_pwd_in(cmd_parts, env), &cmd_parts[0][get_name_exec(cmd_parts[0])]);
 	}
 	// printf("%s\n", path);
 	ret = execve(path, cmd_parts, *env);

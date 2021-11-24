@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/24 11:51:33 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/07/30 23:17:02 by user42           ###   ########.fr       */
+/*   Updated: 2021/11/24 15:45:35 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static unsigned char	*boucle_norme(int nb, int size, unsigned char **str)
 {
 	while (nb > 0)
 	{
-		*str[size - 2] = nb % 10 + '0';
+		*str[size - 1] = nb % 10 + '0';
 		nb /= 10;
 		size--;
 	}

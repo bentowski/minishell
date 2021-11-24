@@ -6,12 +6,15 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 19:02:45 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/11/23 17:45:31 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/11/24 15:10:52 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include "../errors/errors.h"
+
+// 34 = '
+// 39 = "
 
 static int get_new_lenght(char *line, char **vars_name, int in)
 {
@@ -152,7 +155,7 @@ static char *take_vars_names_bis(t_struct lst, char *new_line, char *line, char 
         }
         else if (line[x] == 34 && in > 0)
         {
-            x++;
+			x++;
             while (line[x] && line[x] != 34)
                 if (line[x++] == '$')
                 {

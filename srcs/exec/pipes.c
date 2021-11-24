@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/28 18:38:04 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/10/06 12:14:53 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/11/24 14:45:59 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,7 @@ static int gestion_file(t_struct lst, char **cmd_parts)
 		x++;
 	}
 	if (!cmd_parts[ret])
-		return (0);
+		return (-1);
 	return (ret);
 }
 
@@ -271,7 +271,7 @@ int	ft_run(t_struct lst)
 	x = gestion_file(lst, cmd_parts);
 	if (x == -1)
 		return (0);
-	if (cmd_count(lst.cmds) > 1 || !do_fork(cmd_parts))
+	if (cmd_count(lst.cmds) > 1 || !do_fork(&cmd_parts[x]))
 	{
 		pid = fork();
 		if (pid == 0)
