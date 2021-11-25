@@ -1,2 +1,0 @@
-export ARG=test ; echo $ARG -> NULL (prendre nouveau env au lieu du premier)
-echo $PATH | cut -c2- | cd .. -> affichage 2 prompt sur une seule ligne

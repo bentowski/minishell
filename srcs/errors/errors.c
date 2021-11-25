@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/29 14:30:16 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/11/24 15:20:38 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/11/25 15:04:44 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	error(t_err raised, t_struct lst, char *line, int critical)
 	printf("%s: %s\n", line, msg);
 	if (critical)
 	{
-		clear_history();
+		rl_clear_history();
 		exit(EXIT_FAILURE);
 	}
 	else

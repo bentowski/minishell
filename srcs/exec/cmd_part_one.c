@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 13:34:31 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/11/21 19:48:12 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/11/25 17:29:46 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int ft_echo(char **cmd_parts, char ***env)
 	}
     if (n != 0)
         write(1, "\n", 1);
+	ft_free(cmd_parts);
     exit(EXIT_SUCCESS);
 }
 
@@ -57,7 +58,7 @@ int cd_base(char **cmd_parts, int lenght, char *buf)
     new[y] = buf[y];
     chdir(new);
     free(new);
-    return (1);
+	exit(EXIT_SUCCESS);
 }
 
 int cd_relative(char **cmd_parts, char *buf, size_t len)
@@ -84,7 +85,7 @@ int cd_relative(char **cmd_parts, char *buf, size_t len)
     target[x + y] = '\0';
     if (chdir(target) == -1)
 		return (error(MEM_ERR, lst, NULL, 0));
-    return (0);
+	exit(EXIT_SUCCESS);
 }
 
 int ft_cd(char **cmd_parts, char ***env)
@@ -118,7 +119,7 @@ int ft_cd(char **cmd_parts, char ***env)
 			return (error(MEM_ERR, lst, NULL, 0));
         }
     free(buf);
-    return (1);
+	exit(EXIT_SUCCESS);
 }
 
 char *ft_pwd_in(char **cmd_parts, char ***env)
@@ -207,6 +208,6 @@ int ft_exit(char **cmd_parts, char ***env)
 {
     ft_free(cmd_parts);
     ft_free(*env);
-    clear_history();
+    rl_clear_history();
     exit(EXIT_SUCCESS);
 }

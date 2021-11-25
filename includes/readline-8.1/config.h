@@ -99,7 +99,7 @@
 #define HAVE_PUTENV 1
 
 /* Define if you have the readlink function.  */
-/* #undef HAVE_READLINK */
+#define HAVE_READLINK 1
 
 /* Define if you have the select function.  */
 #define HAVE_SELECT 1

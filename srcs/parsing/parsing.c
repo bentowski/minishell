@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 12:49:29 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/11/24 14:17:49 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/11/25 15:04:29 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_struct ft_parsing(t_struct lst)
     line = readline("minishell $>");
     if (!line)
     {
-        clear_history();
+        rl_clear_history();
         ft_free(*lst.env);
         exit(EXIT_SUCCESS);
     }
