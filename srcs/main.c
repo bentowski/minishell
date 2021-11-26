@@ -13,15 +13,19 @@ int main(int argc, char **argv, char **env)
   end = 0;
   env = first_env(env);
   lst.env = &env;
+  lst.here_doc_flag = 0;
+  lst.here_doc_content = 0;
+  lst.limiter = NULL;
   while (end == 0)
   {
     lst = ft_parsing(lst);
+    lst.here_doc_flag = 0;
     if (lst.cmds)
     {
-        ret = ft_run(lst);
+        ret = ft_run(&lst);
         if (ret == -1)
             end = 1;
-		else
+		    else
         {
           tmp = v_itoa(ret);
           str = ft_strjoin("?=", tmp);
@@ -29,6 +33,8 @@ int main(int argc, char **argv, char **env)
           ft_setenv(lst.env, str);
           free(str);
         }
+      if (lst.here_doc_content)
+        free(lst.here_doc_content);
     }
     lst_free(lst);
   }

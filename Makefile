@@ -11,6 +11,7 @@ READLINE_DIR =  ./includes/readline-8.1
 SRC =	srcs/main.c \
 		srcs/ft_free.c \
 		srcs/parsing/parsing.c \
+		srcs/parsing/heredoc.c \
 		srcs/parsing/vars_gestion.c \
 		srcs/errors/errors.c \
 		srcs/exec/gestion_cmds.c \
