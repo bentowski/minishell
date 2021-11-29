@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 13:34:26 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/11/24 17:24:52 by vgallois         ###   ########.fr       */
+/*   Updated: 2021/11/29 15:33:22 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ int			ft_unsetenv(char ***env, char *name);
 int			ft_setenv(char ***env, char *string);
 int 		do_fork(char **cmd_parts);
 char		*v_itoa(int n);
+char		*ft_get_env(char *str, char **env);
 char 		*here_doc_read(t_struct *lst);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/28 18:38:04 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/11/24 14:45:59 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/11/29 18:04:28 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,65 +33,7 @@ static int test(char **cmd_parts, int x, int ret)
 	return (ret);
 }
 
-static char *third_lecture(char *line)
-{
-	int x;
-	int y;
-	int count;
-	char *new;
 
-	x = 0;
-	count = 0;
-	while (line[x])
-	{
-		if (line[x] == 39)
-		{
-			x++;
-			while (line[x] && line[x] != 39)
-			{
-				count++;
-				x++;
-			}
-			if (!line[x])
-				return (NULL);
-			x++;
-		}
-		else if (line[x] == 34)
-		{
-			x++;
-			while (line[x] && line[x] != 34)
-			{
-				count++;
-				x++;
-			}
-			if (!line[x])
-				return (NULL);
-			x++;
-		}
-		else
-		{
-			count++;
-			x++;
-		}
-	}
-	new = malloc(sizeof(char) * (count + 1));
-	if (!new)
-		return (NULL);
-	x = -1;
-	y = 0;
-	while (line[++x])
-		if (line[x] == 34)
-			while (line[++x] && line[x] != 34)
-				new[y++] = line[x];
-		else if (line[x] == 39)
-			while (line[++x] && line[x] != 39)
-				new[y++] = line[x];
-		else
-			new[y++] = line[x];
-	new[y] = '\0';
-	free(line);
-	return (new);
-}
 
 static int	set_limiter(t_struct *lst, char *s)
 {
@@ -281,7 +223,7 @@ static int ft_pipes(int n, int x, t_struct lst, char **cmd_parts)
 		i++;
 		x = 0;
 		lst.cmds = lst.cmds->next;
-		lst.cmds->content = third_lecture(lst.cmds->content);
+		// lst.cmds->content = third_lecture(lst.cmds->content);
 		ft_free(cmd_parts);
 		cmd_parts = ft_split(lst.cmds->content, ' ');
 		x = gestion_file(&lst, cmd_parts);
@@ -302,7 +244,7 @@ int	ft_run(t_struct *lst)
 	int		x;
 	char	**cmd_parts;
 
-	lst->cmds->content = third_lecture(lst->cmds->content);
+	// lst->cmds->content = third_lecture(lst->cmds->content);
 	cmd_parts = ft_split(lst->cmds->content, ' ');
 	x = gestion_file(lst, cmd_parts);
 	if (x == -1)

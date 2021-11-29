@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 13:32:42 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/11/24 16:16:42 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/11/29 14:42:49 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static char	*get_path(void *cmd, char ***env)
 	char	**i;
 	char	*ret;
 
-	path_line = getenv("PATH");
+	path_line = ft_get_env("PATH", *env);
 	if (!path_line)
 		return (NULL);
 	path_line = ft_substr(path_line, 5, ft_strlen(path_line) - 5);

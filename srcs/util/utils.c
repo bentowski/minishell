@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 10:25:52 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/11/24 17:24:30 by vgallois         ###   ########.fr       */
+/*   Updated: 2021/11/29 15:44:40 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,15 @@ char	*v_itoa(int n)
 		len--;
 	}
 	return (res);
+}
+
+char	*ft_get_env(char *str, char **env)
+{
+	int	i;
+
+	i = -1;
+	while (env[++i])
+		if (ft_strncmp(str, env[i], ft_strlen(str)) == 0)
+			return (&env[i][ft_strlen(str) + 1]);
+	return (NULL);
 }

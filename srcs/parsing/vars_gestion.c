@@ -6,20 +6,20 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 19:02:45 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/11/25 17:29:43 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/11/29 20:42:59 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include "../errors/errors.h"
 
-static int	get_new_lenght(char *line, char **vars_name)
+static int	get_new_lenght(char *line, char **vars_name, char **env)
 {
 	int	lenght;
 	int	x;
 
 	x = 0;
-	lenght = -1;
+	lenght = 0;
 	while (line[x])
 	{
 		if (line[x] == 39)
@@ -36,9 +36,71 @@ static int	get_new_lenght(char *line, char **vars_name)
 	}
 	x = 0;
 	while (vars_name[x])
-		if (getenv(vars_name[x++]))
-			lenght += ft_strlen(getenv(vars_name[x - 1]));
+		if (ft_get_env(vars_name[x++], env))
+			lenght += ft_strlen(ft_get_env(vars_name[x - 1], env));
 	return (lenght);
+}
+
+static char *third_lecture(char *line)
+{
+	int x;
+	int y;
+	int count;
+	char *new;
+
+	x = 0;
+	count = 0;
+	while (line[x])
+	{
+		if (line[x] == 34)
+		{
+			x++;
+			while (line[x] && line[x] != 34)
+			{
+				count++;
+				x++;
+			}
+			if (!line[x])
+				return (NULL);
+			x++;
+		}
+		else if (line[x] == 39)
+		{
+			x++;
+			while (line[x] && line[x] != 39)
+			{
+				count++;
+				x++;
+			}
+			if (!line[x])
+			return (NULL);
+			x++;
+		}
+		else
+		{
+			count++;
+			x++;
+		}
+	}
+	new = malloc(sizeof(char) * (count + 1));
+	if (!new)
+		return (NULL);
+	x = -1;
+	y = 0;
+	while (line[++x])
+	{
+		if (line[x] == 39)
+			while (line[++x] && line[x] != 39)
+				new[y++] = line[x];
+		else if (line[x] == 34)
+			while (line[++x] && line[x] != 34)
+				new[y++] = line[x];
+		else
+			new[y++] = line[x];
+	}
+	new[y] = '\0';
+	free(line);
+	return (new);
 }
 
 static char	*get_new_line(t_struct lst, char *new, char *line, char **vars_name)
@@ -51,7 +113,7 @@ static char	*get_new_line(t_struct lst, char *new, char *line, char **vars_name)
 
 	x = 0;
 	y = 0;
-	lenght = get_new_lenght(line, vars_name);
+	lenght = get_new_lenght(line, vars_name, *lst.env);
 	new = malloc(sizeof(char) * lenght);
 	if (!new)
 		error(MEM_ERR, lst, NULL, 1);
@@ -68,7 +130,8 @@ static char	*get_new_line(t_struct lst, char *new, char *line, char **vars_name)
 				if (line[x] == '$')
 				{
 					i = 0;
-					tmp = getenv(vars_name[lenght++]);
+					tmp = ft_get_env(vars_name[lenght++], *lst.env);
+					tmp = third_lecture(tmp);
 					if (tmp)
 					{
 						while (tmp[i])
@@ -86,7 +149,8 @@ static char	*get_new_line(t_struct lst, char *new, char *line, char **vars_name)
 		else if (line[x] == '$')
 		{
 			i = 0;
-			tmp = getenv(vars_name[lenght++]);
+			tmp = ft_get_env(vars_name[lenght++], *lst.env);
+			tmp = third_lecture(tmp);
 			if (tmp)
 			{
 				while (tmp[i])
