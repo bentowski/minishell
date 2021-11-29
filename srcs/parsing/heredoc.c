@@ -25,10 +25,7 @@ char *here_doc_read(t_struct *lst)
     char    *tmp2;
 
     if (lst->here_doc_content)
-    {
-        printf("%s\n", lst->here_doc_content);
         free(lst->here_doc_content);
-    }
     content = ft_strdup("");
     if (!content)
         return (NULL);
@@ -44,9 +41,34 @@ char *here_doc_read(t_struct *lst)
         line = readline("here_doc> ");
     }
     content = var_gestion(*lst, content);
-    printf("%s", content);
     free(line);
     free(lst->limiter);
     lst->limiter = NULL;
     return (content);
+}
+
+int here_doc_exec(char  *path, t_struct lst, char **cmd_part, char ***env)
+{
+    int fd[2];
+    pid_t pid;
+    //char *arg[] = {"", NULL};
+
+    pipe(fd);
+    pid = fork();
+    if (!pid)
+    {
+        close(fd[0]);
+        dup2(fd[1], 1);
+        write(1, lst.here_doc_content, ft_strlen(lst.here_doc_content));
+        free(path);
+        lst_free(lst);
+        exit (0);
+    }
+    else
+    {
+        close(fd[1]);
+        dup2(fd[0], 0);
+        printf("%s\n", path);
+        return (execve(path, cmd_part, *env));
+    }
 }

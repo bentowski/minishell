@@ -14,16 +14,9 @@
 
 int do_fork(char **cmd_parts)
 {
-	char	*bltin[8] = { "echo", "cd", "pwd", "export", "unset", "env", "exit" };
-	int		x;
-	int		len;
-
-    x = 0;
-	len = ft_strlen(cmd_parts[0]);
-	while (bltin[++x])
-		if (ft_strncmp(cmd_parts[0], bltin[x], len) == 0)
-            return (1);
-	return (0);
+	if (ft_strncmp(cmd_parts[0], "echo", 5) == 0)
+           return (0);
+	return (1);
 }
 
 static int	itoa_get_len(int n, int sign)

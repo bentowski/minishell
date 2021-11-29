@@ -16,8 +16,8 @@ int ft_echo(char **cmd_parts, char ***env)
 {
     int x;
     int n;
-	t_struct lst;
 
+    (void)env;
 	n = 1;
     if ((cmd_parts[1]))
     {
@@ -33,18 +33,18 @@ int ft_echo(char **cmd_parts, char ***env)
 	    }
 	}
     if (n != 0)
-        write(1, "\n", 1);
-	ft_free(cmd_parts);
+    {    write(1, "\n", 1);
+    }
+    ft_free(cmd_parts);
+    printf("prout\n");
     exit(EXIT_SUCCESS);
 }
 
-int cd_base(char **cmd_parts, int lenght, char *buf)
+int cd_base(char *buf)
 {
     char *new;
-    int len;
     int x;
     int y;
-	t_struct lst;
 
     x = 0;
     y = 0;
@@ -53,12 +53,13 @@ int cd_base(char **cmd_parts, int lenght, char *buf)
       y++;
     y = -1;
     if (!(new = malloc((x - 1) * sizeof(char))))
-        return (error(MEM_ERR, lst, NULL, 0));
+        return (error(MEM_ERR, NULL, NULL, 0));
     while (++y < x)
     new[y] = buf[y];
     chdir(new);
     free(new);
-	exit(EXIT_SUCCESS);
+    return (0);
+	//exit(EXIT_SUCCESS);
 }
 
 int cd_relative(char **cmd_parts, char *buf, size_t len)
@@ -66,10 +67,9 @@ int cd_relative(char **cmd_parts, char *buf, size_t len)
     char *target;
     int x;
     int y;
-	t_struct lst;
 
     if (!(target = malloc(len + ft_strlen(cmd_parts[1]))))
-		return (error(MEM_ERR, lst, NULL, 0));
+		return (error(MEM_ERR, NULL, NULL, 0));
     x = 0;
     while (buf[x])
     {
@@ -84,49 +84,50 @@ int cd_relative(char **cmd_parts, char *buf, size_t len)
     }
     target[x + y] = '\0';
     if (chdir(target) == -1)
-		return (error(MEM_ERR, lst, NULL, 0));
-	exit(EXIT_SUCCESS);
+		return (error(MEM_ERR, NULL, NULL, 0));
+	return (0);
+    exit(EXIT_SUCCESS);
 }
 
 int ft_cd(char **cmd_parts, char ***env)
 {
     char *buf;
     size_t len;
-	t_struct lst;
 
+    (void)env;
     len = 1;
     if (!(buf = malloc(len * sizeof(char))))
-		return (error(MEM_ERR, lst, NULL, 0));
+		return (error(MEM_ERR, NULL, NULL, 0));
     while (getcwd(buf, len) == NULL)
     {
         free(buf);
         len++;
         if (!(buf = malloc(len * sizeof(char))))
-			return (error(MEM_ERR, lst, NULL, 0));
+			return (error(MEM_ERR, NULL, NULL, 0));
     }
     if (cmd_parts[1] == NULL)
     {
-        if (cd_base(cmd_parts, len, buf) != 1)
-			return (error(MEM_ERR, lst, NULL, 0));
+        if (cd_base(buf) != 1)
+			return (error(MEM_ERR, NULL, NULL, 0));
     }
     else if (cmd_parts[2] != NULL)
-		return (error(MEM_ERR, lst, NULL, 0));
+		return (error(MEM_ERR, NULL, NULL, 0));
     else if (chdir(cmd_parts[1]) == -1)
         if (cd_relative(cmd_parts, buf, len) == -1)
         {
             printf("%s : no such file or directory\n", cmd_parts[1]);
             free(buf);
-			return (error(MEM_ERR, lst, NULL, 0));
+			return (error(MEM_ERR, NULL, NULL, 0));
         }
     free(buf);
+    return (0);
 	exit(EXIT_SUCCESS);
 }
 
-char *ft_pwd_in(char **cmd_parts, char ***env)
+char *ft_pwd_in()
 {
     char *buf;
     size_t len;
-	t_struct lst;
 
     len = 0;
     if (!(buf = malloc(len * sizeof(char))))
@@ -148,17 +149,18 @@ int ft_pwd(char **cmd_parts, char ***env)
 {
     char *buf;
     size_t len;
-	t_struct lst;
 
+    (void)env;
+    (void)cmd_parts;
     len = 0;
     if (!(buf = malloc(len * sizeof(char))))
-		return (error(MEM_ERR, lst, NULL, 0));
+		return (error(MEM_ERR, NULL, NULL, 0));
     while (getcwd(buf, len) == NULL)
     {
         free(buf);
         len++;
         if (!(buf = malloc(len * sizeof(char))))
-			return (error(MEM_ERR, lst, NULL, 0));
+			return (error(MEM_ERR, NULL, NULL, 0));
     }
     ft_putstr_fd(buf, 1);
     write(1, "\n", 1);
@@ -209,5 +211,6 @@ int ft_exit(char **cmd_parts, char ***env)
     ft_free(cmd_parts);
     ft_free(*env);
     rl_clear_history();
+    printf("Bye bye\n");
     exit(EXIT_SUCCESS);
 }

@@ -20,7 +20,7 @@ static char *pipe_gestion(t_struct lst, char *line)
     int y;
 
     if (!(new = malloc(sizeof(char)*(ft_strlen(line) + 1))))
-        error(MEM_ERR, lst, NULL, 1);
+        error(MEM_ERR, &lst, NULL, 1);
     x = 0;
     y = 0;
     while (line[x])

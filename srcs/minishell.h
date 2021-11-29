@@ -61,8 +61,8 @@ typedef struct s_struct
 	char	*limiter;
 }		t_struct;
 
-int	error(t_err raised, t_struct lst, char *line, int critical);
-char *ft_pwd_in(char **cmd_parts, char ***env);
+int	error(t_err raised, t_struct *lst, char *line, int critical);
+char *ft_pwd_in();
 
 char    	**ft_split(char const *s, char c);
 int     	ft_strncmp(const char *s1, const char *s2, size_t n);
@@ -93,5 +93,6 @@ int			ft_setenv(char ***env, char *string);
 int 		do_fork(char **cmd_parts);
 char		*v_itoa(int n);
 char 		*here_doc_read(t_struct *lst);
+int 		here_doc_exec(char  *path, t_struct lst, char **cmd_part, char ***env);
 
 #endif

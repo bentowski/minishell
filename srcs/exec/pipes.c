@@ -123,13 +123,13 @@ static int gestion_file(t_struct *lst, char **cmd_parts)
 				if (!cmd_parts[x][2])
 				{
 					if (set_limiter(lst, cmd_parts[x + 1]))
-						return (error(MEM_ERR, *lst, cmd_parts[x + 1], 1));
+						return (error(MEM_ERR, lst, cmd_parts[x + 1], 1));
 					ret = test(cmd_parts, x++, ret);
 				}
 				else
 				{
 					if (set_limiter(lst, cmd_parts[x] + 2))
-						return (error(MEM_ERR, *lst, cmd_parts[x] + 2, 1));
+						return (error(MEM_ERR, lst, cmd_parts[x] + 2, 1));
 					ret = test(cmd_parts, x, ret);
 				}
 			}
@@ -157,14 +157,14 @@ static int gestion_file(t_struct *lst, char **cmd_parts)
 				{
 					lst->cmds->file[0] = open(cmd_parts[x + 1], O_RDONLY);
 					if (lst->cmds->file[0] < 0)
-						return (error(BAD_FILE, *lst, cmd_parts[x + 1], 0));
+						return (error(BAD_FILE, lst, cmd_parts[x + 1], 0));
 					ret = test(cmd_parts, x++, ret);
 				}
 				else
 				{
 					lst->cmds->file[0] = open(&cmd_parts[x][1], O_RDONLY);
 					if (lst->cmds->file[0] < 0)
-						return (error(BAD_FILE, *lst, &cmd_parts[x][1], 0));
+						return (error(BAD_FILE, lst, &cmd_parts[x][1], 0));
 					ret = test(cmd_parts, x, ret);
 				}
 			}
@@ -177,14 +177,14 @@ static int gestion_file(t_struct *lst, char **cmd_parts)
 				{
 					lst->cmds->file[1] = open(cmd_parts[x + 1], O_APPEND | O_WRONLY | O_CREAT, 402);
 					if (lst->cmds->file[1] < 0)
-						return (error(BAD_FILE, *lst, cmd_parts[x + 1], 0));
+						return (error(BAD_FILE, lst, cmd_parts[x + 1], 0));
 					ret = test(cmd_parts, x++, ret);
 				}
 				else
 				{
 					lst->cmds->file[1] = open(&cmd_parts[x][2], O_APPEND | O_WRONLY | O_CREAT, 402);
 					if (lst->cmds->file[1] < 0)
-						return (error(BAD_FILE, *lst, &cmd_parts[x][1], 0));
+						return (error(BAD_FILE, lst, &cmd_parts[x][1], 0));
 					ret = test(cmd_parts, x, ret);
 				}
 			}
@@ -192,14 +192,14 @@ static int gestion_file(t_struct *lst, char **cmd_parts)
 			{
 				lst->cmds->file[1] = open(cmd_parts[x + 1], O_WRONLY | O_TRUNC | O_CREAT, 402);
 				if (lst->cmds->file[1] < 0)
-					return (error(BAD_FILE, *lst, cmd_parts[x + 1], 0));
+					return (error(BAD_FILE, lst, cmd_parts[x + 1], 0));
 				ret = test(cmd_parts, x++, ret);
 			}
 			else
 			{
 				lst->cmds->file[1] = open(&cmd_parts[x][1], O_WRONLY | O_TRUNC | O_CREAT, 402);
 				if (lst->cmds->file[1] < 0)
-					return (error(BAD_FILE, *lst, &cmd_parts[x][1], 0));
+					return (error(BAD_FILE, lst, &cmd_parts[x][1], 0));
 				ret = test(cmd_parts, x, ret);
 			}
 		}
@@ -231,8 +231,6 @@ static int	cmd_count(t_list *cmds)
 static int	ft_childs(int in, int out, t_struct lst, char **cmd_parts)
 {
 	pid_t	pid;
-	char	*path;
-	char	**cmd;
 	int		x;
 
 	x = 0;

@@ -8,6 +8,8 @@ int main(int argc, char **argv, char **env)
   char	*tmp;
   char	*str;
 
+  (void)argc;
+  (void)argv;
   signal(SIGINT, handle_sigint);
   signal(SIGQUIT, handle_sigquit);
   end = 0;
@@ -34,7 +36,10 @@ int main(int argc, char **argv, char **env)
           free(str);
         }
       if (lst.here_doc_content)
+      {
         free(lst.here_doc_content);
+        lst.here_doc_content = NULL;
+      }
     }
     lst_free(lst);
   }
