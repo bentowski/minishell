@@ -25,7 +25,10 @@ char *here_doc_read(t_struct *lst)
     char    *tmp2;
 
     if (lst->here_doc_content)
+    {
+        printf("%s\n", lst->here_doc_content);
         free(lst->here_doc_content);
+    }
     content = ft_strdup("");
     if (!content)
         return (NULL);

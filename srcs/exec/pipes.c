@@ -135,6 +135,7 @@ static int gestion_file(t_struct *lst, char **cmd_parts)
 			}
 			else
 			{
+				lst->here_doc_flag = 0;
 			// if (cmds_parts[x][1] == '<')
 			// {
 			// 	if (cmd_parts[x][2] == '\0')
