@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 19:02:45 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/11/30 15:54:44 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/11/30 16:50:58 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ static char	*get_new_line(t_struct lst, char *new, char *line, char **vars_name)
 	lenght = get_new_lenght(line, vars_name, *lst.env);
 	if (!lenght)
 	{
-		error(NO_VAR, lst, NULL, 0);
+		error(NO_VAR, &lst, NULL, 0);
 		return (NULL);
 	}
 	new = malloc(sizeof(char) * lenght);
