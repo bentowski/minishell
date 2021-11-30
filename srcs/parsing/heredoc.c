@@ -68,7 +68,7 @@ int here_doc_exec(char  *path, t_struct lst, char **cmd_part, char ***env)
     {
         close(fd[1]);
         dup2(fd[0], 0);
-        printf("%s\n", path);
+        //printf("%s\n", path);
         return (execve(path, cmd_part, *env));
     }
 }

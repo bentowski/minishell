@@ -70,7 +70,7 @@ int	ft_setenv(char ***env, char *string)
 	if (!ft_strchr(string, '='))
 		return (0);
 	len = ft_strchr(string, '=') - string;
-	name = malloc(sizeof(char) * (len + 1));
+	name = malloc(sizeof(char) * (len + 2));
 	if (!name)
 		return (-1);
 	ft_strlcpy(name, string, len + 2);

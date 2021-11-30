@@ -60,8 +60,14 @@ static char	*get_path(void *cmd, char ***env)
 	ret = get_path_deux(possible, i[0]);
 	x = 0;
 	while (possible[x])
+	{
+		//printf("%p\n", possible[x]);
 		free(possible[x++]);
+	}
 	free(possible);
+	x = 0;
+	while (i[x])
+		free(i[x++]);
 	free(i);
 	return (ret);
 }
@@ -82,27 +88,32 @@ static int ft_exec(t_struct lst, char **cmd_parts, char ***env)
 	int ret;
 	int x;
 
+	ret = -1;
 	x = 0;
 	path = get_path(cmd_parts[0], env);
-	printf("ft_exec path%s\n", path);
-	if (path == NULL)
+	printf("ft_exec path %s\n", path);
+	// if (path == NULL)
+	// {
+	// 	// if (!(cmd_parts[0][0] == '.'))
+	// 	// {
+	// 		ft_free(cmd_parts);
+	// 		return (1);
+	// 	// }
+	// 	// attention, si on mets "../philopopo/philosophers" ca ne fonctionne pas et n'affiche pas de msg \
+	// 	//d'erreurs, pareil si on mets ./nimp ou ../nimp ou .nimp, plus de selection a avoir
+	// 	// path = ft_strjoin(ft_pwd_in(cmd_parts, env), &cmd_parts[0][get_name_exec(cmd_parts[0])]);
+	// }
+	if (path)
 	{
-		// if (!(cmd_parts[0][0] == '.'))
-		// {
-			ft_free(cmd_parts);
-			return (1);
-		// }
-		// attention, si on mets "../philopopo/philosophers" ca ne fonctionne pas et n'affiche pas de msg \
-		//d'erreurs, pareil si on mets ./nimp ou ../nimp ou .nimp, plus de selection a avoir
-		// path = ft_strjoin(ft_pwd_in(cmd_parts, env), &cmd_parts[0][get_name_exec(cmd_parts[0])]);
+		if (lst.here_doc_flag)
+			ret = here_doc_exec(path, lst, cmd_parts, env);
+		else
+			ret = execve(path, cmd_parts, *env);
+		free(path);
 	}
-	if (lst.here_doc_flag)
-		ret = here_doc_exec(path, lst, cmd_parts, env);
-	else
-		ret = execve(path, cmd_parts, *env);
-	free(path);
+	printf("ft_exec\n");
 	ft_free(cmd_parts);
-		return (ret);
+	return (ret);
 }
 
 int select_cmd(t_struct lst, char **cmd_parts)
@@ -123,7 +134,6 @@ int select_cmd(t_struct lst, char **cmd_parts)
 	while (bltin[++x])
 		if (ft_strncmp(cmd_parts[0], bltin[x], ft_strlen(bltin[x]) + 1) == 0)
 		{
-			printf("%d\n", x);
 			len = (*functions[x])(cmd_parts, lst.env);
 			ft_free(cmd_parts);
 			return (len);

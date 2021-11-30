@@ -301,11 +301,11 @@ int	ft_run(t_struct *lst)
 	char	**cmd_parts;
 
 	lst->cmds->content = third_lecture(lst->cmds->content);
-	cmd_parts = ft_split(lst->cmds->content, ' ');
+	cmd_parts = ft_split(lst->cmds->content, ' ');//check si cmd_parts == NULL?
 	x = gestion_file(lst, cmd_parts);
-	if (x == -1)
+	if (x == -1)//free cmd_parts si besoin
 		return (0);
-	if (cmd_count(lst->cmds) > 1 || !do_fork(&cmd_parts[x]))
+	if (cmd_count(lst->cmds) > 1 || do_fork(&cmd_parts[x]))
 	{
 		pid = fork();
 		if (pid == 0)

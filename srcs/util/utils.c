@@ -14,7 +14,12 @@
 
 int do_fork(char **cmd_parts)
 {
-	if (ft_strncmp(cmd_parts[0], "echo", 5) == 0)
+	char	*builtins[6] = {"cd", "pwd", "env", "export", "unset", "exit"};
+	int		x;
+
+	x = -1;
+	while (++x < 6)
+		if (ft_strncmp(cmd_parts[0], builtins[x], ft_strlen(builtins[x]) + 1) == 0)
            return (0);
 	return (1);
 }
