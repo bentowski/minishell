@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 10:25:52 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/11/29 15:44:40 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/11/30 15:45:24 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 int do_fork(char **cmd_parts)
 {
-	char	*bltin[8] = { "echo", "cd", "pwd", "export", "unset", "env", "exit" };
+	char	*bltin[7] = { "echo", "cd", "pwd", "export", "unset", "env", "exit" };
 	int		x;
 	int		len;
 
-    x = 0;
+    x = -1;
 	len = ft_strlen(cmd_parts[0]);
-	while (bltin[++x])
-		if (ft_strncmp(cmd_parts[0], bltin[x], len) == 0)
+	while (++x < 7)
+		if (ft_strncmp(cmd_parts[0], bltin[x], ft_strlen(bltin[x]) + 1) == 0)
             return (1);
 	return (0);
 }
@@ -66,13 +66,20 @@ char	*v_itoa(int n)
 	return (res);
 }
 
+int ft_max(int i, int x)
+{
+	if (i < x)
+		return (x);
+	return (i);
+}
+
 char	*ft_get_env(char *str, char **env)
 {
 	int	i;
 
 	i = -1;
 	while (env[++i])
-		if (ft_strncmp(str, env[i], ft_strlen(str)) == 0)
+		if (ft_strncmp(str, env[i], ft_max((ft_strchr(env[i], '=') - env[i]), ft_strlen(str))) == 0)
 			return (&env[i][ft_strlen(str) + 1]);
 	return (NULL);
 }

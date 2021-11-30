@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/29 14:30:16 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/11/25 15:04:44 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/11/30 13:33:10 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static t_error	g_errors[] =
 	{UKN_ERR, "Unknown error." },
 	{MEM_ERR, "Memory allocation failed while parsing shapes." },
 	{QUOTE_ERR, "quotes or double quotes not closed." },
+	{NO_VAR, "no variables found"},
 	{BAD_FILE, "no such file or directory." }
 	// {NO_CMD, "Invalid call: Incorrect number of arguments." },
 	// {FILE_FRMT, "Invalid file: Use the '.ber' extension." },

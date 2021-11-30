@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 19:02:45 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/11/29 20:42:59 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/11/30 15:41:30 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,14 @@ static int	get_new_lenght(char *line, char **vars_name, char **env)
 
 	x = 0;
 	lenght = 0;
+	while (vars_name[x])
+	{
+		if (ft_get_env(vars_name[x++], env))
+			lenght += ft_strlen(ft_get_env(vars_name[x - 1], env));
+		else
+			return (0);
+	}
+	x = 0;
 	while (line[x])
 	{
 		if (line[x] == 39)
@@ -34,10 +42,6 @@ static int	get_new_lenght(char *line, char **vars_name, char **env)
 			lenght++;
 		x++;
 	}
-	x = 0;
-	while (vars_name[x])
-		if (ft_get_env(vars_name[x++], env))
-			lenght += ft_strlen(ft_get_env(vars_name[x - 1], env));
 	return (lenght);
 }
 
@@ -89,23 +93,23 @@ static char *third_lecture(char *line)
 	y = 0;
 	while (line[++x])
 	{
-		if (line[x] == 39)
-			while (line[++x] && line[x] != 39)
-				new[y++] = line[x];
-		else if (line[x] == 34)
+		if (line[x] == 34)
 			while (line[++x] && line[x] != 34)
+				new[y++] = line[x];
+		else if (line[x] == 39)
+			while (line[++x] && line[x] != 39)
 				new[y++] = line[x];
 		else
 			new[y++] = line[x];
 	}
 	new[y] = '\0';
-	free(line);
 	return (new);
 }
 
 static char	*get_new_line(t_struct lst, char *new, char *line, char **vars_name)
 {
 	char	*tmp;
+	char	*tmp2;
 	int		x;
 	int		y;
 	int		i;
@@ -113,10 +117,19 @@ static char	*get_new_line(t_struct lst, char *new, char *line, char **vars_name)
 
 	x = 0;
 	y = 0;
+	tmp2 = NULL;
 	lenght = get_new_lenght(line, vars_name, *lst.env);
+	if (!lenght)
+	{
+		error(NO_VAR, lst, NULL, 0);
+		return (NULL);
+	}
 	new = malloc(sizeof(char) * lenght);
 	if (!new)
+	{
 		error(MEM_ERR, lst, NULL, 1);
+		return (NULL);
+	}
 	lenght = 0;
 	while (line[x])
 	{
@@ -131,11 +144,11 @@ static char	*get_new_line(t_struct lst, char *new, char *line, char **vars_name)
 				{
 					i = 0;
 					tmp = ft_get_env(vars_name[lenght++], *lst.env);
-					tmp = third_lecture(tmp);
-					if (tmp)
+					tmp2 = third_lecture(tmp);
+					if (tmp2)
 					{
-						while (tmp[i])
-							new[y++] = tmp[i++];
+						while (tmp2[i])
+							new[y++] = tmp2[i++];
 					}
 					x++;
 					while (ft_isalnum(line[x]))
@@ -150,11 +163,11 @@ static char	*get_new_line(t_struct lst, char *new, char *line, char **vars_name)
 		{
 			i = 0;
 			tmp = ft_get_env(vars_name[lenght++], *lst.env);
-			tmp = third_lecture(tmp);
-			if (tmp)
+			tmp2 = third_lecture(tmp);
+			if (tmp2)
 			{
-				while (tmp[i])
-					new[y++] = tmp[i++];
+				while (tmp2[i])
+					new[y++] = tmp2[i++];
 			}
 			x++;
 			while (ft_isalnum(line[x]))
@@ -162,6 +175,11 @@ static char	*get_new_line(t_struct lst, char *new, char *line, char **vars_name)
 		}
 		else
 			new[y++] = line[x++];
+		if (tmp2)
+		{
+			free(tmp2);
+			tmp2 = NULL;
+		}
 	}
 	new[y] = '\0';
 	return (new);
@@ -228,7 +246,7 @@ static char	**malloc_names_ii(t_struct lst, char *line, char **vars_name,
 	if (line[tmpx] == '$')
 	{
 		lenght = 0;
-		while (ft_isalnum(line[tmpx++]))
+		while (ft_isalnum(line[++tmpx]))
 			lenght++;
 		vars_name[ptry] = malloc(sizeof(char) * (lenght + 1));
 		if (!vars_name[ptry++])
@@ -326,8 +344,8 @@ char	*var_gestion(t_struct lst, char *line)
 		}
 		vars_tab[nb_vars] = NULL;
 		new_line = tab_filling(lst, line, vars_tab);
-		free(line);
 		ft_free(vars_tab);
+		free(line);
 		return (new_line);
 	}
 	return (line);

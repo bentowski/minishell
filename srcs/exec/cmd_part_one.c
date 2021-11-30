@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 13:34:31 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/11/25 17:29:46 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/11/30 15:38:16 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,7 @@ int ft_echo(char **cmd_parts, char ***env)
 	}
     if (n != 0)
         write(1, "\n", 1);
-	ft_free(cmd_parts);
-    exit(EXIT_SUCCESS);
+    return (0);
 }
 
 int cd_base(char **cmd_parts, int lenght, char *buf)

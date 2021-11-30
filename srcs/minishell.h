@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 13:34:26 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/11/29 15:33:22 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/11/30 13:34:29 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef enum e_err
 	UKN_ERR,
 	MEM_ERR,
 	QUOTE_ERR,
+	NO_VAR,
 	BAD_FILE
 	// NB_ARG,
 	// FILE_FRMT,
