@@ -300,8 +300,9 @@ int	ft_run(t_struct *lst)
 	int		x;
 	char	**cmd_parts;
 
+	ret = 0;
 	lst->cmds->content = third_lecture(lst->cmds->content);
-	cmd_parts = ft_split(lst->cmds->content, ' ');//check si cmd_parts == NULL?
+	cmd_parts = ft_split(lst->cmds->content, ' ');//check si cmd_parts == NULL
 	x = gestion_file(lst, cmd_parts);
 	if (x == -1)//free cmd_parts si besoin
 		return (0);
@@ -314,9 +315,12 @@ int	ft_run(t_struct *lst)
 		{
 			ft_free(cmd_parts);
 			waitpid(pid, &ret, 0);
+			if (WIFEXITED(ret))
+				ret = (((ret) & 0xff00) >> 8);
+			printf("run ret%d\n", ret);
 		}
 	}
 	else
 		return (ft_pipes(cmd_count(lst->cmds), x, *lst, cmd_parts));
-	return (0);
+	return (ret);
 }

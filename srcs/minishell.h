@@ -59,6 +59,8 @@ typedef struct s_struct
 	int		here_doc_flag;
 	char	*here_doc_content;
 	char	*limiter;
+	char	*path;
+	int		exit_status;
 }		t_struct;
 
 int	error(t_err raised, t_struct *lst, char *line, int critical);
@@ -76,6 +78,7 @@ int     	ft_exit(char **cmd_parts, char ***env);
 size_t  	ft_strlen(const char *s);
 void    	ft_putstr_fd(char *s, int fd);
 void    	ft_free(char **cmd_parts);
+char		*get_path(void *cmd, char ***env);
 int     	select_cmd(t_struct lst, char **cmd_parts);
 int     	ft_run(t_struct *lst);
 t_struct	ft_parsing(t_struct lst);

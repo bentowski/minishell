@@ -35,12 +35,12 @@ static char	*get_path_deux(char **possible, char *end_path)
 	// 	free(i[x++]);
 	// free(i);
 	x = 0;
-		printf("get_path2 possible %p %s\n", possible, possible[0]);
+		//printf("get_path2 possible %p %s\n", possible, possible[0]);
 
 	return (NULL);
 }
  // a refondre avec ndup(cmds, strchr(space)) au lieu du split s
-static char	*get_path(void *cmd, char ***env)
+char	*get_path(void *cmd, char ***env)
 {
 	char	**possible;
 	char	*path_line;
@@ -54,7 +54,7 @@ static char	*get_path(void *cmd, char ***env)
 		return (NULL);
 	path_line = ft_substr(path_line, 5, ft_strlen(path_line) - 5);
 	possible = ft_split(path_line, ':');
-	printf("get_path possible %p %s\n", possible, possible[0]);
+//	printf("get_path possible %p %s\n", possible, possible[0]);
 	free(path_line);
 	i = ft_split(cmd, ' ');
 	ret = get_path_deux(possible, i[0]);
@@ -91,7 +91,7 @@ static int ft_exec(t_struct lst, char **cmd_parts, char ***env)
 	ret = -1;
 	x = 0;
 	path = get_path(cmd_parts[0], env);
-	printf("ft_exec path %s\n", path);
+//	printf("ft_exec path %s\n", path);
 	// if (path == NULL)
 	// {
 	// 	// if (!(cmd_parts[0][0] == '.'))
@@ -111,7 +111,6 @@ static int ft_exec(t_struct lst, char **cmd_parts, char ***env)
 			ret = execve(path, cmd_parts, *env);
 		free(path);
 	}
-	printf("ft_exec\n");
 	ft_free(cmd_parts);
 	return (ret);
 }
