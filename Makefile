@@ -13,6 +13,7 @@ SRC =	srcs/main.c \
 		srcs/parsing/parsing.c \
 		srcs/parsing/heredoc.c \
 		srcs/parsing/vars_gestion.c \
+		srcs/parsing/exit_status.c \
 		srcs/errors/errors.c \
 		srcs/exec/gestion_cmds.c \
 		srcs/exec/cmd_part_one.c \

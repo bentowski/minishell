@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 13:34:26 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/11/30 13:34:29 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/11/30 17:27:42 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ typedef struct s_struct
 
 int	error(t_err raised, t_struct *lst, char *line, int critical);
 char *ft_pwd_in();
+char *get_exit_status(t_struct *lst);
 
 char    	**ft_split(char const *s, char c);
 int     	ft_strncmp(const char *s1, const char *s2, size_t n);

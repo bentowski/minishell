@@ -6,24 +6,27 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 19:02:45 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/11/30 16:50:58 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/11/30 17:53:46 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include "../errors/errors.h"
 
-static int	get_new_lenght(char *line, char **vars_name, char **env)
+static int	get_new_lenght(t_struct lst, char *line, char **vars_name,
+	char **env)
 {
 	int	lenght;
 	int	x;
 
-	x = 0;
+	x = -1;
 	lenght = 0;
-	while (vars_name[x])
+	while (vars_name[++x])
 	{
-		if (ft_get_env(vars_name[x++], env))
-			lenght += ft_strlen(ft_get_env(vars_name[x - 1], env));
+		if (ft_get_env(vars_name[x], env))
+			lenght += ft_strlen(ft_get_env(vars_name[x], env));
+		else if (ft_strncmp(vars_name[x], "?", 2) == 0)
+			return (ft_strlen(get_exit_status(&lst)));
 		else
 			return (0);
 	}
@@ -118,7 +121,7 @@ static char	*get_new_line(t_struct lst, char *new, char *line, char **vars_name)
 	x = 0;
 	y = 0;
 	tmp2 = NULL;
-	lenght = get_new_lenght(line, vars_name, *lst.env);
+	lenght = get_new_lenght(lst, line, vars_name, *lst.env);
 	if (!lenght)
 	{
 		error(NO_VAR, &lst, NULL, 0);
@@ -140,8 +143,13 @@ static char	*get_new_line(t_struct lst, char *new, char *line, char **vars_name)
 				if (line[x] == '$')
 				{
 					i = 0;
-					tmp = ft_get_env(vars_name[lenght++], *lst.env);
-					tmp2 = third_lecture(tmp);
+					if (line[x + 1] == '?')
+						tmp2 = get_exit_status(&lst);
+					else
+					{
+						tmp = ft_get_env(vars_name[lenght++], *lst.env);
+						tmp2 = third_lecture(tmp);
+					}
 					if (tmp2)
 					{
 						while (tmp2[i])
@@ -159,16 +167,25 @@ static char	*get_new_line(t_struct lst, char *new, char *line, char **vars_name)
 		else if (line[x] == '$')
 		{
 			i = 0;
-			tmp = ft_get_env(vars_name[lenght++], *lst.env);
-			tmp2 = third_lecture(tmp);
+			if (line[x + 1] == '?')
+			{
+				x++;
+				tmp2 = get_exit_status(&lst);
+			}
+			else
+			{
+				tmp = ft_get_env(vars_name[lenght++], *lst.env);
+				tmp2 = third_lecture(tmp);
+				x++;
+				while (ft_isalnum(line[x]))
+					x++;
+			}
+			x++;
 			if (tmp2)
 			{
 				while (tmp2[i])
 					new[y++] = tmp2[i++];
 			}
-			x++;
-			while (ft_isalnum(line[x]))
-				x++;
 		}
 		else
 			new[y++] = line[x++];
@@ -216,14 +233,20 @@ static char	**get_vars_names(char *line, char **vars_name)
 			{
 				if (line[x++] == '$')
 				{
-					vars_name[y] = get_vars_names_ii(line, vars_name[y], &x);
+					if (line[x] == '?')
+						vars_name[y] = "?";
+					else
+						vars_name[y] = get_vars_names_ii(line, vars_name[y], &x);
 					y++;
 				}
 			}
 		}
 		else if (line[x++] == '$')
 		{
-			vars_name[y] = get_vars_names_ii(line, vars_name[y], &x);
+			if (line[x] == '?')
+				vars_name[y] = "?";
+			else
+				vars_name[y] = get_vars_names_ii(line, vars_name[y], &x);
 			y++;
 		}
 	}
@@ -242,7 +265,10 @@ static char	**malloc_names_ii(t_struct lst, char *line, char **vars_name,
 	if (line[tmpx] == '$')
 	{
 		lenght = 0;
-		while (ft_isalnum(line[++tmpx]))
+		if (line[tmpx++] != '?')
+			while (ft_isalnum(line[tmpx++]))
+				lenght++;
+		else
 			lenght++;
 		vars_name[ptry] = malloc(sizeof(char) * (lenght + 1));
 		if (!vars_name[ptry++])
@@ -341,6 +367,7 @@ char	*var_gestion(t_struct lst, char *line)
 		vars_tab[nb_vars] = NULL;
 		new_line = tab_filling(lst, line, vars_tab);
 		ft_free(vars_tab);
+		printf("%s\n", "OK");
 		free(line);
 		return (new_line);
 	}
