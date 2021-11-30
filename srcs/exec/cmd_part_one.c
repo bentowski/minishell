@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-int ft_echo(char **cmd_parts, char ***env)
+int ft_echo(t_struct lst, char **cmd_parts, char ***env)
 {
     int x;
     int n;
@@ -34,6 +34,8 @@ int ft_echo(char **cmd_parts, char ***env)
 	}
     if (n != 0)
         write(1, "\n", 1);
+    if (lst.is_child)
+        exit (EXIT_SUCCESS);
     return (0);
 }
 
@@ -86,7 +88,7 @@ int cd_relative(char **cmd_parts, char *buf, size_t len)
     exit(EXIT_SUCCESS);
 }
 
-int ft_cd(char **cmd_parts, char ***env)
+int ft_cd(t_struct lst, char **cmd_parts, char ***env)
 {
     char *buf;
     size_t len;
@@ -117,8 +119,10 @@ int ft_cd(char **cmd_parts, char ***env)
 			return (error(MEM_ERR, NULL, NULL, 0));
         }
     free(buf);
+    if (lst.is_child)
+        exit (EXIT_SUCCESS);
     return (0);
-	exit(EXIT_SUCCESS);
+
 }
 
 char *ft_pwd_in()
@@ -142,7 +146,7 @@ char *ft_pwd_in()
     return (buf);
 }
 
-int ft_pwd(char **cmd_parts, char ***env)
+int ft_pwd(t_struct lst, char **cmd_parts, char ***env)
 {
     char *buf;
     size_t len;
@@ -162,10 +166,12 @@ int ft_pwd(char **cmd_parts, char ***env)
     ft_putstr_fd(buf, 1);
     write(1, "\n", 1);
     free(buf);
+    if (lst.is_child)
+        exit (EXIT_SUCCESS);
     return (0);
 }
 
-int ft_env(char **cmd_parts, char ***env)
+int ft_env(t_struct lst, char **cmd_parts, char ***env)
 {
     int i;
 	(void)cmd_parts;
@@ -173,10 +179,12 @@ int ft_env(char **cmd_parts, char ***env)
     i = 0;
     while ((*env)[i])
         printf("%s\n", (*env)[i++]);
+    if (lst.is_child)
+        exit (EXIT_SUCCESS);
     return (0);
 }
 
-int ft_export(char **cmd_parts, char ***env)
+int ft_export(t_struct lst, char **cmd_parts, char ***env)
 {
 	int	i;
 
@@ -186,11 +194,13 @@ int ft_export(char **cmd_parts, char ***env)
 		ft_setenv(env, cmd_parts[i]);
 		i++;
 	}
-    ft_env(cmd_parts, env);
+    ft_env(lst , cmd_parts, env);
+    if (lst.is_child)
+        exit (EXIT_SUCCESS);
     return (0);
 }
 
-int ft_unset(char **cmd_parts, char ***env)
+int ft_unset(t_struct lst, char **cmd_parts, char ***env)
 {
 	int	i;
 
@@ -200,11 +210,14 @@ int ft_unset(char **cmd_parts, char ***env)
 		ft_unsetenv(env, cmd_parts[i]);
 		i++;
 	}
+    if (lst.is_child)
+        exit (EXIT_SUCCESS);
     return (0);
 }
 
-int ft_exit(char **cmd_parts, char ***env)
+int ft_exit(t_struct lst, char **cmd_parts, char ***env)
 {
+    (void)lst;
     ft_free(cmd_parts);
     ft_free(*env);
     rl_clear_history();
