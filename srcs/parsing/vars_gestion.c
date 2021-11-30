@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 19:02:45 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/11/30 15:41:30 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/11/30 15:54:44 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,10 +126,7 @@ static char	*get_new_line(t_struct lst, char *new, char *line, char **vars_name)
 	}
 	new = malloc(sizeof(char) * lenght);
 	if (!new)
-	{
-		error(MEM_ERR, lst, NULL, 1);
-		return (NULL);
-	}
+		error(MEM_ERR, &lst, NULL, 1);
 	lenght = 0;
 	while (line[x])
 	{
@@ -201,11 +198,10 @@ static char	*get_vars_names_ii(char *line, char *voidline, int *xvalue)
 	return (new);
 }
 
-static char	**get_vars_names(t_struct lst, char *line, char **vars_name)
+static char	**get_vars_names(char *line, char **vars_name)
 {
 	int	x;
 	int	y;
-	int	in;
 
 	x = 0;
 	y = 0;
@@ -250,7 +246,7 @@ static char	**malloc_names_ii(t_struct lst, char *line, char **vars_name,
 			lenght++;
 		vars_name[ptry] = malloc(sizeof(char) * (lenght + 1));
 		if (!vars_name[ptry++])
-			error(MEM_ERR, lst, NULL, 1);
+			error(MEM_ERR, &lst, NULL, 1);
 	}
 	else
 		tmpx++;
@@ -287,8 +283,9 @@ static char	*tab_filling(t_struct lst, char *line, char **vars_name)
 {
 	char	*new_line;
 
+	new_line = NULL;
 	vars_name = malloc_names(lst, line, vars_name);
-	vars_name = get_vars_names(lst, line, vars_name);
+	vars_name = get_vars_names(line, vars_name);
 	new_line = get_new_line(lst, new_line, line, vars_name);
 	return (new_line);
 }
@@ -307,7 +304,7 @@ static int	var_count(t_struct lst, char *line)
 		{
 			while (line[++x] != 39)
 				if (!line[x])
-					return (error(QUOTE_ERR, lst, NULL, 0));
+					return (error(QUOTE_ERR, &lst, NULL, 0));
 		}
 		else if (line[x] == 34)
 		{
@@ -315,7 +312,7 @@ static int	var_count(t_struct lst, char *line)
 				if (line[x] == '$')
 					ret++;
 			if (!line[x])
-				return (error(QUOTE_ERR, lst, NULL, 0));
+				return (error(QUOTE_ERR, &lst, NULL, 0));
 		}
 		else if (line[x] == '$')
 			ret++;
@@ -328,7 +325,6 @@ char	*var_gestion(t_struct lst, char *line)
 	char	*new_line;
 	char	**vars_tab;
 	int		nb_vars;
-	int		x;
 
 	nb_vars = var_count(lst, line);
 	if (nb_vars < 0)
@@ -340,7 +336,7 @@ char	*var_gestion(t_struct lst, char *line)
 		if (!vars_tab)
 		{
 			free(line);
-			error(MEM_ERR, lst, NULL, 1);
+			error(MEM_ERR, &lst, NULL, 1);
 		}
 		vars_tab[nb_vars] = NULL;
 		new_line = tab_filling(lst, line, vars_tab);

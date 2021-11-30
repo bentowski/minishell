@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/28 18:38:04 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/11/30 15:46:51 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/11/30 15:55:01 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,13 @@ static int gestion_file(t_struct *lst, char **cmd_parts)
 				if (!cmd_parts[x][2])
 				{
 					if (set_limiter(lst, cmd_parts[x + 1]))
-						return (error(MEM_ERR, *lst, cmd_parts[x + 1], 1));
+						return (error(MEM_ERR, lst, cmd_parts[x + 1], 1));
 					ret = test(cmd_parts, x++, ret);
 				}
 				else
 				{
 					if (set_limiter(lst, cmd_parts[x] + 2))
-						return (error(MEM_ERR, *lst, cmd_parts[x] + 2, 1));
+						return (error(MEM_ERR, lst, cmd_parts[x] + 2, 1));
 					ret = test(cmd_parts, x, ret);
 				}
 			}
@@ -99,14 +99,14 @@ static int gestion_file(t_struct *lst, char **cmd_parts)
 				{
 					lst->cmds->file[0] = open(cmd_parts[x + 1], O_RDONLY);
 					if (lst->cmds->file[0] < 0)
-						return (error(BAD_FILE, *lst, cmd_parts[x + 1], 0));
+						return (error(BAD_FILE, lst, cmd_parts[x + 1], 0));
 					ret = test(cmd_parts, x++, ret);
 				}
 				else
 				{
 					lst->cmds->file[0] = open(&cmd_parts[x][1], O_RDONLY);
 					if (lst->cmds->file[0] < 0)
-						return (error(BAD_FILE, *lst, &cmd_parts[x][1], 0));
+						return (error(BAD_FILE, lst, &cmd_parts[x][1], 0));
 					ret = test(cmd_parts, x, ret);
 				}
 			}
@@ -119,14 +119,14 @@ static int gestion_file(t_struct *lst, char **cmd_parts)
 				{
 					lst->cmds->file[1] = open(cmd_parts[x + 1], O_APPEND | O_WRONLY | O_CREAT, 402);
 					if (lst->cmds->file[1] < 0)
-						return (error(BAD_FILE, *lst, cmd_parts[x + 1], 0));
+						return (error(BAD_FILE, lst, cmd_parts[x + 1], 0));
 					ret = test(cmd_parts, x++, ret);
 				}
 				else
 				{
 					lst->cmds->file[1] = open(&cmd_parts[x][2], O_APPEND | O_WRONLY | O_CREAT, 402);
 					if (lst->cmds->file[1] < 0)
-						return (error(BAD_FILE, *lst, &cmd_parts[x][1], 0));
+						return (error(BAD_FILE, lst, &cmd_parts[x][1], 0));
 					ret = test(cmd_parts, x, ret);
 				}
 			}
@@ -134,14 +134,14 @@ static int gestion_file(t_struct *lst, char **cmd_parts)
 			{
 				lst->cmds->file[1] = open(cmd_parts[x + 1], O_WRONLY | O_TRUNC | O_CREAT, 402);
 				if (lst->cmds->file[1] < 0)
-					return (error(BAD_FILE, *lst, cmd_parts[x + 1], 0));
+					return (error(BAD_FILE, lst, cmd_parts[x + 1], 0));
 				ret = test(cmd_parts, x++, ret);
 			}
 			else
 			{
 				lst->cmds->file[1] = open(&cmd_parts[x][1], O_WRONLY | O_TRUNC | O_CREAT, 402);
 				if (lst->cmds->file[1] < 0)
-					return (error(BAD_FILE, *lst, &cmd_parts[x][1], 0));
+					return (error(BAD_FILE, lst, &cmd_parts[x][1], 0));
 				ret = test(cmd_parts, x, ret);
 			}
 		}
@@ -173,8 +173,6 @@ static int	cmd_count(t_list *cmds)
 static int	ft_childs(int in, int out, t_struct lst, char **cmd_parts)
 {
 	pid_t	pid;
-	char	*path;
-	char	**cmd;
 	int		x;
 
 	x = 0;
@@ -247,9 +245,9 @@ int	ft_run(t_struct *lst)
 	// lst->cmds->content = third_lecture(lst->cmds->content);
 	cmd_parts = ft_split(lst->cmds->content, ' ');
 	x = gestion_file(lst, cmd_parts);
-	if (x == -1)
+	if (x == -1)//free cmd_parts si besoin
 		return (0);
-	if (cmd_count(lst->cmds) > 1 || !do_fork(&cmd_parts[x]))
+	if (cmd_count(lst->cmds) > 1 || do_fork(&cmd_parts[x]))
 	{
 		pid = fork();
 		if (pid == 0)
@@ -258,9 +256,12 @@ int	ft_run(t_struct *lst)
 		{
 			ft_free(cmd_parts);
 			waitpid(pid, &ret, 0);
+			if (WIFEXITED(ret))
+				ret = (((ret) & 0xff00) >> 8);
+			printf("run ret%d\n", ret);
 		}
 	}
 	else
 		return (ft_pipes(cmd_count(lst->cmds), x, *lst, cmd_parts));
-	return (0);
+	return (ret);
 }

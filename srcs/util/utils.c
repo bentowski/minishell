@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 10:25:52 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/11/30 15:45:24 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/11/30 15:54:06 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,14 @@
 
 int do_fork(char **cmd_parts)
 {
-	char	*bltin[7] = { "echo", "cd", "pwd", "export", "unset", "env", "exit" };
+	char	*builtins[6] = {"cd", "pwd", "env", "export", "unset", "exit"};
 	int		x;
-	int		len;
 
-    x = -1;
-	len = ft_strlen(cmd_parts[0]);
-	while (++x < 7)
-		if (ft_strncmp(cmd_parts[0], bltin[x], ft_strlen(bltin[x]) + 1) == 0)
-            return (1);
-	return (0);
+	x = -1;
+	while (++x < 6)
+		if (ft_strncmp(cmd_parts[0], builtins[x], ft_strlen(builtins[x]) + 1) == 0)
+           return (0);
+	return (1);
 }
 
 static int	itoa_get_len(int n, int sign)

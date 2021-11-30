@@ -36,10 +36,10 @@ $(NAME) :		$(OBJS)
 				@cp $(LIBFT_DIR)/libft.a libft.a
 				#@cd $(READLINE_DIR) && ./configure && cd ../..
 				$(MAKE) -C $(READLINE_DIR)
-				@$(CC) $(COMPIL) $(NAME)
+				@$(CC) $(FLAGS) $(COMPIL) $(NAME)
 
 %.o: %.c
-				@$(CC) -c $< -o $@
+				@$(CC) $(FLAGS) -c $< -o $@
 				@echo "Compiled "$<" successfully!"
 
 clean:

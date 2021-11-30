@@ -60,10 +60,12 @@ typedef struct s_struct
 	int		here_doc_flag;
 	char	*here_doc_content;
 	char	*limiter;
+	char	*path;
+	int		exit_status;
 }		t_struct;
 
-int	error(t_err raised, t_struct lst, char *line, int critical);
-char *ft_pwd_in(char **cmd_parts, char ***env);
+int	error(t_err raised, t_struct *lst, char *line, int critical);
+char *ft_pwd_in();
 
 char    	**ft_split(char const *s, char c);
 int     	ft_strncmp(const char *s1, const char *s2, size_t n);
@@ -77,6 +79,7 @@ int     	ft_exit(char **cmd_parts, char ***env);
 size_t  	ft_strlen(const char *s);
 void    	ft_putstr_fd(char *s, int fd);
 void    	ft_free(char **cmd_parts);
+char		*get_path(void *cmd, char ***env);
 int     	select_cmd(t_struct lst, char **cmd_parts);
 int     	ft_run(t_struct *lst);
 t_struct	ft_parsing(t_struct lst);
@@ -95,5 +98,6 @@ int 		do_fork(char **cmd_parts);
 char		*v_itoa(int n);
 char		*ft_get_env(char *str, char **env);
 char 		*here_doc_read(t_struct *lst);
+int 		here_doc_exec(char  *path, t_struct lst, char **cmd_part, char ***env);
 
 #endif

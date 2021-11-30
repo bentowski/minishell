@@ -37,7 +37,7 @@ static	char	*get_error_msg(t_err raised)
 	return ((char *)strerror(errno));
 }
 
-int	error(t_err raised, t_struct lst, char *line, int critical)
+int	error(t_err raised, t_struct *lst, char *line, int critical)
 {
 	char	*msg;
 
@@ -47,6 +47,7 @@ int	error(t_err raised, t_struct lst, char *line, int critical)
 	printf("%s: %s\n", line, msg);
 	if (critical)
 	{
+		lst_free(*lst);
 		rl_clear_history();
 		exit(EXIT_FAILURE);
 	}
