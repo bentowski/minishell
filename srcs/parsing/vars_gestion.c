@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 19:02:45 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/11/30 17:53:46 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/01 13:34:43 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,7 +265,7 @@ static char	**malloc_names_ii(t_struct lst, char *line, char **vars_name,
 	if (line[tmpx] == '$')
 	{
 		lenght = 0;
-		if (line[tmpx++] != '?')
+		if (line[++tmpx] != '?')
 			while (ft_isalnum(line[tmpx++]))
 				lenght++;
 		else
@@ -366,8 +366,8 @@ char	*var_gestion(t_struct lst, char *line)
 		}
 		vars_tab[nb_vars] = NULL;
 		new_line = tab_filling(lst, line, vars_tab);
-		ft_free(vars_tab);
 		printf("%s\n", "OK");
+		ft_free(vars_tab);
 		free(line);
 		return (new_line);
 	}

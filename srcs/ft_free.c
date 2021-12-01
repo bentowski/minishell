@@ -6,11 +6,16 @@ void ft_free(char **cmd_parts)
 	char **tmp;
 
 	x = -1;
+	if (!cmd_parts)
+		return ;
 	tmp = cmd_parts;
 	while (tmp[++x])
-    	free(tmp[x]);
+	{
+		free(tmp[x]);
+		tmp[x] = NULL;
+	}
 	free(tmp);
-
+	tmp = NULL;
 }
 
 void	lst_free(t_struct lst)
