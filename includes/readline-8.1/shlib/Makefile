@@ -65,11 +65,11 @@ DESTDIR =
 
 CFLAGS = -g -O2 -Wno-parentheses -Wno-format-security
 LOCAL_CFLAGS =  -DRL_LIBRARY_VERSION='"$(RL_LIBRARY_VERSION)"' -DBRACKETED_PASTE_DEFAULT=1
-CPPFLAGS = 
+CPPFLAGS =
 LDFLAGS =   -g -O2 -Wno-parentheses -Wno-format-security
 
-DEFS = -DHAVE_CONFIG_H 
-LOCAL_DEFS = 
+DEFS = -DHAVE_CONFIG_H
+LOCAL_DEFS =
 
 #
 # These values are generated for configure by ${topdir}/support/shobj-conf.
@@ -82,11 +82,11 @@ SHOBJ_CFLAGS = -fPIC
 SHOBJ_LD = ${CC}
 
 SHOBJ_LDFLAGS = -shared -Wl,-soname,$@
-SHOBJ_XLDFLAGS = 
-SHOBJ_LIBS = 
+SHOBJ_XLDFLAGS =
+SHOBJ_LIBS =
 
 SHLIB_XLDFLAGS =  -Wl,-rpath,$(libdir) -Wl,-soname,`basename $@ $(SHLIB_MINOR)`
-SHLIB_LIBS = 
+SHLIB_LIBS =
 
 SHLIB_DOT = .
 SHLIB_LIBPREF = lib
@@ -113,7 +113,7 @@ CCFLAGS = $(DEFS) $(LOCAL_DEFS) $(INCLUDES) $(CPPFLAGS) $(LOCAL_CFLAGS) $(CFLAGS
 
 .c.so:
 	${RM} $@
-	$(SHOBJ_CC) -c $(CCFLAGS) $(SHOBJ_CFLAGS) -o $*.o $< 
+	$(SHOBJ_CC) -c $(CCFLAGS) $(SHOBJ_CFLAGS) -o $*.o $<
 	$(MV) $*.o $@
 
 # The name of the main library target.
@@ -180,7 +180,7 @@ $(SHARED_HISTORY):	$(SHARED_HISTOBJ) xmalloc.so xfree.so
 	$(RM) $@
 	$(SHOBJ_LD) ${SHOBJ_LDFLAGS} ${SHLIB_XLDFLAGS} -o $@ $(SHARED_HISTOBJ) xmalloc.so xfree.so $(SHLIB_LIBS)
 
-# Since tilde.c is shared between readline and bash, make sure we compile 
+# Since tilde.c is shared between readline and bash, make sure we compile
 # it with the right flags when it's built as part of readline
 tilde.so:        tilde.c
 	${RM} $@
@@ -295,7 +295,7 @@ nls.so: $(topdir)/ansi_stdlib.h
 nls.so: $(topdir)/rldefs.h ${BUILD_DIR}/config.h $(topdir)/rlconf.h
 nls.o: $(topdir)/readline.h $(topdir)/keymaps.h $(topdir)/chardefs.h
 nls.o: $(topdir)/rltypedefs.h
-nls.o: $(topdir)/tilde.h $(topdir)/history.h $(topdir)/rlstdc.h  
+nls.o: $(topdir)/tilde.h $(topdir)/history.h $(topdir)/rlstdc.h
 parens.so: $(topdir)/rlconf.h ${BUILD_DIR}/config.h
 parens.so: $(topdir)/readline.h $(topdir)/keymaps.h $(topdir)/chardefs.h
 parens.so: $(topdir)/rltypedefs.h
@@ -350,12 +350,12 @@ terminal.so: $(topdir)/rlshell.h
 histexpand.so: $(topdir)/rlshell.h
 
 colors.so: $(BUILD_DIR)/config.h $(topdir)/colors.h
-colors.so: $(topdir)/rlconf.h 
+colors.so: $(topdir)/rlconf.h
 colors.so: $(topdir)/readline.h $(topdir)/keymaps.h $(topdir)/rltypedefs.h
 colors.so: $(topdir)/chardefs.h $(topdir)/tilde.h $(topdir)/rlstdc.h
 colors.so: $(topdir)/ansi_stdlib.h $(topdir)/posixstat.h
 parse-colors.so: $(BUILD_DIR)/config.h $(topdir)/colors.h $(topdir)/parse-colors.h
-parse-colors.so: $(topdir)/rldefs.h $(topdir)/rlconf.h 
+parse-colors.so: $(topdir)/rldefs.h $(topdir)/rlconf.h
 parse-colors.so: $(topdir)/readline.h $(topdir)/keymaps.h $(topdir)/rltypedefs.h
 parse-colors.so: $(topdir)/chardefs.h $(topdir)/tilde.h $(topdir)/rlstdc.h
 
@@ -369,10 +369,10 @@ kill.so: $(topdir)/rlprivate.h
 macro.so: $(topdir)/rlprivate.h
 mbutil.so: $(topdir)/rlprivate.h
 misc.so: $(topdir)/rlprivate.h
-nls.so: $(topdir)/rlprivate.h   
+nls.so: $(topdir)/rlprivate.h
 parens.so: $(topdir)/rlprivate.h
 readline.so: $(topdir)/rlprivate.h
-rltty.so: $(topdir)/rlprivate.h 
+rltty.so: $(topdir)/rlprivate.h
 search.so: $(topdir)/rlprivate.h
 signals.so: $(topdir)/rlprivate.h
 terminal.so: $(topdir)/rlprivate.h

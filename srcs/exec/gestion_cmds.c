@@ -118,7 +118,7 @@ static int ft_exec(t_struct lst, char **cmd_parts, char ***env)
 int select_cmd(t_struct lst, char **cmd_parts)
 {
 	char *bltin[8] = { "echo", "cd", "pwd", "export", "unset", "env", "exit" };
-	int (*functions[7])(char **cmd_parts, char ***env);
+	int (*functions[7])(t_struct lst, char **cmd_parts, char ***env);
 	int x;
 	int 	len;
 
@@ -133,7 +133,7 @@ int select_cmd(t_struct lst, char **cmd_parts)
 	while (bltin[++x])
 		if (ft_strncmp(cmd_parts[0], bltin[x], ft_strlen(bltin[x]) + 1) == 0)
 		{
-			len = (*functions[x])(cmd_parts, lst.env);
+			len = (*functions[x])(lst, cmd_parts, lst.env);
 			ft_free(cmd_parts);
 			return (len);
 		}

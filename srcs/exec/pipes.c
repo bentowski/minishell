@@ -247,18 +247,21 @@ int	ft_run(t_struct *lst)
 	x = gestion_file(lst, cmd_parts);
 	if (x == -1)//free cmd_parts si besoin
 		return (0);
+	lst->is_child = 0;
 	if (cmd_count(lst->cmds) > 1 || do_fork(&cmd_parts[x]))
 	{
 		pid = fork();
 		if (pid == 0)
+		{
+			lst->is_child = 1;
 			return (ft_pipes(cmd_count(lst->cmds), x, *lst, cmd_parts));
+		}
 		else
 		{
 			ft_free(cmd_parts);
 			waitpid(pid, &ret, 0);
 			if (WIFEXITED(ret))
 				ret = (((ret) & 0xff00) >> 8);
-			printf("run ret%d\n", ret);
 		}
 	}
 	else

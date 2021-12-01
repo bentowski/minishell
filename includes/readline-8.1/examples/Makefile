@@ -39,7 +39,7 @@ INSTALL = /usr/bin/install -c
 INSTALL_PROGRAM = ${INSTALL}
 INSTALL_DATA = ${INSTALL} -m 644
 
-EXEEXT = 
+EXEEXT =
 OBJEXT = o
 
 # Support an alternate destination root directory for package building
@@ -49,7 +49,7 @@ DEFS = -DHAVE_CONFIG_H
 CC = gcc
 CFLAGS = -g -O2 -Wno-parentheses -Wno-format-security
 LOCAL_CFLAGS =  -DREADLINE_LIBRARY -DRL_LIBRARY_VERSION='"$(RL_LIBRARY_VERSION)"'
-CPPFLAGS = 
+CPPFLAGS =
 
 INCLUDES = -I$(srcdir) -I$(top_srcdir) -I..
 

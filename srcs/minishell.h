@@ -62,6 +62,7 @@ typedef struct s_struct
 	char	*limiter;
 	char	*path;
 	int		exit_status;
+	int		is_child;
 }		t_struct;
 
 int	error(t_err raised, t_struct *lst, char *line, int critical);
@@ -70,13 +71,13 @@ char *get_exit_status(t_struct *lst);
 
 char    	**ft_split(char const *s, char c);
 int     	ft_strncmp(const char *s1, const char *s2, size_t n);
-int     	ft_echo(char **cmd_parts, char ***env);
-int     	ft_cd(char **cmd_parts, char ***env);
-int     	ft_pwd(char **cmd_parts, char ***env);
-int     	ft_export(char **cmd_parts, char ***env);
-int     	ft_unset(char **cmd_parts, char ***env);
-int     	ft_env(char **cmd_parts, char ***env);
-int     	ft_exit(char **cmd_parts, char ***env);
+int     	ft_echo(t_struct lst, char **cmd_parts, char ***env);
+int     	ft_cd(t_struct lst, char **cmd_parts, char ***env);
+int     	ft_pwd(t_struct lst, char **cmd_parts, char ***env);
+int     	ft_export(t_struct lst, char **cmd_parts, char ***env);
+int     	ft_unset(t_struct lst, char **cmd_parts, char ***env);
+int     	ft_env(t_struct lst, char **cmd_parts, char ***env);
+int     	ft_exit(t_struct lst, char **cmd_parts, char ***env);
 size_t  	ft_strlen(const char *s);
 void    	ft_putstr_fd(char *s, int fd);
 void    	ft_free(char **cmd_parts);

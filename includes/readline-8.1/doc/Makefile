@@ -168,13 +168,13 @@ readline.0: readline.3
 
 readline_3.ps: $(srcdir)/readline.3
 	${RM} $@
-	${GROFF} -man < $(srcdir)/readline.3 > $@ 
+	${GROFF} -man < $(srcdir)/readline.3 > $@
 
 history.0: history.3
 
 history_3.ps: $(srcdir)/history.3
 	${RM} $@
-	${GROFF} -man < $(srcdir)/history.3 > $@ 
+	${GROFF} -man < $(srcdir)/history.3 > $@
 
 readline.pdf:	$(RLSRC)
 	TEXINPUTS=.:$(TEXINPUTDIR):$$TEXINPUTS $(TEXI2PDF) $(srcdir)/rlman.texi
