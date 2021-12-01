@@ -81,3 +81,13 @@ char	*ft_get_env(char *str, char **env)
 			return (&env[i][ft_strlen(str) + 1]);
 	return (NULL);
 }
+
+char *clean_join(char *s1, char *s2)
+{
+	char *tmp;
+
+	tmp = ft_strjoin(s1, s2);
+	free(s1);
+	free(s2);
+	return (tmp);
+}

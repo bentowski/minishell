@@ -8,6 +8,7 @@ int main(int argc, char **argv, char **env)
 
   (void)argc;
   (void)argv;
+  printf("Welcome to minishell\n");
   signal(SIGINT, handle_sigint);
   signal(SIGQUIT, handle_sigquit);
   end = 0;

@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 13:32:42 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/11/30 15:55:24 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/01 13:30:23 by vgallois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,19 @@ static int get_name_exec(char *str)
 	return (x + 1);
 }*/
 
+static char	*try_relative(char *cmd)
+{
+	char	*dir;
+	char	*tmp;
+
+	dir = ft_pwd_in();
+	tmp = ft_strjoin(dir, "/");
+	free(dir);
+	dir = ft_strjoin(tmp, cmd);
+	return (dir);
+}
+	
+
 static int ft_exec(t_struct lst, char **cmd_parts, char ***env)
 {
 	char *path;
@@ -103,6 +116,8 @@ static int ft_exec(t_struct lst, char **cmd_parts, char ***env)
 	// 	//d'erreurs, pareil si on mets ./nimp ou ../nimp ou .nimp, plus de selection a avoir
 	// 	// path = ft_strjoin(ft_pwd_in(cmd_parts, env), &cmd_parts[0][get_name_exec(cmd_parts[0])]);
 	// }
+	if (!path)
+		path = try_relative(cmd_parts[0]);
 	if (path)
 	{
 		if (lst.here_doc_flag)

@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/28 18:38:04 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/11/30 15:55:01 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/01 13:33:40 by vgallois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ static int test(char **cmd_parts, int x, int ret)
 
 static int	set_limiter(t_struct *lst, char *s)
 {
+	if (!s || *s == '<' || *s == '>')
+		return (1);
 	if (lst->limiter)
 	{
 		printf("set_limiter freed %s\n", lst->limiter);
@@ -44,7 +46,7 @@ static int	set_limiter(t_struct *lst, char *s)
 	}
 	lst->limiter = ft_strdup(s);
 	if (!lst->limiter)
-		return (1);
+		error(MEM_ERR, lst, s, 1);
 	return (0);
 }
 
@@ -65,14 +67,14 @@ static int gestion_file(t_struct *lst, char **cmd_parts)
 				if (!cmd_parts[x][2])
 				{
 					if (set_limiter(lst, cmd_parts[x + 1]))
-						return (error(MEM_ERR, lst, cmd_parts[x + 1], 1));
+						return (error(NO_VAR, lst, cmd_parts[x], 0));
 					ret = test(cmd_parts, x++, ret);
 					lst->here_doc_content = here_doc_read(lst);
 				}
 				else
 				{
 					if (set_limiter(lst, cmd_parts[x] + 2))
-						return (error(MEM_ERR, lst, cmd_parts[x] + 2, 1));
+						return (error(MEM_ERR, lst, cmd_parts[x], 0));
 					ret = test(cmd_parts, x, ret);
 					lst->here_doc_content = here_doc_read(lst);
 				}
