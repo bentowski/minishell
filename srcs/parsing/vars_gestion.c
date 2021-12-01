@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 19:02:45 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/01 13:34:43 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/01 13:47:53 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ static char	*get_new_line(t_struct lst, char *new, char *line, char **vars_name)
 		error(NO_VAR, &lst, NULL, 0);
 		return (NULL);
 	}
-	new = malloc(sizeof(char) * lenght);
+	new = malloc(sizeof(char) * lenght + 1);
 	if (!new)
 		error(MEM_ERR, &lst, NULL, 1);
 	lenght = 0;
@@ -234,7 +234,10 @@ static char	**get_vars_names(char *line, char **vars_name)
 				if (line[x++] == '$')
 				{
 					if (line[x] == '?')
-						vars_name[y] = "?";
+					{
+						vars_name[y][0] = '?';
+						vars_name[y][1] = '\0';
+					}
 					else
 						vars_name[y] = get_vars_names_ii(line, vars_name[y], &x);
 					y++;
@@ -244,7 +247,10 @@ static char	**get_vars_names(char *line, char **vars_name)
 		else if (line[x++] == '$')
 		{
 			if (line[x] == '?')
-				vars_name[y] = "?";
+			{
+				vars_name[y][0] = '?';
+				vars_name[y][1] = '\0';
+			}
 			else
 				vars_name[y] = get_vars_names_ii(line, vars_name[y], &x);
 			y++;
