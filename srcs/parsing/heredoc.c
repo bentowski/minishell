@@ -24,8 +24,8 @@ char *here_doc_read(t_struct *lst)
     char    *tmp;
     char    *tmp2;
 
-    if (lst->here_doc_content)
-        free(lst->here_doc_content);
+    if (!lst->here_doc_content)
+        lst->here_doc_content = ft_strdup("");
     content = ft_strdup("");
     if (!content)
         return (NULL);
@@ -41,10 +41,13 @@ char *here_doc_read(t_struct *lst)
         line = readline("here_doc> ");
     }
     content = var_gestion(*lst, content);
+    tmp = ft_strjoin(lst->here_doc_content, content);
+    free(lst->here_doc_content);
+    lst->here_doc_content = tmp;
     free(line);
     free(lst->limiter);
     lst->limiter = NULL;
-    return (content);
+    return (lst->here_doc_content);
 }
 
 int here_doc_exec(char  *path, t_struct lst, char **cmd_part, char ***env)

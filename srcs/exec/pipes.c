@@ -67,12 +67,14 @@ static int gestion_file(t_struct *lst, char **cmd_parts)
 					if (set_limiter(lst, cmd_parts[x + 1]))
 						return (error(MEM_ERR, lst, cmd_parts[x + 1], 1));
 					ret = test(cmd_parts, x++, ret);
+					lst->here_doc_content = here_doc_read(lst);
 				}
 				else
 				{
 					if (set_limiter(lst, cmd_parts[x] + 2))
 						return (error(MEM_ERR, lst, cmd_parts[x] + 2, 1));
 					ret = test(cmd_parts, x, ret);
+					lst->here_doc_content = here_doc_read(lst);
 				}
 			}
 			else
@@ -148,8 +150,8 @@ static int gestion_file(t_struct *lst, char **cmd_parts)
 
 		x++;
 	}
-	if (lst->here_doc_flag)
-		lst->here_doc_content = here_doc_read(lst);
+//	if (lst->here_doc_flag)
+//		lst->here_doc_content = here_doc_read(lst);
 	if (!cmd_parts[ret])
 		return (-1);
 	return (ret);
