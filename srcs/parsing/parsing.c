@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 12:49:29 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/01 14:45:30 by vgallois         ###   ########.fr       */
+/*   Updated: 2021/12/01 14:51:51 by vgallois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,10 @@ static char	*_add_space(char *s)
 	{
 		if (s[i] == '<' || s[i] == '>')
 		{
-			if (s[i + 1] != '<' && s[i + 1] != '>')
-				res[j++] = ' ';
+			res[j++] = ' ';
 			res[j++] = s[i++];
+			if (s[i] == '<' || s[i] == '>')
+				res[j++] = s[i++];
 		}
 		else if (s[i] == '|')
 		{
@@ -83,6 +84,7 @@ static char	*_add_space(char *s)
 		else
 			res[j++] = s[i++];
 	}
+	printf("%s\n", res);
 	res[j] = 0;
 	free(s);
 	return (res);
