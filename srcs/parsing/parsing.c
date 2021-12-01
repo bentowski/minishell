@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 12:49:29 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/11/30 12:56:19 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/01 14:45:30 by vgallois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,57 @@ static char *pipe_gestion(t_struct lst, char *line)
     return (new);
 }
 
+int	_nb_space(char *s)
+{
+	int	len;
+
+	len = 0;
+	while (*s)
+	{
+		if (*s == '<' || *s == '>')
+			len++;
+		if (*s == '|')
+			len += 2;
+		s++;
+	}
+	return (len);
+}
+
+static char	*_add_space(char *s)
+{
+	char	*res;
+	int		len;
+	int		i;
+	int		j;
+
+	len = _nb_space(s) + ft_strlen(s);
+	res = malloc(sizeof(char) * (len + 1));
+	i = 0;
+	j = 0;
+	while (s[i])
+	{
+		if (s[i] == '<' || s[i] == '>')
+		{
+			if (s[i + 1] != '<' && s[i + 1] != '>')
+				res[j++] = ' ';
+			res[j++] = s[i++];
+		}
+		else if (s[i] == '|')
+		{
+			res[j++] = ' ';
+			res[j++] = s[i++];
+			res[j++] = ' ';
+		}
+		else
+			res[j++] = s[i++];
+	}
+	res[j] = 0;
+	free(s);
+	return (res);
+}
+
+
+
 t_struct ft_parsing(t_struct lst)
 {
     int x;
@@ -54,8 +105,9 @@ t_struct ft_parsing(t_struct lst)
         exit(EXIT_SUCCESS);
     }
     add_history(line);
+	line = _add_space(line);
     line = var_gestion(lst, line);
-    if (!line)
+	if (!line)
         return (lst);
     line = pipe_gestion(lst, line);
     cmds = ft_split(line, '|');
