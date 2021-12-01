@@ -97,8 +97,12 @@ int			str_array_size(char **array);
 int			ft_unsetenv(char ***env, char *name);
 int			ft_setenv(char ***env, char *string);
 int 		do_fork(char **cmd_parts);
+char		*clean_join(char *s1, char *s2);
 char		*v_itoa(int n);
 char		*ft_get_env(char *str, char **env);
+
+/* here_doc */
+
 char 		*here_doc_read(t_struct *lst);
 int 		here_doc_exec(char  *path, t_struct lst, char **cmd_part, char ***env);
 
