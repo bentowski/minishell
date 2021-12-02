@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 13:32:42 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/01 13:30:23 by vgallois         ###   ########.fr       */
+/*   Updated: 2021/12/02 14:28:57 by vgallois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static int get_name_exec(char *str)
 	return (x + 1);
 }*/
 
-static char	*try_relative(char *cmd)
+static char	*_try_relative(char *cmd)
 {
 	char	*dir;
 	char	*tmp;
@@ -91,9 +91,23 @@ static char	*try_relative(char *cmd)
 	tmp = ft_strjoin(dir, "/");
 	free(dir);
 	dir = ft_strjoin(tmp, cmd);
+	if (access(dir, X_OK))
+	{
+		free(dir);
+		return (NULL);
+	}
 	return (dir);
 }
-	
+
+static char	*_try_absolute(char *cmd)
+{
+	char	*res;
+
+	if (access(cmd, X_OK))
+		return (NULL);
+	res = ft_strdup(cmd);
+	return (res);
+}
 
 static int ft_exec(t_struct lst, char **cmd_parts, char ***env)
 {
@@ -117,7 +131,9 @@ static int ft_exec(t_struct lst, char **cmd_parts, char ***env)
 	// 	// path = ft_strjoin(ft_pwd_in(cmd_parts, env), &cmd_parts[0][get_name_exec(cmd_parts[0])]);
 	// }
 	if (!path)
-		path = try_relative(cmd_parts[0]);
+		path = _try_relative(cmd_parts[0]);
+	if (!path)
+		path = _try_absolute(cmd_parts[0]);
 	if (path)
 	{
 		if (lst.here_doc_flag)

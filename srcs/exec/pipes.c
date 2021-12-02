@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/28 18:38:04 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/01 13:33:40 by vgallois         ###   ########.fr       */
+/*   Updated: 2021/12/02 17:25:33 by vgallois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -247,7 +247,7 @@ int	ft_run(t_struct *lst)
 	char	**cmd_parts;
 
 	// lst->cmds->content = third_lecture(lst->cmds->content);
-	cmd_parts = ft_split(lst->cmds->content, ' ');
+	cmd_parts = custom_split(lst->cmds->content);
 	x = gestion_file(lst, cmd_parts);
 	if (x == -1)//free cmd_parts si besoin
 		return (0);

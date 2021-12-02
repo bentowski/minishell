@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/29 14:30:16 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/11/30 13:33:10 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/02 17:19:56 by vgallois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	error(t_err raised, t_struct *lst, char *line, int critical)
 	{
 		lst_free(*lst);
 		rl_clear_history();
-		exit(EXIT_FAILURE);
+		exit(raised);
 	}
 	else
 		return (-1);

@@ -17,6 +17,7 @@ SRC =	srcs/main.c \
 		srcs/errors/errors.c \
 		srcs/exec/gestion_cmds.c \
 		srcs/exec/cmd_part_one.c \
+		srcs/exec/custom_split.c\
 		srcs/exec/pipes.c \
 		srcs/util/free_array.c \
 		srcs/util/array_size.c \

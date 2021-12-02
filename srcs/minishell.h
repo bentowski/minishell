@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 13:34:26 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/11/30 17:27:42 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/02 15:47:32 by vgallois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ int     	select_cmd(t_struct lst, char **cmd_parts);
 int     	ft_run(t_struct *lst);
 t_struct	ft_parsing(t_struct lst);
 void		lst_free(t_struct);
+char		**custom_split(char *s);
 char		*change_line(char *line, int opt);
 void		handle_sigint(int signal);
 void		handle_sigquit(int signal);
