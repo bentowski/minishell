@@ -6,21 +6,21 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 10:25:52 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/11/30 15:54:06 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/02 11:12:14 by vgallois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int do_fork(char **cmd_parts)
+int	do_fork(char **cmd_parts)
 {
-	char	*builtins[6] = {"cd", "pwd", "env", "export", "unset", "exit"};
+	char	*builtin[6] = {"cd", "pwd", "env", "export", "unset", "exit"};
 	int		x;
 
 	x = -1;
 	while (++x < 6)
-		if (ft_strncmp(cmd_parts[0], builtins[x], ft_strlen(builtins[x]) + 1) == 0)
-           return (0);
+		if (!ft_strncmp(cmd_parts[0], builtin[x], ft_strlen(builtin[x]) + 1))
+			return (0);
 	return (1);
 }
 
@@ -64,7 +64,7 @@ char	*v_itoa(int n)
 	return (res);
 }
 
-int ft_max(int i, int x)
+int	ft_max(int i, int x)
 {
 	if (i < x)
 		return (x);
@@ -77,14 +77,15 @@ char	*ft_get_env(char *str, char **env)
 
 	i = -1;
 	while (env[++i])
-		if (ft_strncmp(str, env[i], ft_max((ft_strchr(env[i], '=') - env[i]), ft_strlen(str))) == 0)
+		if (ft_strncmp(str, env[i], ft_max((ft_strchr(env[i], '=') - env[i]),
+					ft_strlen(str))) == 0)
 			return (&env[i][ft_strlen(str) + 1]);
 	return (NULL);
 }
 
-char *clean_join(char *s1, char *s2)
+char	*clean_join(char *s1, char *s2)
 {
-	char *tmp;
+	char	*tmp;
 
 	tmp = ft_strjoin(s1, s2);
 	free(s1);
