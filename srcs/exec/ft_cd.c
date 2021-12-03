@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 17:07:37 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/03 20:32:46 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/03 23:18:01 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ static int	cd_relative(char **cmd_parts, char *buf, size_t len)
 	if (chdir(target) == -1)
 		return (error(MEM_ERR, NULL, NULL, 0));
 	return (0);
-	exit(EXIT_SUCCESS);
 }
 
 static int	cd_part2(t_struct lst, char **cmd_parts, char *buf, size_t len)

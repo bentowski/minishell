@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/29 14:30:16 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/03 17:28:09 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/03 23:25:19 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static t_error	g_errors[] = {
 {MEM_ERR, "Memory allocation failed while parsing shapes." },
 {QUOTE_ERR, "quotes or double quotes not closed." },
 {NO_VAR, "no variables found"},
+{BAD_ARG, "no arguments is supported." },
 {BAD_FILE, "no such file or directory." }
 };
 

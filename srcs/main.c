@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 17:38:31 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/03 20:49:42 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/03 23:25:23 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int	start(t_struct lst)
 				lst.here_doc_content = NULL;
 			}
 		}
-		printf("%s\n", "OKOKKOKOK");
 	}
 	return (ret);
 }
@@ -45,8 +44,9 @@ int	main(int argc, char **argv, char **env)
 	t_struct	lst;
 	int			ret;
 
-	(void)argc;
 	(void)argv;
+	// if (argc > 1)
+	// 	return (error(BAD_ARG, NULL, NULL, 1));
 	printf("Welcome to minishell\n");
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, handle_sigquit);
