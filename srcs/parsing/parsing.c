@@ -39,62 +39,7 @@ static char *pipe_gestion(t_struct lst, char *line)
     return (new);
 }
 
-int	_nb_space(char *s)
-{
-	int	len;
 
-	len = 0;
-	while (*s)
-	{
-		if (*s == '<' || *s == '>')
-			len++;
-		if (*s == '|')
-			len += 2;
-		s++;
-	}
-	return (len);
-}
-
-static char	*_add_space(char *s)
-{
-	char	*res;
-	int		len;
-	int		i;
-	int		j;
-
-	len = _nb_space(s) + ft_strlen(s);
-	res = malloc(sizeof(char) * (len + 1));
-	i = 0;
-	j = 0;
-	while (s[i])
-	{
-		if (s[i] == '"')
-		{
-			res[j++] = s[i++];
-			while (s[i] != '"')
-				res[j++] = s[i++];
-			res[j++] = s[i++];
-		}
-		if (s[i] == '<' || s[i] == '>')
-		{
-			res[j++] = ' ';
-			res[j++] = s[i++];
-			if (s[i] == '<' || s[i] == '>')
-				res[j++] = s[i++];
-		}
-		else if (s[i] == '|')
-		{
-			res[j++] = ' ';
-			res[j++] = s[i++];
-			res[j++] = ' ';
-		}
-		else
-			res[j++] = s[i++];
-	}
-	res[j] = 0;
-	free(s);
-	return (res);
-}
 
 
 

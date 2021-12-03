@@ -84,7 +84,11 @@ void    	ft_free(char **cmd_parts);
 char		*get_path(void *cmd, char ***env);
 int     	select_cmd(t_struct lst, char **cmd_parts);
 int     	ft_run(t_struct *lst);
+
+/* parsing */
+char		*_add_space(char *s);
 t_struct	ft_parsing(t_struct lst);
+
 void		lst_free(t_struct);
 char		**custom_split(char *s);
 char		*change_line(char *line, int opt);
@@ -101,6 +105,7 @@ int 		do_fork(char **cmd_parts);
 char		*clean_join(char *s1, char *s2);
 char		*v_itoa(int n);
 char		*ft_get_env(char *str, char **env);
+char		*third_lecture(char *line);
 
 /* here_doc */
 

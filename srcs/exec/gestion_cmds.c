@@ -30,16 +30,9 @@ static char	*get_path_deux(char **possible, char *end_path)
 		free(ret);
 		x++;
 	}
-	x = 0;
-	// while (i[x])
-	// 	free(i[x++]);
-	// free(i);
-	x = 0;
-		//printf("get_path2 possible %p %s\n", possible, possible[0]);
-
 	return (NULL);
 }
- // a refondre avec ndup(cmds, strchr(space)) au lieu du split s
+
 char	*get_path(void *cmd, char ***env)
 {
 	char	**possible;
@@ -71,16 +64,6 @@ char	*get_path(void *cmd, char ***env)
 	free(i);
 	return (ret);
 }
-/*
-static int get_name_exec(char *str)
-{
-	int x;
-
-	x = ft_strlen(str);
-	while (str[x] != '.')
-		x--;
-	return (x + 1);
-}*/
 
 static char	*_try_relative(char *cmd)
 {
@@ -118,18 +101,6 @@ static int ft_exec(t_struct lst, char **cmd_parts, char ***env)
 	ret = -1;
 	x = 0;
 	path = get_path(cmd_parts[0], env);
-//	printf("ft_exec path %s\n", path);
-	// if (path == NULL)
-	// {
-	// 	// if (!(cmd_parts[0][0] == '.'))
-	// 	// {
-	// 		ft_free(cmd_parts);
-	// 		return (1);
-	// 	// }
-	// 	// attention, si on mets "../philopopo/philosophers" ca ne fonctionne pas et n'affiche pas de msg \
-	// 	//d'erreurs, pareil si on mets ./nimp ou ../nimp ou .nimp, plus de selection a avoir
-	// 	// path = ft_strjoin(ft_pwd_in(cmd_parts, env), &cmd_parts[0][get_name_exec(cmd_parts[0])]);
-	// }
 	if (!path)
 		path = _try_relative(cmd_parts[0]);
 	if (!path)
@@ -141,6 +112,10 @@ static int ft_exec(t_struct lst, char **cmd_parts, char ***env)
 		else
 			ret = execve(path, cmd_parts, *env);
 		free(path);
+	}
+	else
+	{
+		error(BAD_FILE, NULL, cmd_parts[0], 0);
 	}
 	ft_free(cmd_parts);
 	return (ret);

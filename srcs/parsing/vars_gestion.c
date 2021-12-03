@@ -48,7 +48,7 @@ static int	get_new_lenght(t_struct lst, char *line, char **vars_name,
 	return (lenght);
 }
 
-static char *third_lecture(char *line)
+char *third_lecture(char *line)
 {
 	int x;
 	int y;
@@ -106,6 +106,7 @@ static char *third_lecture(char *line)
 			new[y++] = line[x];
 	}
 	new[y] = '\0';
+	free(line);
 	return (new);
 }
 

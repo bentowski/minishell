@@ -149,7 +149,8 @@ static int gestion_file(t_struct *lst, char **cmd_parts)
 				ret = test(cmd_parts, x, ret);
 			}
 		}
-
+		else
+			cmd_parts[x] = third_lecture(cmd_parts[x]);
 		x++;
 	}
 //	if (lst->here_doc_flag)
