@@ -6,28 +6,18 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/29 14:30:16 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/11/30 13:33:10 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/03 17:28:09 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static t_error	g_errors[] =
-{
-	{UKN_ERR, "Unknown error." },
-	{MEM_ERR, "Memory allocation failed while parsing shapes." },
-	{QUOTE_ERR, "quotes or double quotes not closed." },
-	{NO_VAR, "no variables found"},
-	{BAD_FILE, "no such file or directory." }
-	// {NO_CMD, "Invalid call: Incorrect number of arguments." },
-	// {FILE_FRMT, "Invalid file: Use the '.ber' extension." },
-	// {READ_ERR, "Invalid file: cannot read input file." },
-	// {CLOSEMAP_ERR, "Invalid map: unclosed." },
-	// {MAP_CFG, "Invalid map: no regular map" },
-	// {BADCHAR_ERR, "Invalid map: unexpected character detected" },
-	// {NOE_ERR, "Invalid map: no or multiple exit(s) detected" },
-	// {NOP_ERR, "Invalid map: no or multiple player(s) detected" },
-	// {NOC_ERR, "Invalid map: no collectors detected" }
+static t_error	g_errors[] = {
+{UKN_ERR, "Unknown error." },
+{MEM_ERR, "Memory allocation failed while parsing shapes." },
+{QUOTE_ERR, "quotes or double quotes not closed." },
+{NO_VAR, "no variables found"},
+{BAD_FILE, "no such file or directory." }
 };
 
 static	char	*get_error_msg(t_err raised)
@@ -41,15 +31,13 @@ int	error(t_err raised, t_struct *lst, char *line, int critical)
 {
 	char	*msg;
 
-	// if (line)
-	// 	free(line);
 	msg = get_error_msg(raised);
 	printf("%s: %s\n", line, msg);
 	if (critical)
 	{
 		lst_free(*lst);
 		rl_clear_history();
-		exit(EXIT_FAILURE);
+		exit(raised);
 	}
 	else
 		return (-1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vgallois <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vgallois <vgallois@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 11:59:22 by vgallois          #+#    #+#             */
-/*   Updated: 2021/12/01 12:07:31 by vgallois         ###   ########.fr       */
+/*   Updated: 2021/12/03 16:56:20 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	ft_strcmp(const char *s1, const char *s2)
 }
 
 char	*here_doc_read(t_struct *lst)
-{	
+{
 	char	*content;
 	char	*line;
 	char	*tmp;

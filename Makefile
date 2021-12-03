@@ -9,20 +9,22 @@ LIBFT =			libft.a
 LIBFT_DIR = 	./includes/libft
 READLINE_DIR =  ./includes/readline-8.1
 SRC =	srcs/main.c \
-		srcs/ft_free.c \
 		srcs/parsing/parsing.c \
 		srcs/parsing/heredoc.c \
 		srcs/parsing/vars_gestion.c \
-		srcs/parsing/exit_status.c \
+		srcs/parsing/add_space.c \
 		srcs/errors/errors.c \
 		srcs/exec/gestion_cmds.c \
+		srcs/exec/ft_pwd.c \
+		srcs/exec/ft_cd.c \
 		srcs/exec/cmd_part_one.c \
+		srcs/exec/custom_split.c\
 		srcs/exec/pipes.c \
-		srcs/util/free_array.c \
-		srcs/util/array_size.c \
-		srcs/util/utils.c \
-		srcs/env.c \
-		srcs/signals.c
+		srcs/utils/ft_clear.c \
+		srcs/utils/array_size.c \
+		srcs/utils/utils.c \
+		srcs/utils/env.c \
+		srcs/utils/signals.c
 
 SRCS =			$(addprefix $(DIR_SRCS), $(SRC))
 OBJS =			$(SRCS:.c=.o)
@@ -35,7 +37,7 @@ all:			$(NAME)
 $(NAME) :		$(OBJS)
 				@$(MAKE) -C $(LIBFT_DIR) bonus
 				@cp $(LIBFT_DIR)/libft.a libft.a
-				@cd $(READLINE_DIR) && ./configure && cd ../..
+				#@cd $(READLINE_DIR) && ./configure && cd ../..
 				$(MAKE) -C $(READLINE_DIR)
 				@$(CC) $(FLAGS) $(COMPIL) $(NAME)
 

@@ -1,10 +1,21 @@
-#include <unistd.h>
-#include "minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/03 17:21:03 by bbaudry           #+#    #+#             */
+/*   Updated: 2021/12/03 17:22:16 by bbaudry          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-static	char **new_env(char ***env, char *var)
+#include "../minishell.h"
+
+static	char	**new_env(char ***env, char *var)
 {
-	int	i;
-	char **new_env;
+	int		i;
+	char	**new_env;
 
 	i = 0;
 	new_env = malloc(sizeof(char *) * (str_array_size(*env) + 2));
@@ -26,19 +37,6 @@ static	char **new_env(char ***env, char *var)
 	return (new_env);
 }
 
-void	clear_env(char ***env)
-{
-	int	i;
-
-	i = 0;
-	while (env[i] != NULL)
-	{
-		free(env[i]);
-		i++;
-	}
-	free(env);
-}
-
 int	ft_unsetenv(char ***env, char *name)
 {
 	int	i;
@@ -48,7 +46,8 @@ int	ft_unsetenv(char ***env, char *name)
 		return (-1);
 	i = 0;
 	len = ft_strlen(name);
-	while ((*env)[i] && (ft_strncmp((*env)[i], name, len) || (*env)[i][len] != '='))
+	while ((*env)[i] && (ft_strncmp((*env)[i], name, len)
+		|| (*env)[i][len] != '='))
 		i++;
 	if (!(*env)[i])
 		return (0);
@@ -75,7 +74,7 @@ int	ft_setenv(char ***env, char *string)
 		return (-1);
 	ft_strlcpy(name, string, len + 2);
 	i = 0;
-	while ((*env)[i] && (ft_strncmp((*env)[i], name, len + 1) /*|| (*env)[i][len] != '='*/))
+	while ((*env)[i] && (ft_strncmp((*env)[i], name, len + 1)))
 		i++;
 	free(name);
 	if ((*env)[i])
@@ -106,7 +105,7 @@ char	**first_env(char **env)
 		tmp_env[i] = ft_strdup(env[i]);
 		if (!tmp_env[i])
 		{
-			free_array_content((void**)tmp_env);
+			free_array_content((void **)tmp_env);
 			free(tmp_env);
 			return (0);
 		}

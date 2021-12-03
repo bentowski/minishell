@@ -6,27 +6,38 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 19:02:45 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/01 13:47:53 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/03 17:59:31 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include "../errors/errors.h"
 
+static int	_connard(char *s)
+{
+	free(s);
+	return (1);
+}
+
 static int	get_new_lenght(t_struct lst, char *line, char **vars_name,
 	char **env)
 {
 	int	lenght;
 	int	x;
+	char	*tmp;
 
 	x = -1;
 	lenght = 0;
 	while (vars_name[++x])
 	{
-		if (ft_get_env(vars_name[x], env))
-			lenght += ft_strlen(ft_get_env(vars_name[x], env));
-		else if (ft_strncmp(vars_name[x], "?", 2) == 0)
-			return (ft_strlen(get_exit_status(&lst)));
+		tmp = ft_get_env(vars_name[x], env);
+		if (tmp)
+		{
+			lenght += ft_strlen(tmp);
+			free(tmp);
+		}
+		else if (_connard(tmp) && ft_strncmp(vars_name[x], "?", 2) == 0)
+			return (ft_strlen(v_itoa(lst.exit_status)));
 		else
 			return (0);
 	}
@@ -46,67 +57,6 @@ static int	get_new_lenght(t_struct lst, char *line, char **vars_name,
 		x++;
 	}
 	return (lenght);
-}
-
-static char *third_lecture(char *line)
-{
-	int x;
-	int y;
-	int count;
-	char *new;
-
-	x = 0;
-	count = 0;
-	while (line[x])
-	{
-		if (line[x] == 34)
-		{
-			x++;
-			while (line[x] && line[x] != 34)
-			{
-				count++;
-				x++;
-			}
-			if (!line[x])
-				return (NULL);
-			x++;
-		}
-		else if (line[x] == 39)
-		{
-			x++;
-			while (line[x] && line[x] != 39)
-			{
-				count++;
-				x++;
-			}
-			if (!line[x])
-			return (NULL);
-			x++;
-		}
-		else
-		{
-			count++;
-			x++;
-		}
-	}
-	new = malloc(sizeof(char) * (count + 1));
-	if (!new)
-		return (NULL);
-	x = -1;
-	y = 0;
-	while (line[++x])
-	{
-		if (line[x] == 34)
-			while (line[++x] && line[x] != 34)
-				new[y++] = line[x];
-		else if (line[x] == 39)
-			while (line[++x] && line[x] != 39)
-				new[y++] = line[x];
-		else
-			new[y++] = line[x];
-	}
-	new[y] = '\0';
-	return (new);
 }
 
 static char	*get_new_line(t_struct lst, char *new, char *line, char **vars_name)
@@ -144,7 +94,7 @@ static char	*get_new_line(t_struct lst, char *new, char *line, char **vars_name)
 				{
 					i = 0;
 					if (line[x + 1] == '?')
-						tmp2 = get_exit_status(&lst);
+						tmp2 = v_itoa(lst.exit_status);
 					else
 					{
 						tmp = ft_get_env(vars_name[lenght++], *lst.env);
@@ -170,7 +120,7 @@ static char	*get_new_line(t_struct lst, char *new, char *line, char **vars_name)
 			if (line[x + 1] == '?')
 			{
 				x++;
-				tmp2 = get_exit_status(&lst);
+				tmp2 = v_itoa(lst.exit_status);
 			}
 			else
 			{
@@ -239,7 +189,8 @@ static char	**get_vars_names(char *line, char **vars_name)
 						vars_name[y][1] = '\0';
 					}
 					else
-						vars_name[y] = get_vars_names_ii(line, vars_name[y], &x);
+						vars_name[y] = get_vars_names_ii(line,
+							vars_name[y], &x);
 					y++;
 				}
 			}
@@ -372,7 +323,6 @@ char	*var_gestion(t_struct lst, char *line)
 		}
 		vars_tab[nb_vars] = NULL;
 		new_line = tab_filling(lst, line, vars_tab);
-		printf("%s\n", "OK");
 		ft_free(vars_tab);
 		free(line);
 		return (new_line);
