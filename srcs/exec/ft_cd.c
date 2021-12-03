@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 17:07:37 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/03 20:32:46 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/03 23:29:16 by vgallois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,16 @@ static int	cd_relative(char **cmd_parts, char *buf, size_t len)
 		target[x] = buf[x];
 		x++;
 	}
+	target[x] = '/';
 	y = 0;
 	while (cmd_parts[1][y])
 	{
 		target[x + y + 1] = cmd_parts[1][y];
 		y++;
 	}
-	target[x + y] = '\0';
-	if (chdir(target) == -1)
-		return (error(MEM_ERR, NULL, NULL, 0));
+	target[x + y + 1] = '\0';
+	return (chdir(target));
+	printf("relative %d\n%s\n", chdir(target), target);
 	return (0);
 	exit(EXIT_SUCCESS);
 }
@@ -67,8 +68,9 @@ static int	cd_part2(t_struct lst, char **cmd_parts, char *buf, size_t len)
 	{
 		printf("%s : no such file or directory\n", cmd_parts[1]);
 		free(buf);
-		return (error(MEM_ERR, NULL, NULL, 0));
+		return (error(BAD_FILE, NULL, cmd_parts[1], 0));
 	}
+	printf("%d\n%d\n", chdir(cmd_parts[2]), cd_relative(cmd_parts, buf, len));
 	free(buf);
 	if (lst.is_child)
 		exit(0);

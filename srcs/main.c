@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 17:38:31 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/03 20:49:42 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/03 23:08:04 by vgallois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ int	start(t_struct lst)
 				free(lst.here_doc_content);
 				lst.here_doc_content = NULL;
 			}
+			printf("ret:%d\n", ret);
 		}
-		printf("%s\n", "OKOKKOKOK");
 	}
 	return (ret);
 }

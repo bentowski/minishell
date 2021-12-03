@@ -40,5 +40,5 @@ int	error(t_err raised, t_struct *lst, char *line, int critical)
 		exit(raised);
 	}
 	else
-		return (-1);
+		return (raised);
 }
