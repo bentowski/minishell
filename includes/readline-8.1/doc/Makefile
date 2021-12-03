@@ -49,7 +49,7 @@ RM = rm -f
 INSTALL = /usr/bin/install -c
 INSTALL_DATA = ${INSTALL} -m 644
 
-BUILD_DIR = /home/user42/Documents/minishell/includes/readline-8.1
+BUILD_DIR = /mnt/nfs/homes/bbaudry/Documents/github_perso/minishell/includes/readline-8.1
 TEXINPUTDIR = $(srcdir)
 
 MAKEINFO    = LANGUAGE= makeinfo
@@ -168,13 +168,13 @@ readline.0: readline.3
 
 readline_3.ps: $(srcdir)/readline.3
 	${RM} $@
-	${GROFF} -man < $(srcdir)/readline.3 > $@
+	${GROFF} -man < $(srcdir)/readline.3 > $@ 
 
 history.0: history.3
 
 history_3.ps: $(srcdir)/history.3
 	${RM} $@
-	${GROFF} -man < $(srcdir)/history.3 > $@
+	${GROFF} -man < $(srcdir)/history.3 > $@ 
 
 readline.pdf:	$(RLSRC)
 	TEXINPUTS=.:$(TEXINPUTDIR):$$TEXINPUTS $(TEXI2PDF) $(srcdir)/rlman.texi
