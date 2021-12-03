@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 13:34:26 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/03 17:38:28 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/03 23:04:14 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct s_struct
 	int		is_child;
 }		t_struct;
 
+int			check_long_n(char *s);
 int			error(t_err raised, t_struct *lst, char *line, int critical);
 char		*ft_pwd_in();
 char		*get_exit_status(t_struct *lst);

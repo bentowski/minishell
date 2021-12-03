@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 13:34:31 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/03 18:06:23 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/03 23:02:27 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,11 @@ int	ft_echo(t_struct lst, char **cmd_parts, char ***env)
 	if ((cmd_parts[1]))
 	{
 		x = 1;
-		n = ft_strncmp(cmd_parts[1], "-n", 2);
-		if (n == 0)
-			x = 2;
+		while (cmd_parts[x][0] == '-' && check_long_n(&cmd_parts[x][1]))
+		{
+			x++;
+			n = -1;
+		}
 		while (cmd_parts[x])
 		{
 			ft_putstr_fd(cmd_parts[x++], 1);
@@ -32,11 +34,10 @@ int	ft_echo(t_struct lst, char **cmd_parts, char ***env)
 				write(1, " ", 1);
 		}
 	}
-	if (n != 0)
+	if (n != -1)
 		write(1, "\n", 1);
 	if (lst.is_child)
 	{
-		printf("awdwa\n");
 		ft_exit(lst, cmd_parts, env);
 		exit (EXIT_SUCCESS);
 	}

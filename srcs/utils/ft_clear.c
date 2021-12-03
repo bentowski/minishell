@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 17:22:38 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/03 17:23:44 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/03 20:42:46 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,16 @@ void	lst_free(t_struct lst)
 
 	i = 0;
 	tmp = lst.cmds;
+	printf("caca\n");
+	printf("%p\n %s\n", tmp->content, (char*)tmp->content);
 	while (tmp)
 	{
 		fr = tmp->next;
-		free(tmp->content);
+		printf("%p\n %s\n", tmp->content, tmp->content);
+		if (tmp->content)
+		{
+			free(tmp->content);
+		}
 		free(tmp);
 		tmp = fr;
 	}

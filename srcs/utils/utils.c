@@ -6,11 +6,19 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 10:25:52 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/03 17:54:31 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/03 23:03:54 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int check_long_n(char *s)
+{
+	while (s[x])
+		if (s[x++] != 'n')
+			return (0);
+	return (1);
+}
 
 int	do_fork(char **cmd_parts)
 {
