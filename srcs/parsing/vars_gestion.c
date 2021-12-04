@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 19:02:45 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/04 02:54:27 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/04 03:11:54 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,9 +221,13 @@ static char	**malloc_names_ii(t_struct lst, char *line, char **vars_name,
 	if (line[tmpx] == '$')
 	{
 		lenght = 0;
-		if (line[++tmpx] != '?')
-			while (ft_isalnum(line[tmpx++]))
+		tmpx++;
+		if (line[tmpx] != '?')
+			while (ft_isalnum(line[tmpx]))
+			{
+				tmpx++;
 				lenght++;
+			}
 		else
 			lenght++;
 		vars_name[ptry] = malloc(sizeof(char) * (lenght + 1));
@@ -246,6 +250,7 @@ static char	**malloc_names(t_struct lst, char *line, char **vars_name)
 	x[1] = 0;
 	while (line[x[0]])
 	{
+		printf("debut : %d\n", x[0]);
 		if (line[x[0]] == 39)
 			x[0]++;
 		else if (line[x[0]] == 34)
@@ -256,6 +261,7 @@ static char	**malloc_names(t_struct lst, char *line, char **vars_name)
 		}
 		else
 			ret = malloc_names_ii(lst, line, vars_name, &x[0]);
+		printf("fin : %d\n", x[0]);
 	}
 	return (ret);
 }
