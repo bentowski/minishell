@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 17:38:31 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/04 01:19:54 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/04 13:02:14 by benjaminbaudry   ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,6 @@ int	main(int argc, char **argv, char **env)
 	lst.exit_status = 0;
 	ret = start(lst);
 	ft_free(env);
-	rl_clear_history();
+	// rl_clear_history();
 	return (ret);
 }

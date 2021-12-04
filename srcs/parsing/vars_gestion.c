@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 19:02:45 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/04 03:11:54 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/04 13:26:19 by benjaminbaudry   ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	get_new_lenght_ii(char *line, int x, int *lenght)
 			while (line[x] && line[x] != 34)
 			{
 				if (line[x] == '$')
-					while (ft_isalnum(line[++x]))
+					while (ft_isalnum(line[++x]) || line[x] == '_')
 						;
 				else if (line[x++])
 					*lenght = *lenght + 1;
@@ -41,7 +41,7 @@ static void	get_new_lenght_ii(char *line, int x, int *lenght)
 		else
 		{
 			if (line[x] == '$')
-				while (ft_isalnum(line[++x]))
+				while (ft_isalnum(line[++x]) || line[x] == '_')
 					;
 			else if (line[x++])
 				*lenght = *lenght + 1;
@@ -114,7 +114,7 @@ static char	*get_new_line(t_struct lst, char *new, char *line, char **vars_name)
 					if (tmp)
 						while (tmp[i])
 							new[y++] = tmp[i++];
-					while (ft_isalnum(line[x]))
+					while (ft_isalnum(line[x]) || line[x] == '_')
 						x++;
 				}
 				else
@@ -134,7 +134,7 @@ static char	*get_new_line(t_struct lst, char *new, char *line, char **vars_name)
 			else
 			{
 				tmp = ft_get_env(vars_name[lenght++], *lst.env);
-				while (ft_isalnum(line[x]))
+				while (ft_isalnum(line[x]) || line[x] == '_')
 					x++;
 			}
 			if (tmp)
@@ -157,7 +157,7 @@ static char	*get_vars_names_ii(char *line, char *voidline, int *xvalue)
 	x = *xvalue;
 	new = voidline;
 	lenght = 0;
-	while (ft_isalnum(line[x]))
+	while (ft_isalnum(line[x]) || line[x] == '_')
 		new[lenght++] = line[x++];
 	new[lenght] = '\0';
 	*xvalue = x;
