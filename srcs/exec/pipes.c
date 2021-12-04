@@ -6,11 +6,12 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/28 18:38:04 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/04 02:11:42 by vgallois         ###   ########.fr       */
+/*   Updated: 2021/12/04 13:52:27 by benjaminbaudry   ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../minishell.h"
+
 #include "../errors/errors.h"
+#include "../minishell.h"
 
 static int	test(char **cmd_parts, int x, int ret)
 {
@@ -152,7 +153,7 @@ static int	ft_childs(int in, int out, t_struct lst, char **cmd_parts)
 	}
 	else
 	{
-		// waitpid(pid, &x, 0);
+		waitpid(pid, &x, 0);
 		return (1);
 	}
 }
