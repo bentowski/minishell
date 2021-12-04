@@ -75,7 +75,8 @@ static t_filetype	_assign_type(t_token *token, t_filetype prec)
 		token->type = FILE_OUT_APPEND;
 	if (token->type == NONE)
 		token->type = ARG;
-	if (token->type != ARG && token->type == prec)
+	if (token->type != ARG && ((prec == FILE_IN) || (prec = FILE_OUT)
+		|| (prec == FILE_OUT_APPEND) || (prec == HERE_DOC)))
 		token->type = NONE;
 	return (token->type);
 }
