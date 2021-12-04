@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 19:02:45 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/04 01:24:34 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/04 01:43:59 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,23 +23,11 @@ static int	_connard(char *s)
 static int	get_new_lenght(t_struct lst, char *line, char **vars_name,
 	char **env)
 {
-	int	lenght;
-	int	x;
+	int		lenght;
+	int		x;
 	char	*tmp;
 
-	x = -1;
 	lenght = 0;
-	while (vars_name[++x])
-	{
-		tmp = ft_get_env(vars_name[x], env);
-		if (tmp)
-		{
-			lenght += ft_strlen(tmp);
-			free(tmp);
-		}
-		else if (_connard(tmp) && ft_strncmp(vars_name[x], "?", 2) == 0)
-			return (ft_strlen(v_itoa(lst.exit_status)));
-	}
 	x = 0;
 	while (line[x])
 	{
@@ -71,6 +59,18 @@ static int	get_new_lenght(t_struct lst, char *line, char **vars_name,
 				x++;
 			}
 		}
+	}
+	x = -1;
+	while (vars_name[++x])
+	{
+		tmp = ft_get_env(vars_name[x], env);
+		if (tmp)
+		{
+			lenght += ft_strlen(tmp);
+			free(tmp);
+		}
+		else if (_connard(tmp) && ft_strncmp(vars_name[x], "?", 2) == 0)
+			lenght += ft_strlen(v_itoa(lst.exit_status));
 	}
 	return (lenght);
 }
@@ -105,8 +105,11 @@ static char	*get_new_line(t_struct lst, char *new, char *line, char **vars_name)
 				{
 					x++;
 					i = 0;
-					if (line[x] && line[x] == '?')
+					if (line[x] == '?')
+					{
 						tmp = v_itoa(lst.exit_status);
+						x++;
+					}
 					else
 						tmp = ft_get_env(vars_name[lenght++], *lst.env);
 					if (tmp)
@@ -124,8 +127,11 @@ static char	*get_new_line(t_struct lst, char *new, char *line, char **vars_name)
 		{
 			x++;
 			i = 0;
-			if (line[x + 1] == '?')
+			if (line[x] == '?')
+			{
 				tmp = v_itoa(lst.exit_status);
+				x++;
+			}
 			else
 			{
 				tmp = ft_get_env(vars_name[lenght++], *lst.env);

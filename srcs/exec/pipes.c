@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/28 18:38:04 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/04 01:24:00 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/04 01:35:30 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ static int	ft_childs(int in, int out, t_struct lst, char **cmd_parts)
 	}
 	else
 	{
-		waitpid(pid, &x, 0);
+		// waitpid(pid, &x, 0);
 		return (1);
 	}
 }
