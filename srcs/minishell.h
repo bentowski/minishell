@@ -78,7 +78,9 @@ int			ft_run(t_struct *lst);
 
 /* parsing */
 char		*_add_space(char *s);
+void		skip_quote(char *res, char *s, int *x, int *y);
 t_struct	ft_parsing(t_struct lst);
+
 void		lst_free(t_struct lst);
 char		**custom_split(char *s);
 char		*change_line(char *line, int opt);

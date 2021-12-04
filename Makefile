@@ -13,6 +13,7 @@ SRC =	srcs/main.c \
 		srcs/parsing/heredoc.c \
 		srcs/parsing/vars_gestion.c \
 		srcs/parsing/add_space.c \
+		srcs/parsing/add_space2.c \
 		srcs/errors/errors.c \
 		srcs/exec/gestion_cmds.c \
 		srcs/exec/ft_pwd.c \
