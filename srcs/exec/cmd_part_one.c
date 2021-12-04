@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 13:34:31 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/03 23:14:35 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/04 02:49:03 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ int	ft_export(t_struct lst, char **cmd_parts, char ***env)
 		ft_setenv(env, cmd_parts[i]);
 		i++;
 	}
-	ft_env(lst, cmd_parts, env);
 	if (lst.is_child)
 		exit (EXIT_SUCCESS);
 	return (0);

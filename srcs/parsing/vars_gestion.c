@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 19:02:45 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/04 01:43:59 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/04 02:54:27 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,8 @@ static int	_connard(char *s)
 	return (1);
 }
 
-static int	get_new_lenght(t_struct lst, char *line, char **vars_name,
-	char **env)
+static void	get_new_lenght_ii(char *line, int x, int *lenght)
 {
-	int		lenght;
-	int		x;
-	char	*tmp;
-
-	lenght = 0;
-	x = 0;
 	while (line[x])
 	{
 		if (line[x] == 39)
@@ -41,11 +34,8 @@ static int	get_new_lenght(t_struct lst, char *line, char **vars_name,
 				if (line[x] == '$')
 					while (ft_isalnum(line[++x]))
 						;
-				else
-				{
-					lenght++;
-					x++;
-				}
+				else if (line[x++])
+					*lenght = *lenght + 1;
 			}
 		}
 		else
@@ -53,13 +43,22 @@ static int	get_new_lenght(t_struct lst, char *line, char **vars_name,
 			if (line[x] == '$')
 				while (ft_isalnum(line[++x]))
 					;
-			else
-			{
-				lenght++;
-				x++;
-			}
+			else if (line[x++])
+				*lenght = *lenght + 1;
 		}
 	}
+}
+
+static int	get_new_lenght(t_struct lst, char *line, char **vars_name,
+	char **env)
+{
+	int		lenght;
+	int		x;
+	char	*tmp;
+
+	lenght = 0;
+	x = 0;
+	get_new_lenght_ii(line, x, &lenght);
 	x = -1;
 	while (vars_name[++x])
 	{
@@ -190,7 +189,7 @@ static char	**get_vars_names(char *line, char **vars_name)
 					}
 					else
 						vars_name[y] = get_vars_names_ii(line,
-							vars_name[y], &x);
+								vars_name[y], &x);
 					y++;
 				}
 			}
