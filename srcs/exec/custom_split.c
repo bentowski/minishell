@@ -6,7 +6,7 @@
 /*   By: vgallois <vgallois@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 15:17:06 by vgallois          #+#    #+#             */
-/*   Updated: 2021/12/03 17:08:35 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/03 23:57:42 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,11 @@ static int	_get_len_split(char *s)
 			while (s[++i] != '"')
 				;
 		}
+		if (s[i] == '\'')
+		{
+			while (s[++i] != '\'')
+				;
+		}
 		if (s[i] == ' ')
 			n++;
 		i++;
@@ -43,6 +48,11 @@ static int	_find_next_sp(char *s)
 		if (s[i] == '"')
 			while (s[++i] != '"')
 				;
+		if (s[i] == '\'')
+		{
+			while (s[++i] != '\'')
+				;
+		}
 		if (s[i] == ' ')
 			return (i);
 		i++;

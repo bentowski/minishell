@@ -84,10 +84,12 @@ int	ft_unset(t_struct lst, char **cmd_parts, char ***env)
 
 int	ft_exit(t_struct lst, char **cmd_parts, char ***env)
 {
+	if (cmd_parts[1])
+		lst.exit_status = ft_atoi(cmd_parts[1]);
 	ft_free(cmd_parts);
 	ft_free(*env);
 	rl_clear_history();
 	if (!lst.is_child)
 		printf("Bye bye 😎\n");
-	exit(EXIT_SUCCESS);
+	exit(lst.exit_status);
 }

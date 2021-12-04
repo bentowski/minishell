@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 19:02:45 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/03 17:59:31 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/04 01:19:33 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 
 static int	_connard(char *s)
 {
-	free(s);
+	if (s)
+		free(s);
 	return (1);
 }
 
@@ -38,8 +39,6 @@ static int	get_new_lenght(t_struct lst, char *line, char **vars_name,
 		}
 		else if (_connard(tmp) && ft_strncmp(vars_name[x], "?", 2) == 0)
 			return (ft_strlen(v_itoa(lst.exit_status)));
-		else
-			return (0);
 	}
 	x = 0;
 	while (line[x])
@@ -48,13 +47,30 @@ static int	get_new_lenght(t_struct lst, char *line, char **vars_name,
 			x++;
 		else if (line[x] == 34)
 		{
-			while (line[++x] && line[x] != 34)
-				lenght++;
 			x++;
+			while (line[x] && line[x] != 34)
+			{
+				if (line[x] == '$')
+					while (ft_isalnum(line[++x]))
+						;
+				else
+				{
+					lenght++;
+					x++;
+				}
+			}
 		}
 		else
-			lenght++;
-		x++;
+		{
+			if (line[x] == '$')
+				while (ft_isalnum(line[++x]))
+					;
+			else
+			{
+				lenght++;
+				x++;
+			}
+		}
 	}
 	return (lenght);
 }
@@ -62,7 +78,6 @@ static int	get_new_lenght(t_struct lst, char *line, char **vars_name,
 static char	*get_new_line(t_struct lst, char *new, char *line, char **vars_name)
 {
 	char	*tmp;
-	char	*tmp2;
 	int		x;
 	int		y;
 	int		i;
@@ -70,14 +85,14 @@ static char	*get_new_line(t_struct lst, char *new, char *line, char **vars_name)
 
 	x = 0;
 	y = 0;
-	tmp2 = NULL;
 	lenght = get_new_lenght(lst, line, vars_name, *lst.env);
+
 	if (!lenght)
 	{
 		error(NO_VAR, &lst, NULL, 0);
 		return (NULL);
 	}
-	new = malloc(sizeof(char) * lenght + 1);
+	new = malloc(sizeof(char) * (lenght + 1));
 	if (!new)
 		error(MEM_ERR, &lst, NULL, 1);
 	lenght = 0;
@@ -85,27 +100,22 @@ static char	*get_new_line(t_struct lst, char *new, char *line, char **vars_name)
 	{
 		if (line[x] == 39)
 			x++;
-		if (line[x] == 34)
+		else if (line[x] == 34)
 		{
 			x++;
 			while (line[x] && line[x] != 34)
 			{
 				if (line[x] == '$')
 				{
-					i = 0;
-					if (line[x + 1] == '?')
-						tmp2 = v_itoa(lst.exit_status);
-					else
-					{
-						tmp = ft_get_env(vars_name[lenght++], *lst.env);
-						tmp2 = third_lecture(tmp);
-					}
-					if (tmp2)
-					{
-						while (tmp2[i])
-							new[y++] = tmp2[i++];
-					}
 					x++;
+					i = 0;
+					if (line[x] && line[x] == '?')
+						tmp = v_itoa(lst.exit_status);
+					else
+						tmp = ft_get_env(vars_name[lenght++], *lst.env);
+					if (tmp)
+						while (tmp[i])
+							new[y++] = tmp[i++];
 					while (ft_isalnum(line[x]))
 						x++;
 				}
@@ -116,34 +126,22 @@ static char	*get_new_line(t_struct lst, char *new, char *line, char **vars_name)
 		}
 		else if (line[x] == '$')
 		{
+			x++;
 			i = 0;
 			if (line[x + 1] == '?')
-			{
-				x++;
-				tmp2 = v_itoa(lst.exit_status);
-			}
+				tmp = v_itoa(lst.exit_status);
 			else
 			{
 				tmp = ft_get_env(vars_name[lenght++], *lst.env);
-				tmp2 = third_lecture(tmp);
-				x++;
 				while (ft_isalnum(line[x]))
 					x++;
 			}
-			x++;
-			if (tmp2)
-			{
-				while (tmp2[i])
-					new[y++] = tmp2[i++];
-			}
+			if (tmp)
+				while (tmp[i])
+					new[y++] = tmp[i++];
 		}
 		else
 			new[y++] = line[x++];
-		if (tmp2)
-		{
-			free(tmp2);
-			tmp2 = NULL;
-		}
 	}
 	new[y] = '\0';
 	return (new);

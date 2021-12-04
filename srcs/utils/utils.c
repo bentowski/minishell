@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 10:25:52 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/03 23:10:48 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/04 01:17:35 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ char	*ft_get_env(char *str, char **env)
 	{
 		x = ft_strchr(env[i], '=') - env[i];
 		y = ft_strlen(str);
-		if (x > y)
+		if (x < y)
 			x = y;
 		if (ft_strncmp(str, env[i], x) == 0)
 			return (ft_strdup(&env[i][ft_strlen(str) + 1]));

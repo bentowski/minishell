@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 17:38:31 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/03 23:25:23 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/04 01:19:54 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int	main(int argc, char **argv, char **env)
 	int			ret;
 
 	(void)argv;
+	(void)argc;
 	// if (argc > 1)
 	// 	return (error(BAD_ARG, NULL, NULL, 1));
 	printf("Welcome to minishell\n");

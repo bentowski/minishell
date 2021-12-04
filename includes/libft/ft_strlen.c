@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 09:43:35 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/07/30 23:13:50 by user42           ###   ########.fr       */
+/*   Updated: 2021/12/04 00:15:00 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ size_t	ft_strlen(const char *s)
 {
 	size_t	x;
 
+	if (!s)
+		return (0);
 	x = 0;
 	while (*s)
 	{
