@@ -49,7 +49,7 @@ RM = rm -f
 INSTALL = /usr/bin/install -c
 INSTALL_DATA = ${INSTALL} -m 644
 
-BUILD_DIR = /mnt/nfs/homes/vgallois/goinfre/minishell/includes/readline-8.1
+BUILD_DIR = /mnt/nfs/homes/vgallois/Desktop/gitgud/minishell/includes/readline-8.1
 TEXINPUTDIR = $(srcdir)
 
 MAKEINFO    = LANGUAGE= makeinfo

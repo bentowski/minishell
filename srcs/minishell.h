@@ -38,6 +38,36 @@ typedef enum e_err
 	BAD_FILE
 }		t_err;
 
+typedef enum	e_filetype
+{
+	NONE,
+	ARG,
+	FILE_IN,
+	HERE_DOC,
+	FILE_OUT,
+	FILE_OUT_APPEND,
+	OPEN_FILE,
+	LIMITER,
+	OUT_FILE,
+	OUT_FILE_APPEND
+}	t_filetype;
+
+typedef struct s_token
+{
+	char			*word;
+	t_filetype		type;
+	struct s_token	*next;
+}	t_token;
+
+typedef struct s_cmd_line
+{
+	char				*line;
+	t_token				*token;
+	struct s_cmd_line	*next;
+	char				**arg;
+	int					file[2];
+}	t_cmd_line;
+
 typedef struct s_error
 {
 	t_err	u_id;
@@ -77,9 +107,20 @@ int			select_cmd(t_struct lst, char **cmd_parts);
 int			ft_run(t_struct *lst);
 
 /* parsing */
-char		*_add_space(char *s);
+char		*add_space(char *s);
 void		skip_quote(char *res, char *s, int *x, int *y);
 t_struct	ft_parsing(t_struct lst);
+
+/* cmd_line utils */
+t_cmd_line	*new_cmd_line(void);
+t_cmd_line	*del_one_cmd_line(t_cmd_line *cmd_line);
+void		del_cmd_list(t_cmd_line **cmd);
+
+/* token utils */
+t_token		*new_token(void);
+t_token		*del_one_token(t_token *token);
+void		del_token_list(t_token **token);
+int			create_token(t_cmd_line *cmd);
 
 void		lst_free(t_struct lst);
 char		**custom_split(char *s);

@@ -32,7 +32,7 @@ datadir = ${datarootdir}
 
 top_srcdir = ..
 #BUILD_DIR = .
-BUILD_DIR = /mnt/nfs/homes/vgallois/goinfre/minishell/includes/readline-8.1
+BUILD_DIR = /mnt/nfs/homes/vgallois/Desktop/gitgud/minishell/includes/readline-8.1
 installdir = $(datadir)/readline
 
 INSTALL = /usr/bin/install -c

@@ -74,7 +74,7 @@ static void	_pipes(char *res, char *s, int *x, int *y)
 	*y = j;
 }
 
-char	*_add_space(char *s)
+char	*add_space(char *s)
 {
 	char	*res;
 	int		len;
