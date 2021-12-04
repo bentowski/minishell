@@ -117,6 +117,8 @@ char	*third_lecture(char *line)
 	int		count;
 	char	*new;
 
+	if (!line)
+		return (ft_strdup(""));
 	x = 0;
 	count = 0;
 	while (line[x])

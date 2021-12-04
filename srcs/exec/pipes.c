@@ -101,7 +101,7 @@ static int	gestion_file(t_struct *lst, char **cmd_parts)
 		}
 		else
 		{
-
+			cmd_parts[x] = var_gestion(*lst, cmd_parts[x]);
 			cmd_parts[x] = third_lecture(cmd_parts[x]);
 		}
 		x++;
@@ -187,6 +187,7 @@ static int	ft_pipes(int n, int x, t_struct lst, char **cmd_parts)
 	dup2(in, 0);
 	dup2(lst.cmds->file[1], 1);
 	ft_lstclear(&ptr, free);
+	lst.cmds = NULL;
 	ret = select_cmd(lst, &cmd_parts[x]);
 	return (ret);
 }
@@ -205,7 +206,13 @@ int	ft_run(t_struct *lst)
 		ft_free(cmd_parts);
 		return (0);
 	}
+	//int i=0;
+	// while (cmd_parts[i])
+	// {
+	// 	printf("%s\n", cmd_parts[i++]);
+	// }
 	lst->is_child = 0;
+	//printf("%d\n", x);
 	if (cmd_count(lst->cmds) > 1 || do_fork(&cmd_parts[x]))
 	{
 		pid = fork();

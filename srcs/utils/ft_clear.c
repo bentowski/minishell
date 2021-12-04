@@ -74,4 +74,5 @@ void	lst_free(t_struct lst)
 		free(tmp);
 		tmp = fr;
 	}
+	lst.cmds = NULL;
 }

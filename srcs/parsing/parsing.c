@@ -55,7 +55,7 @@ t_struct	ft_parsing(t_struct lst)
 	}
 	add_history(line);
 	line = _add_space(line);
-	line = var_gestion(lst, line);
+//	line = var_gestion(lst, line);
 	if (!line)
 		return (lst);
 	line = pipe_gestion(lst, line);
