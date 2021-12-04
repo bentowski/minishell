@@ -28,7 +28,7 @@ static int	_nb_space(char *s)
 	return (len);
 }
 
-static void	_skip_quote(char *res, char *s, int *x, int *y)
+static void	_skip_doublequote(char *res, char *s, int *x, int *y)
 {
 	int	i;
 	int	j;
@@ -90,7 +90,9 @@ char	*_add_space(char *s)
 	while (s[i])
 	{
 		if (s[i] == '"')
-			_skip_quote(res, s, &i, &j);
+			_skip_doublequote(res, s, &i, &j);
+		else if (s[i] == '\'')
+			skip_quote(res, s, &i, &j);
 		else if (s[i] == '<' || s[i] == '>')
 			_redir(res, s, &i, &j);
 		else if (s[i] == '|')

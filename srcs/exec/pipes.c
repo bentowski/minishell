@@ -6,10 +6,9 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/28 18:38:04 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/04 01:35:30 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/04 02:11:42 by vgallois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "../minishell.h"
 #include "../errors/errors.h"
 
@@ -59,9 +58,9 @@ static int	gestion_file(t_struct *lst, char **cmd_parts)
 	{
 		if (cmd_parts[x][0] == '<')
 		{
-			cmd_parts[x + 1] = third_lecture(cmd_parts[x + 1]);
 			if (cmd_parts[x][1] == '<')
 			{
+				cmd_parts[x + 1] = third_lecture(cmd_parts[x + 1]);
 				lst->here_doc_flag = 1;
 				if (set_limiter(lst, cmd_parts[x + 1]))
 					return (error(NO_VAR, lst, cmd_parts[x], 0));
@@ -70,6 +69,8 @@ static int	gestion_file(t_struct *lst, char **cmd_parts)
 			}
 			else
 			{
+				cmd_parts[x + 1] = var_gestion(*lst, cmd_parts[x + 1]);
+				cmd_parts[x + 1] = third_lecture(cmd_parts[x + 1]);
 				lst->here_doc_flag = 0;
 				lst->cmds->file[0] = open(cmd_parts[x + 1], O_RDONLY);
 				if (lst->cmds->file[0] < 0)
@@ -79,6 +80,7 @@ static int	gestion_file(t_struct *lst, char **cmd_parts)
 		}
 		else if (cmd_parts[x][0] == '>')
 		{
+			cmd_parts[x + 1] = var_gestion(*lst, cmd_parts[x + 1]);
 			cmd_parts[x + 1] = third_lecture(cmd_parts[x + 1]);
 			if (cmd_parts[x][1] == '>')
 			{
@@ -98,7 +100,10 @@ static int	gestion_file(t_struct *lst, char **cmd_parts)
 			}
 		}
 		else
+		{
+
 			cmd_parts[x] = third_lecture(cmd_parts[x]);
+		}
 		x++;
 	}
 	if (!cmd_parts[ret])
