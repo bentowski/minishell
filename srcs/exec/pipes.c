@@ -6,11 +6,12 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/28 18:38:04 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/04 02:11:42 by vgallois         ###   ########.fr       */
+/*   Updated: 2021/12/04 14:57:43 by benjaminbaudry   ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../minishell.h"
+
 #include "../errors/errors.h"
+#include "../minishell.h"
 
 static int	test(char **cmd_parts, int x, int ret)
 {
@@ -69,6 +70,7 @@ static int	gestion_file(t_struct *lst, char **cmd_parts)
 			}
 			else
 			{
+				printf("%s\n", "OK");
 				cmd_parts[x + 1] = var_gestion(*lst, cmd_parts[x + 1]);
 				cmd_parts[x + 1] = third_lecture(cmd_parts[x + 1]);
 				lst->here_doc_flag = 0;
@@ -152,7 +154,7 @@ static int	ft_childs(int in, int out, t_struct lst, char **cmd_parts)
 	}
 	else
 	{
-		// waitpid(pid, &x, 0);
+		waitpid(pid, &x, 0);
 		return (1);
 	}
 }

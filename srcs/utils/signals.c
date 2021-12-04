@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 17:43:15 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/03 17:44:49 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/04 13:57:27 by benjaminbaudry   ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	handle_sigint(int signal)
 	(void)signal;
 	write(1, "\n", 1);
 	rl_on_new_line();
-	rl_replace_line("", 0);
+	// rl_replace_line("", 0);
 	rl_redisplay();
 }
 
