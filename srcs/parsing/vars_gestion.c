@@ -250,7 +250,6 @@ static char	**malloc_names(t_struct lst, char *line, char **vars_name)
 	x[1] = 0;
 	while (line[x[0]])
 	{
-		printf("debut : %d\n", x[0]);
 		if (line[x[0]] == 39)
 			x[0]++;
 		else if (line[x[0]] == 34)
@@ -261,7 +260,6 @@ static char	**malloc_names(t_struct lst, char *line, char **vars_name)
 		}
 		else
 			ret = malloc_names_ii(lst, line, vars_name, &x[0]);
-		printf("fin : %d\n", x[0]);
 	}
 	return (ret);
 }
@@ -308,6 +306,27 @@ static int	var_count(t_struct lst, char *line)
 	return (ret);
 }
 
+char	*_etoile_etoile(char *etoile)
+{
+	char	**etoile_etoile;
+	char	*etoile_filante;
+	int		star;
+
+	etoile_etoile = custom_split(etoile);
+	etoile_filante = ft_strdup("");
+	star = 0;
+	while (etoile_etoile[star])
+	{
+		etoile_filante = clean_join(etoile_filante, etoile_etoile[star]);
+		star++;
+		if (etoile_etoile[star])
+			etoile_filante = clean_join(etoile_filante, ft_strdup(" "));
+	}
+	free(etoile_etoile);
+	free(etoile);
+	return (etoile_filante);
+}
+
 char	*var_gestion(t_struct lst, char *line)
 {
 	char	*new_line;
@@ -330,6 +349,7 @@ char	*var_gestion(t_struct lst, char *line)
 		new_line = tab_filling(lst, line, vars_tab);
 		ft_free(vars_tab);
 		free(line);
+		new_line = _etoile_etoile(new_line);
 		return (new_line);
 	}
 	return (line);

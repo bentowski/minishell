@@ -206,7 +206,7 @@ int	ft_run(t_struct *lst)
 		ft_free(cmd_parts);
 		return (0);
 	}
-	//int i=0;
+	// int i=0;
 	// while (cmd_parts[i])
 	// {
 	// 	printf("%s\n", cmd_parts[i++]);
