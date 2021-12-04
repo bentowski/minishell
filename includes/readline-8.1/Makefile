@@ -31,7 +31,7 @@ PACKAGE_TARNAME = readline
 srcdir = .
 
 top_srcdir = .
-BUILD_DIR = /Users/benjaminbaudry/Documents/minishell/includes/readline-8.1
+BUILD_DIR = /mnt/nfs/homes/vgallois/Desktop/gitgud/minishell/includes/readline-8.1
 
 INSTALL = /usr/bin/install -c
 INSTALL_PROGRAM = ${INSTALL}

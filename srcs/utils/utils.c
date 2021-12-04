@@ -23,11 +23,15 @@ int check_long_n(char *s)
 	return (1);
 }
 
-int	do_fork(char **cmd_parts)
+int	do_fork(t_cmd_line *cmd)
 {
+	t_token	*tmp;
 	char	*builtin[6];
 	int		x;
 
+	tmp = cmd->token;
+	while (tmp && !tmp->word)
+		tmp = tmp->next;
 	builtin[0] = "cd";
 	builtin[1] = "pwd";
 	builtin[2] = "env";
@@ -36,7 +40,7 @@ int	do_fork(char **cmd_parts)
 	builtin[5] = "exit";
 	x = -1;
 	while (++x < 6)
-		if (!ft_strncmp(cmd_parts[0], builtin[x], ft_strlen(builtin[x]) + 1))
+		if (!ft_strncmp(tmp->word, builtin[x], ft_strlen(builtin[x]) + 1))
 			return (0);
 	return (1);
 }

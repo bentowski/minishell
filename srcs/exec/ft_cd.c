@@ -69,7 +69,7 @@ static int	cd_part2(t_struct lst, char **cmd_parts, char *buf, size_t len)
 	}
 	free(buf);
 	if (lst.is_child)
-		exit(0);
+		ft_exit(lst, cmd_parts, lst.env);
 	return (0);
 }
 

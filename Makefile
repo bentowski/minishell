@@ -38,14 +38,14 @@ all:			$(NAME)
 				@echo "Compiled "$(NAME)" successfully!"
 
 $(NAME) :		$(OBJS)
-				@$(MAKE) -C $(LIBFT_DIR) bonus
-				@cp $(LIBFT_DIR)/libft.a libft.a
-				@cd $(READLINE_DIR) && ./configure && cd ../..
+				$(MAKE) -C $(LIBFT_DIR) bonus
+				cp $(LIBFT_DIR)/libft.a libft.a
+				#cd $(READLINE_DIR) && ./configure && cd ../..
 				$(MAKE) -C $(READLINE_DIR)
-				@$(CC) $(FLAGS) $(COMPIL) $(NAME)
+				$(CC) $(FLAGS) $(COMPIL) $(NAME)
 
 %.o: %.c
-				@$(CC) $(FLAGS) -c $< -o $@
+				$(CC) $(FLAGS) -c $< -o $@
 				@echo "Compiled "$<" successfully!"
 
 clean:

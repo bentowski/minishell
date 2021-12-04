@@ -13,32 +13,32 @@
 #include "../minishell.h"
 #include "../errors/errors.h"
 
-static char	*pipe_gestion(t_struct lst, char *line)
-{
-	char	*new;
-	int		x;
-	int		y;
+// static char	*pipe_gestion(t_struct lst, char *line)
+// {
+// 	char	*new;
+// 	int		x;
+// 	int		y;
 
-	new = malloc(sizeof(char) * (ft_strlen(line) + 1));
-	if (!new)
-		error(MEM_ERR, &lst, NULL, 1);
-	x = 0;
-	y = 0;
-	while (line[x])
-	{
-		if (line[x + 1] && line[x + 1] == '|')
-		{
-			x++;
-			new[y++] = line[x++];
-			x++;
-		}
-		else
-			new[y++] = line[x++];
-	}
-	new[y] = '\0';
-	free(line);
-	return (new);
-}
+// 	new = malloc(sizeof(char) * (ft_strlen(line) + 1));
+// 	if (!new)
+// 		error(MEM_ERR, &lst, NULL, 1);
+// 	x = 0;
+// 	y = 0;
+// 	while (line[x])
+// 	{
+// 		if (line[x + 1] && line[x + 1] == '|')
+// 		{
+// 			x++;
+// 			new[y++] = line[x++];
+// 			x++;
+// 		}
+// 		else
+// 			new[y++] = line[x++];
+// 	}
+// 	new[y] = '\0';
+// 	free(line);
+// 	return (new);
+// }
 
 int	find_c(char c, char *s)
 {
@@ -80,7 +80,7 @@ static t_cmd_line	*_create_cmd_lines(char *line)
 	return (start);
 }
 
-void	testcmd(t_cmd_line *cmd)
+static void	testcmd(t_cmd_line *cmd)
 {
 	t_token	*token;
 	if (!cmd)
@@ -111,18 +111,20 @@ t_struct	ft_parsing(t_struct lst)
 		exit(EXIT_SUCCESS);
 	}
 	add_history(line);
-	line = add_space(line);
+	line = add_space(line);//check que les ' et " sont fermees
 //	line = var_gestion(lst, line);
 	if (!line)
 		return (lst);
-	line = pipe_gestion(lst, line);
+	//line = pipe_gestion(lst, line);
 	cmds = ft_split(line, '|');
 	cmd_line = _create_cmd_lines(line);
 	free(line);
 	create_token(cmd_line);
 	testcmd(cmd_line);
-	del_cmd_list(&cmd_line);
+	//del_cmd_list(&cmd_line);
+	printf("%p\n", cmd_line);
 	x = -1;
+	lst.cmd_line = cmd_line;
 	while (cmds[++x])
 		ft_lstadd_back(&lst.cmds, ft_lstnew(cmds[x], 0, 1));
 	ft_free(cmds);

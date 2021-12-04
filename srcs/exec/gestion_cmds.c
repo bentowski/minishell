@@ -68,29 +68,29 @@ static int	ft_exec(t_struct lst, char **cmd_parts, char ***env)
 	return (ret);
 }
 
-int	select_cmd(t_struct lst, char **cmd_parts)
+int	select_cmd(t_struct lst, t_cmd_line *cmd)
 {
 	char	*bltin[8] = {"echo", "cd", "pwd", "export", "unset", "env", "exit"};
 	int		(*functions[7])(t_struct lst, char **cmd_parts, char ***env);
 	int		x;
 	int		len;
 
+	cmd->arg = token_join(cmd->token);
 	functions[0] = ft_echo;
 	functions[1] = ft_cd;
 	functions[2] = ft_pwd;
 	functions[3] = ft_export;
 	functions[4] = ft_unset;
 	functions[5] = ft_env;
-	functions[6] = ft_exit;
+	functions[6] = ft_exit_bi;
 	x = -1;
 	while (bltin[++x])
 	{
-		if (ft_strncmp(cmd_parts[0], bltin[x], ft_strlen(bltin[x]) + 1) == 0)
+		if (ft_strncmp(cmd->arg[0], bltin[x], ft_strlen(bltin[x]) + 1) == 0)
 		{
-			len = (*functions[x])(lst, cmd_parts, lst.env);
-			ft_free(cmd_parts);
+			len = (*functions[x])(lst, cmd->arg, lst.env);
 			return (len);
 		}
 	}
-	return (ft_exec(lst, cmd_parts, lst.env));
+	return (ft_exec(lst, cmd->arg, lst.env));
 }

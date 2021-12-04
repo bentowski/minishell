@@ -12,6 +12,8 @@ t_cmd_line	*new_cmd_line(void)
 	new->arg = NULL;
 	new->file[0] = 0;
 	new->file[1] = 1;
+	new->here_doc_content = NULL;
+	new->here_doc_flag = 0;
 	new->next = NULL;
 	return (new);
 }
@@ -33,8 +35,11 @@ t_cmd_line	*del_one_cmd_line(t_cmd_line *cmd_line)
 		del_token_list(&cmd_line->token);
 	cmd_line->token = NULL;
 	if (cmd_line->arg)
-		ft_free(cmd_line->arg);
+		free(cmd_line->arg);
+	if (cmd_line->here_doc_content)
+		free(cmd_line->here_doc_content);
 	free(cmd_line);
+	cmd_line = NULL;
 	return (next);
 }
 

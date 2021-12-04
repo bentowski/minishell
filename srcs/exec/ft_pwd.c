@@ -55,6 +55,6 @@ int	ft_pwd(t_struct lst, char **cmd_parts, char ***env)
 	write(1, "\n", 1);
 	free(buf);
 	if (lst.is_child)
-		exit (EXIT_SUCCESS);
+		ft_exit(lst, cmd_parts, lst.env);
 	return (0);
 }

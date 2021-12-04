@@ -18,7 +18,8 @@ static t_error	g_errors[] = {
 {QUOTE_ERR, "quotes or double quotes not closed." },
 {NO_VAR, "no variables found"},
 {BAD_ARG, "no arguments is supported." },
-{BAD_FILE, "no such file or directory." }
+{BAD_FILE, "no such file or directory." },
+{TOO_MUCH, "too many arguments"}
 };
 
 static	char	*get_error_msg(t_err raised)
@@ -33,7 +34,7 @@ int	error(t_err raised, t_struct *lst, char *line, int critical)
 	char	*msg;
 
 	msg = get_error_msg(raised);
-	printf("%s: %s\n", line, msg);
+	printf("minishell: %s: %s\n", line, msg);
 	if (critical)
 	{
 		lst_free(*lst);

@@ -22,7 +22,7 @@ int	start(t_struct lst)
 	{
 		lst = ft_parsing(lst);
 		lst.here_doc_flag = 0;
-		if (lst.cmds)
+		if (lst.cmd_line)
 		{
 			ret = ft_run(&lst);
 			if (ret == -1)
@@ -34,6 +34,8 @@ int	start(t_struct lst)
 				free(lst.here_doc_content);
 				lst.here_doc_content = NULL;
 			}
+			if (lst.cmd_line)
+				del_cmd_list(&lst.cmd_line);
 		}
 	}
 	return (ret);

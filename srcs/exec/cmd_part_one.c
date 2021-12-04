@@ -47,7 +47,7 @@ int	ft_env(t_struct lst, char **cmd_parts, char ***env)
 	while ((*env)[i])
 		printf("%s\n", (*env)[i++]);
 	if (lst.is_child)
-		exit (EXIT_SUCCESS);
+		ft_exit(lst, cmd_parts, env);
 	return (0);
 }
 
@@ -64,7 +64,7 @@ int	ft_export(t_struct lst, char **cmd_parts, char ***env)
 		i++;
 	}
 	if (lst.is_child)
-		exit (EXIT_SUCCESS);
+		ft_exit(lst, cmd_parts, env);
 	return (0);
 }
 
@@ -79,17 +79,44 @@ int	ft_unset(t_struct lst, char **cmd_parts, char ***env)
 		i++;
 	}
 	if (lst.is_child)
-		exit (EXIT_SUCCESS);
+		ft_exit(lst, cmd_parts, env);
 	return (0);
 }
 
 int	ft_exit(t_struct lst, char **cmd_parts, char ***env)
 {
-	if (cmd_parts[1])
-		lst.exit_status = ft_atoi(cmd_parts[1]);
-	ft_free(cmd_parts);
 	ft_free(*env);
-	// rl_clear_history();
+	rl_clear_history();
+	del_cmd_list(&lst.cmd_line);
+	(void)cmd_parts;
+	exit(lst.exit_status);
+}
+
+int	non_num_found(char *s)
+{
+	int	i;
+
+	i = -1;
+	while (s[++i])
+		if (!ft_isdigit(s[i]))
+			return (1);
+	return (0);
+}
+
+int	ft_exit_bi(t_struct lst, char **cmd_parts, char ***env)//gerer les erreurs
+{
+	if (cmd_parts[2])
+		return (error(TOO_MUCH, NULL, cmd_parts[0], 0));
+	else if (cmd_parts[1])
+	{
+		if (non_num_found(cmd_parts[1]))
+			lst.exit_status = error(NON_NUM_FOUND, NULL, cmd_parts[1], 0);
+		else
+			lst.exit_status = ft_atoi(cmd_parts[1]);
+	}
+	del_cmd_list(&lst.cmd_line);
+	ft_free(*env);
+	rl_clear_history();
 	if (!lst.is_child)
 		printf("Bye bye 😎\n");
 	exit(lst.exit_status);

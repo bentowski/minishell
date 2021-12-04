@@ -121,3 +121,34 @@ int	create_token(t_cmd_line *cmd)
 	tab = NULL;
 	return (create_token(cmd->next));
 }
+
+static int	_token_count(t_token *token)
+{
+	if (!token)
+		return (0);
+	if (token->word)
+		return (_token_count(token->next) + 1);
+	else
+		return (_token_count(token->next));
+}
+
+char	**token_join(t_token *token)
+{
+	int		len;
+	char	**res;
+	t_token	*tmp;
+	int		i;
+
+	len = _token_count(token);
+	res = malloc(sizeof(char *) * (len + 1));
+	tmp = token;
+	i = 0;
+	while (tmp)
+	{
+		if (tmp->word)
+			res[i++] = tmp->word;
+		tmp = tmp->next;
+	}
+	res[i] = NULL;
+	return (res);
+}

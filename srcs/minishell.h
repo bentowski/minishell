@@ -35,7 +35,9 @@ typedef enum e_err
 	QUOTE_ERR,
 	NO_VAR,
 	BAD_ARG,
-	BAD_FILE
+	BAD_FILE,
+	TOO_MUCH,
+	NON_NUM_FOUND
 }		t_err;
 
 typedef enum	e_filetype
@@ -66,6 +68,10 @@ typedef struct s_cmd_line
 	struct s_cmd_line	*next;
 	char				**arg;
 	int					file[2];
+	int					here_doc_flag;
+	char				*here_doc_content;
+	char				*limiter;
+	int					expanded;
 }	t_cmd_line;
 
 typedef struct s_error
@@ -77,6 +83,7 @@ typedef struct s_error
 typedef struct s_struct
 {
 	t_list	*cmds;
+	t_cmd_line	*cmd_line;
 	char	***env;
 	int		here_doc_flag;
 	char	*here_doc_content;
@@ -98,12 +105,13 @@ int			ft_pwd(t_struct lst, char **cmd_parts, char ***env);
 int			ft_export(t_struct lst, char **cmd_parts, char ***env);
 int			ft_unset(t_struct lst, char **cmd_parts, char ***env);
 int			ft_env(t_struct lst, char **cmd_parts, char ***env);
+int			ft_exit_bi(t_struct lst, char **cmd_parts, char ***env);
 int			ft_exit(t_struct lst, char **cmd_parts, char ***env);
 size_t		ft_strlen(const char *s);
 void		ft_putstr_fd(char *s, int fd);
 void		ft_free(char **cmd_parts);
 char		*get_path(void *cmd, char ***env);
-int			select_cmd(t_struct lst, char **cmd_parts);
+int			select_cmd(t_struct lst, t_cmd_line *cmd);
 int			ft_run(t_struct *lst);
 
 /* parsing */
@@ -115,12 +123,15 @@ t_struct	ft_parsing(t_struct lst);
 t_cmd_line	*new_cmd_line(void);
 t_cmd_line	*del_one_cmd_line(t_cmd_line *cmd_line);
 void		del_cmd_list(t_cmd_line **cmd);
+char		**token_join(t_token *token);
 
 /* token utils */
 t_token		*new_token(void);
 t_token		*del_one_token(t_token *token);
 void		del_token_list(t_token **token);
 int			create_token(t_cmd_line *cmd);
+t_token		*remove_word_token(t_token *token);
+
 
 void		lst_free(t_struct lst);
 char		**custom_split(char *s);
@@ -134,7 +145,7 @@ void		clear_env(char ***env);
 int			str_array_size(char **array);
 int			ft_unsetenv(char ***env, char *name);
 int			ft_setenv(char ***env, char *string);
-int			do_fork(char **cmd_parts);
+int			do_fork(t_cmd_line *cmd);
 char		*clean_join(char *s1, char *s2);
 char		*v_itoa(int n);
 char		*ft_get_env(char *str, char **env);
