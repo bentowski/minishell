@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/28 18:38:04 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/04 13:52:27 by benjaminbaudry   ###   ########.fr       */
+/*   Updated: 2021/12/04 14:57:43 by benjaminbaudry   ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ static int	gestion_file(t_struct *lst, char **cmd_parts)
 			}
 			else
 			{
+				printf("%s\n", "OK");
 				cmd_parts[x + 1] = var_gestion(*lst, cmd_parts[x + 1]);
 				cmd_parts[x + 1] = third_lecture(cmd_parts[x + 1]);
 				lst->here_doc_flag = 0;
