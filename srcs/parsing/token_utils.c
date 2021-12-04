@@ -39,6 +39,18 @@ void	del_token_list(t_token **token)
 	*token =NULL;
 }
 
+t_token	*remove_word_token(t_token *token)
+{
+	if (!token)
+		return (NULL);
+	if (token->word)
+	{
+		free(token->word);
+		token->word = NULL;
+	}
+	return (token);
+}
+
 static void	_add_token_back(t_token **lst, t_token *new)
 {
 	t_token	*tmp;
@@ -75,8 +87,10 @@ static t_filetype	_assign_type(t_token *token, t_filetype prec)
 		token->type = FILE_OUT_APPEND;
 	if (token->type == NONE)
 		token->type = ARG;
-	if (token->type != ARG && ((prec == FILE_IN) || (prec = FILE_OUT)
-		|| (prec == FILE_OUT_APPEND) || (prec == HERE_DOC)))
+	if ((prec == FILE_IN && token->type != OPEN_FILE)
+		|| (prec == FILE_OUT && token->type != OUT_FILE)
+		|| (prec == FILE_OUT_APPEND && token->type !=OUT_FILE_APPEND)
+		|| (prec == HERE_DOC && token->type != LIMITER))
 		token->type = NONE;
 	return (token->type);
 }
@@ -98,8 +112,9 @@ int	create_token(t_cmd_line *cmd)
 		new = new_token();
 		new->word = tab[i++];
 		prec = _assign_type(new, prec);
+		printf("%s %d %d\n", new->word, new->type, prec);
 		if (prec == NONE)
-			exit(printf("caca\n"));//mettre error parsing
+			exit(printf("caca %s \n", new->word));//mettre error parsing
 		_add_token_back(&cmd->token, new);
 	}
 	free(tab);// ne pas free les tab[i] psk ils sont stockes dans les token
