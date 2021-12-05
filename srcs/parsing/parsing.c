@@ -120,8 +120,7 @@ t_struct	ft_parsing(t_struct lst)
 	cmd_line = _create_cmd_lines(line);
 	free(line);
 	create_token(cmd_line);
-	testcmd(cmd_line);
-	//del_cmd_list(&cmd_line);
+
 	printf("%p\n", cmd_line);
 	x = -1;
 	lst.cmd_line = cmd_line;

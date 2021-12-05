@@ -29,31 +29,35 @@ static int	ft_strcmp(const char *s1, const char *s2)
 	return (s1[i] - s2[i]);
 }
 
-char	*here_doc_read(t_struct *lst)
+char	*here_doc_read(t_struct *lst, t_cmd_line *cmd)
 {
 	char	*content;
 	char	*line;
 	char	*tmp;
 
-	if (!lst->here_doc_content)
-		lst->here_doc_content = ft_strdup("");
+	if (!cmd->here_doc_content)
+	{
+		free(cmd->here_doc_content);
+		cmd->here_doc_content = NULL;
+	}
 	content = ft_strdup("");
-	if (!content)
+	if (!content || !cmd->limiter)
 		return (NULL);
 	line = readline("here_doc> ");
-	while (ft_strcmp(line, lst->limiter))
+	while (ft_strcmp(line, cmd->limiter))
 	{
 		tmp = ft_strjoin(line, "\n");
 		content = clean_join(content, tmp);
 		free(line);
 		line = readline("here_doc> ");
 	}
-	content = var_gestion(*lst, content);
-	lst->here_doc_content = clean_join(lst->here_doc_content, content);
+	if (!cmd->expanded)
+		content = var_gestion(*lst, content);
 	free(line);
-	free(lst->limiter);
-	lst->limiter = NULL;
-	return (lst->here_doc_content);
+	free(cmd->limiter);
+	cmd->limiter = NULL;
+	cmd->here_doc_content = content;
+	return (tmp);
 }
 
 int	here_doc_exec(char *path, t_struct lst, char **cmd_part, char ***env)
@@ -78,4 +82,43 @@ int	here_doc_exec(char *path, t_struct lst, char **cmd_part, char ***env)
 		dup2(fd[0], 0);
 		return (execve(path, cmd_part, *env));
 	}
+}
+
+int	_found_quote(char *s)
+{
+	int	i;
+
+	i = -1;
+	while (s[++i])
+		if (s[i] == '"' || s[i] == '\'')
+			return (1);
+	return (0);
+}
+
+int	here_doc_checker(t_struct *lst)
+{
+	t_cmd_line	*tmp;
+	t_token		*token;
+
+	tmp = lst->cmd_line;
+	while (tmp)
+	{
+		token = tmp->token;
+		while (token)
+		{
+			if (token->type == HERE_DOC)
+				token = remove_word_token(token);
+			else if (token->type == LIMITER)
+			{
+				tmp->limiter = ft_strdup(token->word);
+				tmp->expanded = _found_quote(tmp->limiter);
+				tmp->limiter = third_lecture(tmp->limiter);
+				if (!here_doc_read(lst, tmp))
+					return (1);
+			}
+			token = token->next;
+		}
+		tmp = tmp->next;
+	}
+	return (0);
 }

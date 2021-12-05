@@ -126,7 +126,6 @@ static int	gestion_file(t_struct *lst, t_cmd_line *cmd, t_token *token)
 	else 
 	{
 		token->word = var_gestion(*lst, token->word);
-		printf("var gestion done\n");
 		token->word = third_lecture(token->word);
 		if (token->type == OPEN_FILE)
 		{
@@ -153,7 +152,15 @@ static int	gestion_file(t_struct *lst, t_cmd_line *cmd, t_token *token)
 				return (error(BAD_FILE, NULL, token->word, 0));
 		}
 		if (token->type == OPEN_FILE || token->type == OUT_FILE || token->type == OUT_FILE_APPEND)
+		{
+			cmd->here_doc_flag = 0;
 			token = remove_word_token(token);
+		}
+		else if (token->type == LIMITER)
+		{
+			token = remove_word_token(token);
+			cmd->here_doc_flag = 1;
+		}
 	}
 	return (gestion_file(lst, cmd, next));
 }
@@ -234,45 +241,14 @@ static int	ft_pipes(int n, t_struct lst)
 	return (ret);
 }
 
-static void	testcmd(t_cmd_line *cmd)
-{
-	t_token	*token;
-	if (!cmd)
-		return ;
-	printf("cmd: %s\n", cmd->line);
-	token = cmd->token;
-	while (token)
-	{
-		printf("token: %s %d\n", token->word, token->type);
-		token = token->next;
-	}
-	testcmd(cmd->next);
-}
-
-
 int	ft_run(t_struct *lst)
 {
 	int		ret;
 	int		pid;
-	int		x;
-	char	**cmd_parts;
 
-	printf("enter run\n");
-	//check_heredoc(lst->cmd_line);
-	x = gestion_file(lst, lst->cmd_line, lst->cmd_line->token);
-	printf("gestion file done\n");
-	testcmd(lst->cmd_line);//mettre un clean_token?
-	cmd_parts = custom_split(lst->cmds->content);
-	if (x == -1)
-	{
-		ft_free(cmd_parts);
-		return (0);
-	}
-	//int i=0;
-	// while (cmd_parts[i])
-	// {
-	// 	printf("%s\n", cmd_parts[i++]);
-	// }
+	here_doc_checker(lst);
+	gestion_file(lst, lst->cmd_line, lst->cmd_line->token);
+	//testcmd(lst->cmd_line);//mettre un clean_token?
 	lst->is_child = 0;
 	//printf("%d\n", x);
 	if (cmd_count(lst->cmd_line) > 1 || do_fork(lst->cmd_line))
@@ -285,7 +261,6 @@ int	ft_run(t_struct *lst)
 		}
 		else
 		{
-			ft_free(cmd_parts);
 			waitpid(pid, &ret, 0);
 			if (WIFEXITED(ret))
 				ret = (((ret) & 0xff00) >> 8);

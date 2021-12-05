@@ -153,8 +153,8 @@ char		*third_lecture(char *line);
 
 /* here_doc */
 
-char		*here_doc_read(t_struct *lst);
-int			here_doc_exec(char *path, t_struct lst, char **cmd_part,
-				char ***env);
+char		*here_doc_read(t_struct *lst, t_cmd_line *cmd);
+int			here_doc_exec(char *path, t_struct lst, char **cmd_part, char ***env);
+int			here_doc_checker(t_struct *lst);
 
 #endif
