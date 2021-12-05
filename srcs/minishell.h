@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 13:34:26 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/05 02:34:59 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/05 02:55:00 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ typedef enum e_err
 	BAD_FILE,
 	TOO_MUCH,
 	LON_PIPE,
-	NON_NUM_FOUND
+	NON_NUM_FOUND,
+	NO_ALPH
 }		t_err;
 
 typedef enum	e_filetype
@@ -119,6 +120,7 @@ int			ft_env(t_struct lst, char **cmd_parts, char ***env);
 /* === exit === */
 int			ft_exit_bi(t_struct lst, char **cmd_parts, char ***env);
 int			ft_exit(t_struct lst, char **cmd_parts, char ***env);
+int			non_num_found(char *s);
 
 
 /* ========= Clear ========= */
