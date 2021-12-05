@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 13:34:31 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/05 02:54:47 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/05 03:04:59 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,18 @@ int	ft_unset(t_struct lst, char **cmd_parts, char ***env)
 	return (0);
 }
 
-int	ft_exit_bi(t_struct lst, char **cmd_parts, char ***env)
+int	non_num_found(char *s)
+{
+	int	i;
+
+	i = -1;
+	while (s[++i])
+		if (!ft_isdigit(s[i]))
+			return (1);
+	return (0);
+}
+
+int	ft_exit_bi(t_struct lst, char **cmd_parts, char ***env)//gerer les erreurs
 {
 	if (cmd_parts[2])
 		return (error(TOO_MUCH, NULL, cmd_parts[0], 0));

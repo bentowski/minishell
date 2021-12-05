@@ -63,7 +63,7 @@ static int	ft_exec(t_struct lst, char **cmd_parts, char ***env)
 	}
 	else
 	{
-		error(BAD_FILE, NULL, cmd_parts[0], 0);
+		error(BAD_FILE, &lst, cmd_parts[0], 0);
 	}
 	return (ret);
 }

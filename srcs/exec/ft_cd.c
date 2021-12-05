@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 17:07:37 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/05 03:01:16 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/05 03:04:23 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static int	cd_base(t_struct lst)
 		ret = chdir(new);
 	else
 		ret = chdir("/");
+	free(new);
 	return (ret);
 }
 
@@ -48,7 +49,9 @@ static int	cd_relative(char **cmd_parts, char *buf, size_t len)
 		y++;
 	}
 	target[x + y + 1] = '\0';
-	return (chdir(target));
+	x = chdir(target);
+	free(target);
+	return (x);
 }
 
 static int	cd_part2(t_struct lst, char **cmd_parts, char *buf, size_t len)
@@ -56,15 +59,15 @@ static int	cd_part2(t_struct lst, char **cmd_parts, char *buf, size_t len)
 	if (cmd_parts[1] == NULL)
 	{
 		if (cd_base(lst))
-			return (error(MEM_ERR, NULL, NULL, 0));
+			return (error(MEM_ERR, &lst, NULL, 0));
 	}
 	else if (cmd_parts[2] != NULL)
-		return (error(MEM_ERR, NULL, NULL, 0));
+		return (error(MEM_ERR, &lst, NULL, 0));
 	else if ((chdir(cmd_parts[1]) == -1)
 		&& (cd_relative(cmd_parts, buf, len) == -1))
 	{
 		free(buf);
-		return (error(BAD_FILE, NULL, cmd_parts[1], 0));
+		return (error(BAD_FILE, &lst, cmd_parts[1], 0));
 	}
 	free(buf);
 	if (lst.is_child)
@@ -72,23 +75,40 @@ static int	cd_part2(t_struct lst, char **cmd_parts, char *buf, size_t len)
 	return (0);
 }
 
+static void	_set_old_env(char ***env, char *s)
+{
+	char	*tmp;
+
+	tmp = ft_strdup("OLDPWD=");
+	s = clean_join(tmp, s);
+	ft_setenv(env, s);
+	free(s);
+}
+
 int	ft_cd(t_struct lst, char **cmd_parts, char ***env)
 {
 	char	*buf;
 	size_t	len;
+	int		ret;
+	char	*oldpwd;
 
-	(void)env;
+	oldpwd = ft_pwd_in();
 	len = 1;
 	buf = malloc(len * sizeof(char));
 	if (!buf)
-		return (error(MEM_ERR, NULL, NULL, 0));
+		return (error(MEM_ERR, &lst, NULL, 0));
 	while (getcwd(buf, len) == NULL)
 	{
 		free(buf);
 		len++;
 		buf = malloc(len * sizeof(char));
 		if (!buf)
-			return (error(MEM_ERR, NULL, NULL, 0));
+			return (error(MEM_ERR, &lst, NULL, 0));
 	}
-	return (cd_part2(lst, cmd_parts, buf, len));
+	ret = cd_part2(lst, cmd_parts, buf, len);
+	if (!ret)
+		_set_old_env(env, oldpwd);
+	else
+		free(oldpwd);
+	return (ret);
 }
