@@ -185,7 +185,7 @@ char	**token_join(t_token *token)
 	i = 0;
 	while (tmp)
 	{
-		if (tmp->word)
+		if (tmp->type == ARG)
 			res[i++] = tmp->word;
 		tmp = tmp->next;
 	}
