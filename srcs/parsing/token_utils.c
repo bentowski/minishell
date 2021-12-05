@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   token_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/05 02:26:40 by bbaudry           #+#    #+#             */
+/*   Updated: 2021/12/05 02:26:40 by bbaudry          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 t_token	*new_token(void)
@@ -113,7 +125,7 @@ int	create_token(t_cmd_line *cmd)
 		new->word = tab[i++];
 		prec = _assign_type(new, prec);
 		if (prec == NONE)
-			exit(printf("caca %s \n", new->word));//mettre error parsing
+			exit(printf("caca %s \n", new->word));//mettre error parsing < <file
 		_add_token_back(&cmd->token, new);
 	}
 	free(tab);// ne pas free les tab[i] psk ils sont stockes dans les token

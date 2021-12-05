@@ -83,15 +83,6 @@ int	ft_unset(t_struct lst, char **cmd_parts, char ***env)
 	return (0);
 }
 
-int	ft_exit(t_struct lst, char **cmd_parts, char ***env)
-{
-	ft_free(*env);
-	rl_clear_history();
-	del_cmd_list(&lst.cmd_line);
-	(void)cmd_parts;
-	exit(lst.exit_status);
-}
-
 int	non_num_found(char *s)
 {
 	int	i;

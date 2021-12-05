@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 13:34:26 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/04 01:33:30 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/05 02:27:31 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef enum e_err
 	BAD_ARG,
 	BAD_FILE,
 	TOO_MUCH,
+	LON_PIPE,
 	NON_NUM_FOUND
 }		t_err;
 
@@ -93,68 +94,102 @@ typedef struct s_struct
 	int		is_child;
 }		t_struct;
 
+
+/* ========= Builtins ========= */
+/* === echo === */
 int			check_long_n(char *s);
-int			error(t_err raised, t_struct *lst, char *line, int critical);
-char		*ft_pwd_in(void);
-char		*get_exit_status(t_struct *lst);
-char		**ft_split(char const *s, char c);
-int			ft_strncmp(const char *s1, const char *s2, size_t n);
 int			ft_echo(t_struct lst, char **cmd_parts, char ***env);
-int			ft_cd(t_struct lst, char **cmd_parts, char ***env);
+
+/* === pwd === */
 int			ft_pwd(t_struct lst, char **cmd_parts, char ***env);
-int			ft_export(t_struct lst, char **cmd_parts, char ***env);
+char		*ft_pwd_in(void);
+
+/* === cd === */
+int			ft_cd(t_struct lst, char **cmd_parts, char ***env);
+
+/* === unset === */
 int			ft_unset(t_struct lst, char **cmd_parts, char ***env);
+
+/* === export === */
+int			ft_export(t_struct lst, char **cmd_parts, char ***env);
+
+/* === env === */
 int			ft_env(t_struct lst, char **cmd_parts, char ***env);
+
+/* === exit === */
 int			ft_exit_bi(t_struct lst, char **cmd_parts, char ***env);
 int			ft_exit(t_struct lst, char **cmd_parts, char ***env);
-size_t		ft_strlen(const char *s);
-void		ft_putstr_fd(char *s, int fd);
+
+
+/* ========= Clear ========= */
+void		lst_free(t_struct lst);
+void		free_array_content(void **array);
 void		ft_free(char **cmd_parts);
-char		*get_path(void *cmd, char ***env);
+
+
+/* ========= Errors ========= */
+int			error(t_err raised, t_struct *lst, char *line, int critical);
+char		*v_itoa(int n);
+void		ft_putstr_fd(char *s, int fd);
+
+
+/* ========= Env ========= */
+int			ft_setenv(char ***env, char *string);
+int			ft_unsetenv(char ***env, char *name);
+int			str_array_size(char **array);
+char		*ft_get_env(char *str, char **env);
+char		**first_env(char **env);
+void		clear_env(char ***env);
+
+/* ========= Parsing ========= */
+int			check_pipes_good(t_struct *lst, char *line);
+int			ft_parsing(t_struct *lst);
+int			check_pipes_good(t_struct *lst, char *line);
+char		*add_space(t_struct lst, char *s);
+char		*get_exit_status(t_struct *lst);
+char		*third_lecture(char *line);
+char		*var_gestion(t_struct lst, char *line);
+void		skip_quote(char *res, char *s, int *x, int *y);
+
+
+/* ========= Run ========= */
+int			do_fork(t_cmd_line *cmd);
 int			select_cmd(t_struct lst, t_cmd_line *cmd);
 int			ft_run(t_struct *lst);
-
-/* parsing */
-char		*add_space(char *s);
-void		skip_quote(char *res, char *s, int *x, int *y);
-t_struct	ft_parsing(t_struct lst);
-
-/* cmd_line utils */
-t_cmd_line	*new_cmd_line(void);
-t_cmd_line	*del_one_cmd_line(t_cmd_line *cmd_line);
-void		del_cmd_list(t_cmd_line **cmd);
-char		**token_join(t_token *token);
-
-/* token utils */
-t_token		*new_token(void);
-t_token		*del_one_token(t_token *token);
-void		del_token_list(t_token **token);
-int			create_token(t_cmd_line *cmd);
-t_token		*remove_word_token(t_token *token);
+char		*get_path(void *cmd, char ***env);
 
 
-void		lst_free(t_struct lst);
-char		**custom_split(char *s);
-char		*change_line(char *line, int opt);
+/* ========= Signaux ========= */
 void		handle_sigint(int signal);
 void		handle_sigquit(int signal);
-char		*var_gestion(t_struct lst, char *line);
-char		**first_env(char **env);
-void		free_array_content(void **array);
-void		clear_env(char ***env);
-int			str_array_size(char **array);
-int			ft_unsetenv(char ***env, char *name);
-int			ft_setenv(char ***env, char *string);
-int			do_fork(t_cmd_line *cmd);
-char		*clean_join(char *s1, char *s2);
-char		*v_itoa(int n);
-char		*ft_get_env(char *str, char **env);
-char		*third_lecture(char *line);
+
+
+/* ========= OTHER ========= */
+/* cmd_line utils */
+char		**token_join(t_token *token);
+void		del_cmd_list(t_cmd_line **cmd);
+t_cmd_line	*new_cmd_line(void);
+t_cmd_line	*del_one_cmd_line(t_cmd_line *cmd_line);
+
+/* token utils */
+int			create_token(t_cmd_line *cmd);
+void		del_token_list(t_token **token);
+t_token		*new_token(void);
+t_token		*del_one_token(t_token *token);
+t_token		*remove_word_token(t_token *token);
 
 /* here_doc */
-
-char		*here_doc_read(t_struct *lst, t_cmd_line *cmd);
-int			here_doc_exec(char *path, t_struct lst, char **cmd_part, char ***env);
 int			here_doc_checker(t_struct *lst);
+int			here_doc_exec(char *path, t_struct lst, char **cmd_part,
+	char ***env);
+char		*here_doc_read(t_struct *lst, t_cmd_line *cmd);
+
+/* pseudo libft */
+int			ft_strncmp(const char *s1, const char *s2, size_t n);
+char		**custom_split(char *s);
+char		*change_line(char *line, int opt);
+char		*clean_join(char *s1, char *s2);
+char		**ft_split(char const *s, char c);
+size_t		ft_strlen(const char *s);
 
 #endif

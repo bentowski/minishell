@@ -10,6 +10,7 @@ LIBFT_DIR = 	./includes/libft
 READLINE_DIR =  ./includes/readline-8.1
 SRC =	srcs/main.c \
 		srcs/parsing/parsing.c \
+		srcs/parsing/parse_utils.c \
 		srcs/parsing/heredoc.c \
 		srcs/parsing/vars_gestion.c \
 		srcs/parsing/add_space.c \
@@ -40,7 +41,7 @@ all:			$(NAME)
 $(NAME) :		$(OBJS)
 				$(MAKE) -C $(LIBFT_DIR) bonus
 				cp $(LIBFT_DIR)/libft.a libft.a
-				#cd $(READLINE_DIR) && ./configure && cd ../..
+				# cd $(READLINE_DIR) && ./configure && cd ../..
 				$(MAKE) -C $(READLINE_DIR)
 				$(CC) $(FLAGS) $(COMPIL) $(NAME)
 
