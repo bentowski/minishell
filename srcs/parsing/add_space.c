@@ -6,7 +6,7 @@
 /*   By: vgallois <vgallois@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 14:14:44 by vgallois          #+#    #+#             */
-/*   Updated: 2021/12/03 16:22:22 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/05 01:14:32 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static void	_pipes(char *res, char *s, int *x, int *y)
 	*y = j;
 }
 
-char	*add_space(char *s)
+char	*add_space(t_struct lst, char *s)
 {
 	char	*res;
 	int		len;
@@ -84,7 +84,10 @@ char	*add_space(char *s)
 	len = _nb_space(s) + ft_strlen(s);
 	res = malloc(sizeof(char) * (len + 1));
 	if (!res)
+	{
+		error(MEM_ERR, &lst, NULL, 0);
 		return (NULL);
+	}
 	i = 0;
 	j = 0;
 	while (s[i])

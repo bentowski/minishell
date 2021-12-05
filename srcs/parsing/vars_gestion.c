@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 19:02:45 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/04 13:26:19 by benjaminbaudry   ###   ########.fr       */
+/*   Updated: 2021/12/05 02:01:42 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,7 @@ static char	*get_new_line(t_struct lst, char *new, char *line, char **vars_name)
 			new[y++] = line[x++];
 	}
 	new[y] = '\0';
+	free(tmp);
 	return (new);
 }
 

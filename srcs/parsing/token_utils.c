@@ -114,7 +114,7 @@ int	create_token(t_cmd_line *cmd)
 		prec = _assign_type(new, prec);
 		printf("%s %d %d\n", new->word, new->type, prec);
 		if (prec == NONE)
-			exit(printf("caca %s \n", new->word));//mettre error parsing
+			exit(printf("caca %s \n", new->word));//mettre error parsing < <file
 		_add_token_back(&cmd->token, new);
 	}
 	free(tab);// ne pas free les tab[i] psk ils sont stockes dans les token

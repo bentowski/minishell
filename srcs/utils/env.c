@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 17:21:03 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/03 17:22:16 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/05 00:32:09 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,9 @@ int	ft_setenv(char ***env, char *string)
 	{
 		free((*env)[i]);
 		(*env)[i] = ft_strdup(string);
-		if (!(*env)[i])
-			return (-1);
-		return (0);
 	}
-	(*env) = new_env(env, string);
+	else
+		(*env) = new_env(env, string);
 	if (!(*env))
 		return (-1);
 	return (0);

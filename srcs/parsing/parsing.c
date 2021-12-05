@@ -6,39 +6,11 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 12:49:29 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/03 17:32:56 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/05 02:05:59 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include "../errors/errors.h"
-
-// static char	*pipe_gestion(t_struct lst, char *line)
-// {
-// 	char	*new;
-// 	int		x;
-// 	int		y;
-
-// 	new = malloc(sizeof(char) * (ft_strlen(line) + 1));
-// 	if (!new)
-// 		error(MEM_ERR, &lst, NULL, 1);
-// 	x = 0;
-// 	y = 0;
-// 	while (line[x])
-// 	{
-// 		if (line[x + 1] && line[x + 1] == '|')
-// 		{
-// 			x++;
-// 			new[y++] = line[x++];
-// 			x++;
-// 		}
-// 		else
-// 			new[y++] = line[x++];
-// 	}
-// 	new[y] = '\0';
-// 	free(line);
-// 	return (new);
-// }
 
 int	find_c(char c, char *s)
 {
@@ -72,7 +44,7 @@ static t_cmd_line	*_create_cmd_lines(char *line)
 	if (!line || !*line)
 		return (NULL);
 	if (*line == '|')
-		line++;//check si *line == 0
+		line++;
 	len = find_c('|', line);
 	start = new_cmd_line();
 	start->line = _dup_to_pipe(line, len);
@@ -83,6 +55,7 @@ static t_cmd_line	*_create_cmd_lines(char *line)
 static void	testcmd(t_cmd_line *cmd)
 {
 	t_token	*token;
+
 	if (!cmd)
 		return ;
 	printf("cmd: %s\n", cmd->line);
@@ -95,38 +68,30 @@ static void	testcmd(t_cmd_line *cmd)
 	testcmd(cmd->next);
 }
 
-t_struct	ft_parsing(t_struct lst)
+int	ft_parsing(t_struct *lst)
 {
-	int		x;
-	char	*line;
-	char	**cmds;
-	t_cmd_line *cmd_line;
+	int			x;
+	char		*line;
+	t_cmd_line	*cmd_line;
 
-
-	lst.cmds = NULL;
-	line = readline("minishell $>");
+	lst->cmds = NULL;
+	line = readline("minishell$> ");
 	if (!line)
-	{
-		ft_free(*lst.env);
-		exit(EXIT_SUCCESS);
-	}
+		ft_exit(*lst, NULL, lst->env);
 	add_history(line);
-	line = add_space(line);//check que les ' et " sont fermees
-//	line = var_gestion(lst, line);
+	x = check_pipes_good(lst, line);
+	if (x)
+	{
+		free(line);
+		return (x);
+	}
+	line = add_space(*lst, line);
 	if (!line)
-		return (lst);
-	//line = pipe_gestion(lst, line);
-	cmds = ft_split(line, '|');
+		return (x);
 	cmd_line = _create_cmd_lines(line);
 	free(line);
 	create_token(cmd_line);
 	testcmd(cmd_line);
-	//del_cmd_list(&cmd_line);
-	printf("%p\n", cmd_line);
-	x = -1;
-	lst.cmd_line = cmd_line;
-	while (cmds[++x])
-		ft_lstadd_back(&lst.cmds, ft_lstnew(cmds[x], 0, 1));
-	ft_free(cmds);
-	return (lst);
+	lst->cmd_line = cmd_line;
+	return (0);
 }
