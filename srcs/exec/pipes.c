@@ -81,65 +81,175 @@ static int	cmd_count(t_cmd_line *cmds)
 	return (x);
 }
 
-static int	ft_childs(int in, int out, t_struct lst, t_cmd_line *cmd_line)
+void	close_all(t_cmd_line *cmd)
 {
-	pid_t	pid;
-	int		x;
+	t_cmd_line	*tmp;
 
-	x = 0;
-	if (cmd_line->file[1] != 1)
-		out = cmd_line->file[1];
-	pid = fork();
-	if (pid == 0)
+	tmp = cmd;
+	while (tmp)
 	{
-		if (in != 0)
-		{
-			dup2(in, 0);
-			close(in);
-		}
-		if (out != 1)
-		{
-			dup2(out, 1);
-			close(out);
-		}
-		select_cmd(lst, cmd_line);
-		exit(EXIT_SUCCESS);
-	}
-	else
-	{
-		waitpid(pid, &x, 0);
-		return (1);
+		if (tmp->file[0] != 0)
+			close(tmp->file[0]);
+		if (tmp->file[1] != 1)
+			close(tmp->file[1]);
+		tmp = tmp->next;
 	}
 }
 
-static int	ft_pipes(int n, t_struct lst)
+// static pid_t	ft_childs(int in, int out, t_struct lst, t_cmd_line *cmd_line)
+// {
+// 	pid_t	pid;
+// 	int		x;
+
+// 	x = 0;
+// 	if (cmd_line->file[1] != 1)
+// 		out = cmd_line->file[1];
+// 	pid = fork();
+// 	if (!pid)
+// 	{
+// 		dup2(in, 0);
+// 		dup2(out, 1);
+// 		close_all(lst.cmd_line);
+// 		if (in != 0)
+// 			close(in);
+// 		if (out != 1)
+// 			close(out);
+// 		select_cmd(lst, cmd_line);
+// 		exit(EXIT_SUCCESS);
+// 	}
+// 	else
+// 	{	
+// 		if (in != 0)
+// 			close(in);
+// 		if (out != 1)
+// 			close(out);
+// 		//waitpid(pid, &x, 0);
+// 		return (pid);
+// 	}
+// }
+
+int	**init_fd_tab(int len)
 {
-	int		in;
-	int		i[2];
-	int		fd[2];
-	int		ret;
+	int		i;
+	int		**tab;
+
+	tab = malloc(sizeof(int *) * (len + 1));
+	i = 0;
+	while (i < len)
+		tab[i++] = malloc(sizeof(int) * 2);
+	tab[i] = NULL;
+	return (tab);
+}
+
+void	fd_free(int **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i])
+		free(tab[i++]);
+	free(tab);
+}
+
+void	openpipe(t_cmd_line *cmd, int len)
+{
+	t_cmd_line *tmp;
+	int	i;
+	int	**fd;
+
+	fd = init_fd_tab(len);
+	i = 0;
+	tmp = cmd;
+	while (tmp)
+	{
+		pipe(fd[i]);
+		if (!i)
+			tmp->fd[0] = 0;
+		else
+			tmp->fd[0] = fd[i-1][0];
+		if (!tmp ->next)
+		{
+			close(fd[i][0]);
+			close(fd[i][1]);
+			tmp->fd[1] = 1;
+		}
+		else
+			tmp->fd[1] = fd[i][1];
+		tmp = tmp->next;
+		i++;
+	}
+	fd_free(fd);
+}
+
+void	putfile(t_cmd_line *cmd)
+{
 	t_cmd_line	*tmp;
 
-	tmp = lst.cmd_line;
-	in = tmp->file[0];
-	i[0] = 0;
-	while (i[0] < n - 1)
+	tmp = cmd;
+	while (tmp)
 	{
-		pipe(fd);
-		ft_childs(in, fd[1], lst, tmp);
-		in = fd[0];
-		close(fd[1]);
-		i[0] += 1;
+		if (tmp->file[0] != 0)
+			tmp->fd[0] = tmp->file[0];
+		if (tmp->file[1] != 1)
+			tmp->fd[1] = tmp->file[1];
 		tmp = tmp->next;
-		i[1] = gestion_file(&lst, tmp, tmp->token);
-		if (i[1])
-			return (i[1]);
 	}
-//	dup2(1, 1);
-	dup2(in, 0);
-	dup2(tmp->file[1], 1);
-	ret = select_cmd(lst, tmp);
+}
+
+void	execcmd(t_cmd_line *cmd, t_struct *lst, int i, pid_t *pid)
+{
+	int	ret;
+	printf("new child %d\n", i);
+	pid[i] = fork();
+	if(!pid[i])
+	{
+		dup2(cmd->fd[0], 0);
+		dup2(cmd->fd[1], 1);
+		close_all(cmd);
+		ret = select_cmd(*lst, cmd);
+		exit(ret);
+	}
+	if (cmd->fd[1] != 1)
+		close(cmd->fd[1]);
+	if (cmd->fd[0] != 0)
+		close(cmd->fd[0]);
+
+}
+
+static int	ft_pipes(int n, t_struct *lst)
+{
+	int	i;
+	t_cmd_line	*tmp;
+	pid_t	*pid;
+	int	ret;
+	
+	i = -1;
+	tmp = lst->cmd_line;
+	openpipe(tmp, n);
+	putfile(tmp);
+	pid = malloc(sizeof(pid_t) * n);
+	while (++i < n)
+	{
+		execcmd(tmp, lst, i, pid);
+	}
+	i = 0;
+	while (i < n)
+	{
+		waitpid(pid[i++], &ret, 0);
+		//if (WIFEXITED(ret))
+		//	ret = WEXITSTATUS(ret);
+		printf("test%d\n", ret);	
+	}
+	free(pid);
 	return (ret);
+}
+
+int	single_exec(t_struct *lst)
+{
+	dup2(lst->cmd_line->file[0], 0);
+	dup2(lst->cmd_line->file[1], 1);
+	close_all(lst->cmd_line);
+	return(select_cmd(*lst, lst->cmd_line));
 }
 
 int	ft_run(t_struct *lst)
@@ -156,16 +266,18 @@ int	ft_run(t_struct *lst)
 		if (pid == 0)
 		{
 			lst->is_child = 1;
-			return (ft_pipes(cmd_count(lst->cmd_line), *lst));
+			return (ft_pipes(cmd_count(lst->cmd_line), lst));
 		}
 		else
 		{
+			close_all(lst->cmd_line);
 			waitpid(pid, &ret, 0);
 			if (WIFEXITED(ret))
 				ret = (((ret) & 0xff00) >> 8);
+			printf("main parent%d\n", ret);	
 		}
 	}
 	else
-		return (ft_pipes(cmd_count(lst->cmd_line), *lst));
+		return (single_exec(lst));
 	return (ret);
 }

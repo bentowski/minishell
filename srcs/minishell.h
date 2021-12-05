@@ -70,6 +70,7 @@ typedef struct s_cmd_line
 	struct s_cmd_line	*next;
 	char				**arg;
 	int					file[2];
+	int					fd[2];
 	int					here_doc_flag;
 	char				*here_doc_content;
 	char				*limiter;
@@ -194,5 +195,9 @@ char		*change_line(char *line, int opt);
 char		*clean_join(char *s1, char *s2);
 char		**ft_split(char const *s, char c);
 size_t		ft_strlen(const char *s);
+
+/* test */
+
+void	close_all(t_cmd_line *cmd);
 
 #endif
