@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 02:26:40 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/05 02:26:40 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/05 21:13:39 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,7 +185,7 @@ char	**token_join(t_token *token)
 	i = 0;
 	while (tmp)
 	{
-		if (tmp->word)
+		if (tmp->type == ARG)
 			res[i++] = tmp->word;
 		tmp = tmp->next;
 	}
