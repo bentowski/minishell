@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 19:02:45 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/05 04:14:31 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/05 05:54:11 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,14 @@ static void	get_new_lenght_ii(char *line, int x, int *lenght)
 	while (line[x])
 	{
 		if (line[x] == 39)
+		{
+			*lenght = *lenght + 1;
 			x++;
+		}
 		else if (line[x] == 34)
 		{
 			x++;
+			*lenght = *lenght + 1;
 			while (line[x] && line[x] != 34)
 			{
 				if (line[x] == '$')
@@ -36,9 +40,11 @@ static void	get_new_lenght_ii(char *line, int x, int *lenght)
 				else if (line[x++])
 					*lenght = *lenght + 1;
 			}
+			*lenght = *lenght + 1;
 		}
 		else
 		{
+			*lenght = *lenght + 1;
 			if (line[x] == '$')
 				while (ft_isalnum(line[++x]) || line[x] == '_')
 					;
@@ -93,10 +99,10 @@ static char	*get_new_line(t_struct lst, char *new, char *line, char **vars_name)
 	while (line[x])
 	{
 		if (line[x] == 39)
-			x++;
+			new[y++] = line[x++];
 		else if (line[x] == 34)
 		{
-			x++;
+			new[y++] = line[x++];
 			while (line[x] && line[x] != 34)
 			{
 				if (line[x] == '$')
@@ -119,7 +125,7 @@ static char	*get_new_line(t_struct lst, char *new, char *line, char **vars_name)
 				else
 					new[y++] = line[x++];
 			}
-			x++;
+			new[y++] = line[x++];
 		}
 		else if (line[x] == '$')
 		{
