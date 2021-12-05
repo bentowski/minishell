@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 17:07:37 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/05 03:04:23 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/05 03:17:21 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	cd_base(t_struct lst)
 	return (ret);
 }
 
-static int	cd_relative(char **cmd_parts, char *buf, size_t len)
+static int	cd_relative(t_struct lst, char **cmd_parts, char *buf, size_t len)
 {
 	char	*target;
 	int		x;
@@ -34,7 +34,7 @@ static int	cd_relative(char **cmd_parts, char *buf, size_t len)
 
 	target = malloc(len + ft_strlen(cmd_parts[1]) + 1);
 	if (!target)
-		return (error(MEM_ERR, NULL, NULL, 0));
+		return (error(MEM_ERR, &lst, NULL, 1));
 	x = 0;
 	while (buf[x])
 	{
@@ -56,15 +56,15 @@ static int	cd_relative(char **cmd_parts, char *buf, size_t len)
 
 static int	cd_part2(t_struct lst, char **cmd_parts, char *buf, size_t len)
 {
-	if (cmd_parts[1] == NULL)
+	if (cmd_parts[1] == NULL || !ft_strncmp(cmd_parts[1], "~", 2))
 	{
 		if (cd_base(lst))
-			return (error(MEM_ERR, &lst, NULL, 0));
+			return (error(MEM_ERR, &lst, NULL, 1));
 	}
 	else if (cmd_parts[2] != NULL)
 		return (error(MEM_ERR, &lst, NULL, 0));
 	else if ((chdir(cmd_parts[1]) == -1)
-		&& (cd_relative(cmd_parts, buf, len) == -1))
+		&& (cd_relative(lst, cmd_parts, buf, len) == -1))
 	{
 		free(buf);
 		return (error(BAD_FILE, &lst, cmd_parts[1], 0));
@@ -96,14 +96,14 @@ int	ft_cd(t_struct lst, char **cmd_parts, char ***env)
 	len = 1;
 	buf = malloc(len * sizeof(char));
 	if (!buf)
-		return (error(MEM_ERR, &lst, NULL, 0));
+		return (error(MEM_ERR, &lst, NULL, 1));
 	while (getcwd(buf, len) == NULL)
 	{
 		free(buf);
 		len++;
 		buf = malloc(len * sizeof(char));
 		if (!buf)
-			return (error(MEM_ERR, &lst, NULL, 0));
+			return (error(MEM_ERR, &lst, NULL, 1));
 	}
 	ret = cd_part2(lst, cmd_parts, buf, len);
 	if (!ret)

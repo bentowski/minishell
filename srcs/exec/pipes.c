@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/28 18:38:04 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/05 02:47:45 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/05 04:15:21 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ static int	ft_childs(int in, int out, t_struct lst, t_cmd_line *cmd_line)
 	x = 0;
 	if (cmd_line->file[1] != 1)
 		out = cmd_line->file[1];
+	printf("%s\n", cmd_line->line);
 	pid = fork();
 	if (pid == 0)
 	{
@@ -124,6 +125,7 @@ static int	ft_pipes(int n, t_struct lst)
 	while (i[0] < n - 1)
 	{
 		pipe(fd);
+		printf("%d %d %d\n", in, fd[0], fd[1]);
 		ft_childs(in, fd[1], lst, tmp);
 		in = fd[0];
 		close(fd[1]);
@@ -133,8 +135,8 @@ static int	ft_pipes(int n, t_struct lst)
 		if (i[1])
 			return (i[1]);
 	}
-//	dup2(1, 1);
 	dup2(in, 0);
+	close(in);
 	dup2(tmp->file[1], 1);
 	ret = select_cmd(lst, tmp);
 	return (ret);
@@ -142,11 +144,13 @@ static int	ft_pipes(int n, t_struct lst)
 
 int	ft_run(t_struct *lst)
 {
-	int		ret;
-	int		pid;
+	int	ret;
+	int	pid;
 
 	here_doc_checker(lst);
-	gestion_file(lst, lst->cmd_line, lst->cmd_line->token);
+	ret = gestion_file(lst, lst->cmd_line, lst->cmd_line->token);
+	if (ret)
+		return (ret);
 	lst->is_child = 0;
 	if (cmd_count(lst->cmd_line) > 1 || do_fork(lst->cmd_line))
 	{

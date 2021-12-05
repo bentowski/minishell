@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 13:34:26 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/05 02:55:00 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/05 03:29:26 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef enum e_err
 	TOO_MUCH,
 	LON_PIPE,
 	NON_NUM_FOUND,
-	NO_ALPH
+	NO_ALPH,
 }		t_err;
 
 typedef enum	e_filetype
@@ -174,7 +174,7 @@ t_cmd_line	*new_cmd_line(void);
 t_cmd_line	*del_one_cmd_line(t_cmd_line *cmd_line);
 
 /* token utils */
-int			create_token(t_cmd_line *cmd);
+int			create_token(t_struct *lst, t_cmd_line *cmd);
 void		del_token_list(t_token **token);
 t_token		*new_token(void);
 t_token		*del_one_token(t_token *token);
@@ -188,7 +188,7 @@ char		*here_doc_read(t_struct *lst, t_cmd_line *cmd);
 
 /* pseudo libft */
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
-char		**custom_split(char *s);
+char		**custom_split(t_struct *lst, char *s);
 char		*change_line(char *line, int opt);
 char		*clean_join(char *s1, char *s2);
 char		**ft_split(char const *s, char c);

@@ -6,7 +6,7 @@
 /*   By: vgallois <vgallois@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 15:17:06 by vgallois          #+#    #+#             */
-/*   Updated: 2021/12/05 02:53:05 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/05 03:29:07 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static char	*_get_next_part(char *s)
 	return (res);
 }
 
-char	**custom_split(char *s)
+char	**custom_split(t_struct *lst, char *s)
 {
 	int		nb;
 	char	**res;
@@ -100,7 +100,7 @@ char	**custom_split(char *s)
 			if (!res[j - 1])
 			{
 				ft_free(res);
-				error(MEM_ERR, NULL, NULL, 1);
+				error(MEM_ERR, lst, NULL, 1);
 			}
 			i += _find_next_sp(s + i);
 		}

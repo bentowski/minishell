@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 02:26:40 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/05 02:26:40 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/05 03:28:59 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ static t_filetype	_assign_type(t_token *token, t_filetype prec)
 	return (token->type);
 }
 
-int	create_token(t_cmd_line *cmd)
+int	create_token(t_struct *lst, t_cmd_line *cmd)
 {
 	char	**tab;
 	t_token	*new;
@@ -116,7 +116,7 @@ int	create_token(t_cmd_line *cmd)
 
 	if (!cmd)
 		return (0);
-	tab = custom_split(cmd->line);
+	tab = custom_split(lst, cmd->line);
 	prec = NONE;
 	i = 0;
 	while (tab[i])
@@ -130,7 +130,7 @@ int	create_token(t_cmd_line *cmd)
 	}
 	free(tab);// ne pas free les tab[i] psk ils sont stockes dans les token
 	tab = NULL;
-	return (create_token(cmd->next));
+	return (create_token(lst, cmd->next));
 }
 
 static int	_token_count(t_token *token)
