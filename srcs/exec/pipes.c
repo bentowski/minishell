@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/28 18:38:04 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/05 02:15:44 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/05 02:18:16 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,7 @@ int	ft_run(t_struct *lst)
 	int		pid;
 	int		x;
 
+	here_doc_checker(lst);
 	x = gestion_file(lst, lst->cmd_line, lst->cmd_line->token);
 	testcmd(lst->cmd_line);//mettre un clean_token?
 	if (x == -1)
