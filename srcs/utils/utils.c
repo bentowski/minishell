@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 10:25:52 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/05 02:37:58 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/05 21:54:36 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,27 +205,22 @@ char	*get_path(void *cmd, char ***env)
 {
 	char	**possible;
 	char	*path_line;
-	char	**i;
 	char	*ret;
 	int		x;
 
 	(void)env;
-	path_line = getenv("PATH");
+	path_line = ft_get_env("PATH", *env);
 	if (!path_line)
 		return (NULL);
 	path_line = ft_substr(path_line, 5, ft_strlen(path_line) - 5);
 	possible = ft_split(path_line, ':');
 	free(path_line);
-	i = ft_split(cmd, ' ');
-	ret = get_path_deux(possible, i[0]);
+	ret = get_path_deux(possible, cmd);
 	x = 0;
 	while (possible[x])
 		free(possible[x++]);
 	free(possible);
 	x = 0;
-	while (i[x])
-		free(i[x++]);
-	free(i);
 	return (ret);
 }
 

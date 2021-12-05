@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 13:34:26 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/05 20:31:18 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/05 23:18:29 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ typedef struct s_struct
 	char	*path;
 	int		exit_status;
 	int		is_child;
+	pid_t	pid;
 }		t_struct;
 
 
@@ -165,6 +166,8 @@ char		*get_path(void *cmd, char ***env);
 /* ========= Signaux ========= */
 void		handle_sigint(int signal);
 void		handle_sigquit(int signal);
+void		handle_sigint_ii(int signal);
+void		handle_sigquit_ii(int signal);
 
 
 /* ========= OTHER ========= */

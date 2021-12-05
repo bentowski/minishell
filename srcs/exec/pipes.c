@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/28 18:38:04 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/05 21:26:04 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/05 23:41:49 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,16 +81,18 @@ static int	cmd_count(t_cmd_line *cmds)
 	return (x);
 }
 
-static int	ft_childs(int in, int out, t_struct lst, t_cmd_line *cmd_line)
+static int	ft_childs(int in, int *fd, t_struct lst, t_cmd_line *cmd_line)
 {
 	pid_t	pid;
 	int		x;
+	int		out;
 
 	x = 0;
+	out = fd[1];
 	if (cmd_line->file[1] != 1)
 		out = cmd_line->file[1];
 	pid = fork();
-	if (pid == 0)
+	if (pid)
 	{
 		if (in != 0)
 		{
@@ -102,12 +104,16 @@ static int	ft_childs(int in, int out, t_struct lst, t_cmd_line *cmd_line)
 			dup2(out, 1);
 			close(out);
 		}
+		close(fd[0]);
 		select_cmd(lst, cmd_line);
 		exit(EXIT_SUCCESS);
 	}
 	else
 	{
-		waitpid(pid, &x, 0);
+		if (out != 1)
+			close(out);
+		if (in)
+			close(in);
 		return (1);
 	}
 }
@@ -126,9 +132,10 @@ static int	ft_pipes(int n, t_struct lst)
 	while (i[0] < n - 1)
 	{
 		pipe(fd);
-		ft_childs(in, fd[1], lst, tmp);
+		ft_childs(in, fd, lst, tmp);
+		if (in)
+			close(in);
 		in = fd[0];
-		close(fd[1]);
 		i[0] += 1;
 		tmp = tmp->next;
 		i[1] = gestion_file(&lst, tmp, tmp->token);
@@ -136,7 +143,11 @@ static int	ft_pipes(int n, t_struct lst)
 			return (i[1]);
 	}
 	dup2(in, 0);
+	if (in)
+		close(in);
 	dup2(tmp->file[1], 1);
+	if (tmp->file[1] != 1)
+		close(tmp->file[1]);
 	ret = select_cmd(lst, tmp);
 	return (ret);
 }
@@ -151,6 +162,8 @@ int	ft_run(t_struct *lst)
 	lst->is_child = 0;
 	if (cmd_count(lst->cmd_line) > 1 || do_fork(lst->cmd_line))
 	{
+		signal(SIGINT, handle_sigint_ii);
+		signal(SIGQUIT, handle_sigquit_ii);
 		pid = fork();
 		if (pid == 0)
 		{

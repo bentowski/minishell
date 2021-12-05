@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 17:38:31 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/05 02:08:15 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/05 23:38:47 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,10 @@ int	start(t_struct lst)
 	int	ret;
 
 	end = 0;
-	while (end == 0)
+	while (end == 0 && !lst.is_child)
 	{
+		signal(SIGINT, handle_sigint);
+		signal(SIGQUIT, handle_sigquit);
 		lst.here_doc_flag = 0;
 		ret = ft_parsing(&lst);
 		if (lst.cmd_line)
@@ -49,8 +51,6 @@ int	main(int argc, char **argv, char **env)
 	if (argc != 1)
 		return (error(BAD_ARG, NULL, argv[1], 0));
 	printf("Welcome to minishell\n");
-	signal(SIGINT, handle_sigint);
-	signal(SIGQUIT, handle_sigquit);
 	env = first_env(env);
 	lst.env = &env;
 	lst.here_doc_flag = 0;
