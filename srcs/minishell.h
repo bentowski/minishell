@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 13:34:26 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/05 20:27:04 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/05 20:31:18 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,16 @@ typedef enum e_err
 {
 	ERRNO_TO_STR = -1,
 	UKN_ERR,
+	BAD_FILE,
 	MEM_ERR,
 	QUOTE_ERR,
 	NO_VAR,
 	BAD_ARG,
-	BAD_FILE,
 	TOO_MUCH,
 	LON_PIPE,
 	NON_NUM_FOUND,
-	NO_PERM,
-	NO_ALPH
+	NO_ALPH,
+	NO_PERM
 }		t_err;
 
 typedef enum	e_filetype
