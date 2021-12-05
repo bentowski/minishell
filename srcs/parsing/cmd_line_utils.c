@@ -12,6 +12,8 @@ t_cmd_line	*new_cmd_line(void)
 	new->arg = NULL;
 	new->file[0] = 0;
 	new->file[1] = 1;
+	new->fd[0] = 0;
+	new->fd[0] = 1;
 	new->here_doc_content = NULL;
 	new->here_doc_flag = 0;
 	new->next = NULL;

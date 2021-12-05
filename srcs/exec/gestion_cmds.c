@@ -85,6 +85,7 @@ int	select_cmd(t_struct lst, t_cmd_line *cmd)
 	x = -1;
 	lst.here_doc_flag = cmd->here_doc_flag;
 	lst.here_doc_content = cmd->here_doc_content;
+	close_all(lst.cmd_line);
 	while (bltin[++x])
 	{
 		if (ft_strncmp(cmd->arg[0], bltin[x], ft_strlen(bltin[x]) + 1) == 0)
