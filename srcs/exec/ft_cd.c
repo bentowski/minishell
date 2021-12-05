@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 17:07:37 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/04 00:01:42 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/05 03:01:16 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ static int	cd_relative(char **cmd_parts, char *buf, size_t len)
 	}
 	target[x + y + 1] = '\0';
 	return (chdir(target));
-	return (0);
 }
 
 static int	cd_part2(t_struct lst, char **cmd_parts, char *buf, size_t len)
