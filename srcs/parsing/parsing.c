@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 12:49:29 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/05 02:14:43 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/05 02:34:48 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,22 +52,6 @@ static t_cmd_line	*_create_cmd_lines(char *line)
 	return (start);
 }
 
-static void	testcmd(t_cmd_line *cmd)
-{
-	t_token	*token;
-
-	if (!cmd)
-		return ;
-	printf("cmd: %s\n", cmd->line);
-	token = cmd->token;
-	while (token)
-	{
-		printf("token: %s\n", token->word);
-		token = token->next;
-	}
-	testcmd(cmd->next);
-}
-
 int	ft_parsing(t_struct *lst)
 {
 	int			x;
@@ -91,7 +75,6 @@ int	ft_parsing(t_struct *lst)
 	cmd_line = _create_cmd_lines(line);
 	free(line);
 	create_token(cmd_line);
-	testcmd(cmd_line);
 	lst->cmd_line = cmd_line;
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 10:25:52 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/04 01:17:35 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/05 02:31:01 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,4 +227,15 @@ char	*get_path(void *cmd, char ***env)
 		free(i[x++]);
 	free(i);
 	return (ret);
+}
+
+int	ft_exit(t_struct lst, char **cmd_parts, char ***env)
+{
+	ft_free(*env);
+	rl_clear_history();
+	del_cmd_list(&lst.cmd_line);
+	(void)cmd_parts;
+	if (!lst.is_child)
+		printf("Bye bye 😎\n");
+	exit(lst.exit_status);
 }

@@ -6,7 +6,11 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/28 18:38:04 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/05 02:18:16 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/05 02:35:42 by bbaudry          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+>>>>>>> main
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,32 +145,13 @@ static int	ft_pipes(int n, t_struct lst)
 	return (ret);
 }
 
-static void	testcmd(t_cmd_line *cmd)
-{
-	t_token	*token;
-	if (!cmd)
-		return ;
-	printf("cmd: %s\n", cmd->line);
-	token = cmd->token;
-	while (token)
-	{
-		printf("token: %s %d\n", token->word, token->type);
-		token = token->next;
-	}
-	testcmd(cmd->next);
-}
-
 int	ft_run(t_struct *lst)
 {
 	int		ret;
 	int		pid;
-	int		x;
 
 	here_doc_checker(lst);
-	x = gestion_file(lst, lst->cmd_line, lst->cmd_line->token);
-	testcmd(lst->cmd_line);//mettre un clean_token?
-	if (x == -1)
-		return (0);
+	gestion_file(lst, lst->cmd_line, lst->cmd_line->token);
 	lst->is_child = 0;
 	if (cmd_count(lst->cmd_line) > 1 || do_fork(lst->cmd_line))
 	{
