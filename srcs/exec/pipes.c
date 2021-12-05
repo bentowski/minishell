@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/28 18:38:04 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/05 02:10:24 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/05 02:27:48 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ static int	gestion_file(t_struct *lst, t_cmd_line *cmd, t_token *token)
 	else
 	{
 		token->word = var_gestion(*lst, token->word);
-		printf("var gestion done\n");
 		token->word = third_lecture(token->word);
 		if (token->type == OPEN_FILE)
 		{
@@ -53,7 +52,15 @@ static int	gestion_file(t_struct *lst, t_cmd_line *cmd, t_token *token)
 				return (error(BAD_FILE, NULL, token->word, 0));
 		}
 		if (token->type == OPEN_FILE || token->type == OUT_FILE || token->type == OUT_FILE_APPEND)
+		{
+			cmd->here_doc_flag = 0;
 			token = remove_word_token(token);
+		}
+		else if (token->type == LIMITER)
+		{
+			token = remove_word_token(token);
+			cmd->here_doc_flag = 1;
+		}
 	}
 	return (gestion_file(lst, cmd, next));
 }
@@ -134,31 +141,13 @@ static int	ft_pipes(int n, t_struct lst)
 	return (ret);
 }
 
-static void	testcmd(t_cmd_line *cmd)
-{
-	t_token	*token;
-	if (!cmd)
-		return ;
-	printf("cmd: %s\n", cmd->line);
-	token = cmd->token;
-	while (token)
-	{
-		printf("token: %s %d\n", token->word, token->type);
-		token = token->next;
-	}
-	testcmd(cmd->next);
-}
-
 int	ft_run(t_struct *lst)
 {
 	int		ret;
 	int		pid;
-	int		x;
 
-	x = gestion_file(lst, lst->cmd_line, lst->cmd_line->token);
-	testcmd(lst->cmd_line);//mettre un clean_token?
-	if (x == -1)
-		return (0);
+	here_doc_checker(lst);
+	gestion_file(lst, lst->cmd_line, lst->cmd_line->token);
 	lst->is_child = 0;
 	if (cmd_count(lst->cmd_line) > 1 || do_fork(lst->cmd_line))
 	{

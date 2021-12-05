@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 13:34:26 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/05 01:58:03 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/05 02:27:31 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,9 +179,10 @@ t_token		*del_one_token(t_token *token);
 t_token		*remove_word_token(t_token *token);
 
 /* here_doc */
+int			here_doc_checker(t_struct *lst);
 int			here_doc_exec(char *path, t_struct lst, char **cmd_part,
 	char ***env);
-char		*here_doc_read(t_struct *lst);
+char		*here_doc_read(t_struct *lst, t_cmd_line *cmd);
 
 /* pseudo libft */
 int			ft_strncmp(const char *s1, const char *s2, size_t n);

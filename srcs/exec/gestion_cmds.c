@@ -21,6 +21,7 @@ static char	*_try_relative(char *cmd)
 	tmp = ft_strjoin(dir, "/");
 	free(dir);
 	dir = ft_strjoin(tmp, cmd);
+	free(tmp);
 	if (access(dir, X_OK))
 	{
 		free(dir);
@@ -64,7 +65,6 @@ static int	ft_exec(t_struct lst, char **cmd_parts, char ***env)
 	{
 		error(BAD_FILE, NULL, cmd_parts[0], 0);
 	}
-	ft_free(cmd_parts);
 	return (ret);
 }
 
@@ -84,6 +84,8 @@ int	select_cmd(t_struct lst, t_cmd_line *cmd)
 	functions[5] = ft_env;
 	functions[6] = ft_exit_bi;
 	x = -1;
+	lst.here_doc_flag = cmd->here_doc_flag;
+	lst.here_doc_content = cmd->here_doc_content;
 	while (bltin[++x])
 	{
 		if (ft_strncmp(cmd->arg[0], bltin[x], ft_strlen(bltin[x]) + 1) == 0)
