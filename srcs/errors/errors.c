@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/29 14:30:16 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/05 01:14:57 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/05 20:11:20 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ static t_error	g_errors[] = {
 {BAD_FILE, "no such file or directory." },
 {TOO_MUCH, "too many arguments."},
 {LON_PIPE, "pipe whithout next command."},
-{NON_NUM_FOUND, "numeric argument required"}
+{NON_NUM_FOUND, "numeric argument required"},
+{NO_PERM, "permission denied."}
 };
 
 static	char	*get_error_msg(t_err raised)

@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 13:32:42 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/03 20:33:11 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/05 20:12:32 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,10 @@ static int	ft_exec(t_struct lst, char **cmd_parts, char ***env)
 		else
 			ret = execve(path, cmd_parts, *env);
 		free(path);
+		error(NO_PERM, &lst, cmd_parts[0], 0);
 	}
 	else
-	{
 		error(BAD_FILE, &lst, cmd_parts[0], 0);
-	}
 	return (ret);
 }
 

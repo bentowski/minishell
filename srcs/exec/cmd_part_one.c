@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 13:34:31 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/04 13:29:37 by benjaminbaudry   ###   ########.fr       */
+/*   Updated: 2021/12/05 20:06:14 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	ft_echo(t_struct lst, char **cmd_parts, char ***env)
 	}
 	if (n != -1)
 		write(1, "\n", 1);
+	lst.exit_status = 0;
 	if (lst.is_child)
 		ft_exit(lst, cmd_parts, env);
 	return (0);

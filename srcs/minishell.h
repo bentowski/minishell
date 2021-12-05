@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 13:34:26 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/05 02:27:31 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/05 20:11:28 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ typedef enum e_err
 	BAD_FILE,
 	TOO_MUCH,
 	LON_PIPE,
-	NON_NUM_FOUND
+	NON_NUM_FOUND,
+	NO_PERM
 }		t_err;
 
 typedef enum	e_filetype
