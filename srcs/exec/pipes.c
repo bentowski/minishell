@@ -6,11 +6,10 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/28 18:38:04 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/05 02:27:48 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/05 02:47:45 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../errors/errors.h"
 #include "../minishell.h"
 
 static int	gestion_file(t_struct *lst, t_cmd_line *cmd, t_token *token)
@@ -26,6 +25,8 @@ static int	gestion_file(t_struct *lst, t_cmd_line *cmd, t_token *token)
 	else
 	{
 		token->word = var_gestion(*lst, token->word);
+		if (token->type == ARG)
+			token = create_token2(token->word, token, token->next);
 		token->word = third_lecture(token->word);
 		if (token->type == OPEN_FILE)
 		{

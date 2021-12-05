@@ -21,6 +21,7 @@ SRC =	srcs/main.c \
 		srcs/exec/gestion_cmds.c \
 		srcs/exec/ft_pwd.c \
 		srcs/exec/ft_cd.c \
+		srcs/exec/ft_echo.c \
 		srcs/exec/cmd_part_one.c \
 		srcs/exec/custom_split.c\
 		srcs/exec/pipes.c \

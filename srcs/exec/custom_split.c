@@ -6,7 +6,7 @@
 /*   By: vgallois <vgallois@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 15:17:06 by vgallois          #+#    #+#             */
-/*   Updated: 2021/12/03 23:57:42 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/05 02:53:05 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,17 +77,6 @@ static char	*_get_next_part(char *s)
 	return (res);
 }
 
-static void	_free_tab(char **tab)
-{
-	int	i;
-
-	i = 0;
-	while (tab[i])
-		free(tab[i++]);
-	free(tab);
-	error(MEM_ERR, NULL, NULL, 1);
-}
-
 char	**custom_split(char *s)
 {
 	int		nb;
@@ -109,7 +98,10 @@ char	**custom_split(char *s)
 		{
 			res[j++] = _get_next_part(s + i);
 			if (!res[j - 1])
-				_free_tab(res);
+			{
+				ft_free(res);
+				error(MEM_ERR, NULL, NULL, 1);
+			}
 			i += _find_next_sp(s + i);
 		}
 	}

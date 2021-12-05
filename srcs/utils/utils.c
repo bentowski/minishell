@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 10:25:52 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/05 02:31:01 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/05 02:37:58 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,6 +227,17 @@ char	*get_path(void *cmd, char ***env)
 		free(i[x++]);
 	free(i);
 	return (ret);
+}
+
+int	non_num_found(char *s)
+{
+	int i;
+
+	i = -1;
+	while (s[++i])
+		if (!isdigit(s[i]))
+			return (1);
+	return (0);
 }
 
 int	ft_exit(t_struct lst, char **cmd_parts, char ***env)

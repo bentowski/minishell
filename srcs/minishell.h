@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 13:34:26 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/05 20:11:28 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/05 20:27:04 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ typedef enum e_err
 	TOO_MUCH,
 	LON_PIPE,
 	NON_NUM_FOUND,
-	NO_PERM
+	NO_PERM,
+	NO_ALPH
 }		t_err;
 
 typedef enum	e_filetype
@@ -120,6 +121,7 @@ int			ft_env(t_struct lst, char **cmd_parts, char ***env);
 /* === exit === */
 int			ft_exit_bi(t_struct lst, char **cmd_parts, char ***env);
 int			ft_exit(t_struct lst, char **cmd_parts, char ***env);
+int			non_num_found(char *s);
 
 
 /* ========= Clear ========= */
@@ -175,8 +177,9 @@ t_cmd_line	*del_one_cmd_line(t_cmd_line *cmd_line);
 /* token utils */
 int			create_token(t_cmd_line *cmd);
 void		del_token_list(t_token **token);
-t_token		*new_token(void);
+t_token		*create_token2(char *s, t_token	*start, t_token *next);
 t_token		*del_one_token(t_token *token);
+t_token		*new_token(void);
 t_token		*remove_word_token(t_token *token);
 
 /* here_doc */
