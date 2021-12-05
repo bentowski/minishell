@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/28 18:38:04 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/05 02:47:45 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/05 21:26:04 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,6 @@ static int	ft_pipes(int n, t_struct lst)
 		if (i[1])
 			return (i[1]);
 	}
-//	dup2(1, 1);
 	dup2(in, 0);
 	dup2(tmp->file[1], 1);
 	ret = select_cmd(lst, tmp);
