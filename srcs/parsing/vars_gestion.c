@@ -306,6 +306,27 @@ static int	var_count(t_struct lst, char *line)
 	return (ret);
 }
 
+// char	*_etoile_etoile(char *etoile)
+// {
+// 	char	**etoile_etoile;
+// 	char	*etoile_filante;
+// 	int		star;
+
+// 	etoile_etoile = custom_split(etoile);
+// 	etoile_filante = ft_strdup("");
+// 	star = 0;
+// 	while (etoile_etoile[star])
+// 	{
+// 		etoile_filante = clean_join(etoile_filante, etoile_etoile[star]);
+// 		star++;
+// 		if (etoile_etoile[star])
+// 			etoile_filante = clean_join(etoile_filante, ft_strdup(" "));
+// 	}
+// 	free(etoile_etoile);
+// 	free(etoile);
+// 	return (etoile_filante);
+// }
+
 char	*var_gestion(t_struct lst, char *line)
 {
 	char	*new_line;
@@ -328,6 +349,7 @@ char	*var_gestion(t_struct lst, char *line)
 		new_line = tab_filling(lst, line, vars_tab);
 		ft_free(vars_tab);
 		free(line);
+		//new_line = _etoile_etoile(new_line);
 		return (new_line);
 	}
 	return (line);

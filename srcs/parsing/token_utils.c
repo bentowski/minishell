@@ -66,8 +66,7 @@ t_token	*remove_word_token(t_token *token)
 static void	_add_token_back(t_token **lst, t_token *new)
 {
 	t_token	*tmp;
-	if (!lst)
-		return ;
+
 	tmp = *lst;
 	if (!tmp)
 	{
@@ -131,6 +130,36 @@ int	create_token(t_cmd_line *cmd)
 	free(tab);// ne pas free les tab[i] psk ils sont stockes dans les token
 	tab = NULL;
 	return (create_token(cmd->next));
+}
+
+t_token	*create_token2(char *s, t_token	*start, t_token *next)
+{
+	char	**tab;
+	t_token	*new;
+	int	i;
+
+	if (!s)
+		return (NULL);
+	tab = custom_split(s);
+	start->word = tab[0];
+	i = 1;
+	if (tab[1])
+	{
+		start->next = NULL;
+		while (tab[i])
+		{
+			new = new_token();
+			new->type = ARG;
+			new->word = tab[i++];
+			_add_token_back(&start, new);
+		}
+		new->next = next;
+	}
+	free(s);
+	free(tab[i]);// ne pas free les tab[i] psk ils sont stockes dans les token
+	free(tab);
+	tab = NULL;
+	return (start);
 }
 
 static int	_token_count(t_token *token)

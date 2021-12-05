@@ -176,8 +176,9 @@ t_cmd_line	*del_one_cmd_line(t_cmd_line *cmd_line);
 /* token utils */
 int			create_token(t_cmd_line *cmd);
 void		del_token_list(t_token **token);
-t_token		*new_token(void);
+t_token		*create_token2(char *s, t_token	*start, t_token *next);
 t_token		*del_one_token(t_token *token);
+t_token		*new_token(void);
 t_token		*remove_word_token(t_token *token);
 
 /* here_doc */
