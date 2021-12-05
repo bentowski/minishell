@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 13:34:31 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/05 02:05:54 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/05 02:32:06 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	ft_export(t_struct lst, char **cmd_parts, char ***env)
 
 	i = 1;
 	if (!ft_isalpha(cmd_parts[i][0]))
-		return (error(BAD_ARG, NULL, NULL, 0)); //attention au msg d'erreur
+		return (error(BAD_ARG, NULL, NULL, 0));
 	while (cmd_parts[i])
 	{
 		ft_setenv(env, cmd_parts[i]);
@@ -83,29 +83,7 @@ int	ft_unset(t_struct lst, char **cmd_parts, char ***env)
 	return (0);
 }
 
-int	ft_exit(t_struct lst, char **cmd_parts, char ***env)
-{
-	ft_free(*env);
-	rl_clear_history();
-	del_cmd_list(&lst.cmd_line);
-	(void)cmd_parts;
-	if (!lst.is_child)
-		printf("Bye bye 😎\n");
-	exit(lst.exit_status);
-}
-
-int	non_num_found(char *s)
-{
-	int	i;
-
-	i = -1;
-	while (s[++i])
-		if (!ft_isdigit(s[i]))
-			return (1);
-	return (0);
-}
-
-int	ft_exit_bi(t_struct lst, char **cmd_parts, char ***env)//gerer les erreurs
+int	ft_exit_bi(t_struct lst, char **cmd_parts, char ***env)
 {
 	if (cmd_parts[2])
 		return (error(TOO_MUCH, NULL, cmd_parts[0], 0));
