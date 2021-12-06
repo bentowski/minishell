@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 17:43:15 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/05 23:39:58 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/06 01:23:17 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	handle_sigquit(int signal)
 	rl_redisplay();
 }
 
-void	handle_sigint_ii(int signal) //ctrl c
+void	handle_sigint_ii(int signal)
 {
 	(void)signal;
 	write(1, "\n", 1);

@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 10:25:52 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/05 21:54:36 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/06 01:36:10 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ char	*third_lecture(char *line)
 	int		count;
 	char	*new;
 
+	printf("%s\n", "OK");
 	if (!line)
 		return (ft_strdup(""));
 	x = 0;

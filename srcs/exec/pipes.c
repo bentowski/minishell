@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/28 18:38:04 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/05 23:41:49 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/06 01:37:43 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,9 @@ static int	gestion_file(t_struct *lst, t_cmd_line *cmd, t_token *token)
 		token->word = var_gestion(*lst, token->word);
 		if (token->type == ARG)
 			token = create_token2(token->word, token, token->next);
-		token->word = third_lecture(token->word);
+		printf("%s\n", "AVANT");
+		token->word = third_lecture(token->word); //token_word NULL -> NULL=x impossible ?
+		printf("%s\n", "APRES");
 		if (token->type == OPEN_FILE)
 		{
 			if (cmd->file[0] != 0)

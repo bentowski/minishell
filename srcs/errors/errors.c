@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/29 14:30:16 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/05 22:02:17 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/06 00:39:59 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 static t_error	g_errors[] = {
 {UKN_ERR, "Unknown error." },
-{MEM_ERR, "Memory allocation failed while parsing shapes." },
 {BAD_FILE, "no such file or directory." },
+{NON_NUM_FOUND, "numeric argument required."},
+{MEM_ERR, "Memory allocation failed while parsing shapes." },
 {QUOTE_ERR, "quotes or double quotes not closed." },
 {NO_VAR, "no variables found"},
 {BAD_ARG, "no arguments is supported." },
 {TOO_MUCH, "too many arguments."},
 {LON_PIPE, "pipe whithout next command."},
-{NON_NUM_FOUND, "numeric argument required."},
 {NO_ALPH, "alphabetic argument required."},
 {NO_PERM, "permission denied."}
 };
