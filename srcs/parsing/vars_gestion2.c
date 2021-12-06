@@ -6,11 +6,11 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 08:33:02 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/06 08:36:06 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/06 09:05:35 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minisell.h"
+#include "../minishell.h"
 
 static char	*get_vars_names_iii(char *line, char *voidline, int *xvalue)
 {
