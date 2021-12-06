@@ -13,6 +13,7 @@
 #include "../minishell.h"
 
 static int	_nb_space(char *s)
+//risque d'allouer trop de memoire en cas de <<<
 {
 	int	len;
 
@@ -20,7 +21,7 @@ static int	_nb_space(char *s)
 	while (*s)
 	{
 		if (*s == '<' || *s == '>')
-			len += 2;//risque d'allouer trop de memoire en cas de <<<
+			len += 2;
 		if (*s == '|')
 			len += 2;
 		s++;
@@ -77,33 +78,28 @@ static void	_pipes(char *res, char *s, int *x, int *y)
 char	*add_space(t_struct lst, char *s)
 {
 	char	*res;
-	int		len;
-	int		i;
-	int		j;
+	int		i[2];
 
-	len = _nb_space(s) + ft_strlen(s);
-	res = malloc(sizeof(char) * (len + 1));
+	i[0] = _nb_space(s) + ft_strlen(s);
+	res = malloc(sizeof(char) * (i[0] + 1));
 	if (!res)
+		error(MEM_ERR, &lst, NULL, 1);
+	i[0] = 0;
+	i[1] = 0;
+	while (s[i[0]])
 	{
-		error(MEM_ERR, &lst, NULL, 0);
-		return (NULL);
-	}
-	i = 0;
-	j = 0;
-	while (s[i])
-	{
-		if (s[i] == '"')
-			_skip_doublequote(res, s, &i, &j);
-		else if (s[i] == '\'')
-			skip_quote(res, s, &i, &j);
-		else if (s[i] == '<' || s[i] == '>')
-			_redir(res, s, &i, &j);
-		else if (s[i] == '|')
-			_pipes(res, s, &i, &j);
+		if (s[i[0]] == '"')
+			_skip_doublequote(res, s, i, i + 1);
+		else if (s[i[0]] == '\'')
+			skip_quote(res, s, i, i + 1);
+		else if (s[i[0]] == '<' || s[i[0]] == '>')
+			_redir(res, s, i, i + 1);
+		else if (s[i[0]] == '|')
+			_pipes(res, s, i, i + 1);
 		else
-			res[j++] = s[i++];
+			res[i[1]++] = s[i[0]++];
 	}
-	res[j] = 0;
+	res[i[1]] = 0;
 	free(s);
 	return (res);
 }

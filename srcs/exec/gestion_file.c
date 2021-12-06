@@ -25,7 +25,6 @@ static void	_open_close(t_token *token, t_cmd_line *cmd)
 		if (cmd->file[1] != 1)
 			close(cmd->file[1]);
 		cmd->file[1] = open(token->word, O_CREAT | O_WRONLY | O_TRUNC, 402);
-		dprintf(2, "%d\n", cmd->file[1]);
 	}
 	else if (token->type == OUT_F_APP)
 	{
