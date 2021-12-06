@@ -31,12 +31,11 @@ void	handle_sigquit(int signal)
 	rl_redisplay();
 }
 
-void	handle_sigint_ii(int signal) //ctrl c
+void	handle_sigint_ii(int signal)
+//ctrl c
 {
 	(void)signal;
 	write(1, "\n", 1);
-	// rl_on_new_line();
-	// rl_replace_line("", 0);
 }
 
 void	handle_sigquit_ii(int signal)

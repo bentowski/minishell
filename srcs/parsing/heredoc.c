@@ -13,20 +13,12 @@
 #include "../minishell.h"
 #include "../../includes/libft/libft.h"
 
-static int	ft_strcmp(const char *s1, const char *s2)
+void	_end_here_doc(char *line, t_cmd_line *cmd, char *content)
 {
-	int	i;
-
-	if (!s1 && !s2)
-		return (0);
-	if (!s1)
-		return (*s2);
-	if (!s2)
-		return (*s1);
-	i = 0;
-	while (s1[i] && s1[i] == s2[i])
-		i++;
-	return (s1[i] - s2[i]);
+	free(line);
+	free(cmd->limiter);
+	cmd->limiter = NULL;
+	cmd->here_doc_content = content;
 }
 
 char	*here_doc_read(t_struct *lst, t_cmd_line *cmd)
@@ -53,10 +45,7 @@ char	*here_doc_read(t_struct *lst, t_cmd_line *cmd)
 	}
 	if (!cmd->expanded)
 		content = var_gestion(*lst, content);
-	free(line);
-	free(cmd->limiter);
-	cmd->limiter = NULL;
-	cmd->here_doc_content = content;
+	_end_here_doc(line, cmd, content);
 	return (tmp);
 }
 
