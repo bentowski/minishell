@@ -89,7 +89,7 @@ int	ft_parsing(t_struct *lst)
 		return (x);
 	cmd_line = _create_cmd_lines(line);
 	free(line);
-	create_token(cmd_line);
+	create_token(cmd_line, lst);
 	lst->cmd_line = cmd_line;
 	return (0);
 }

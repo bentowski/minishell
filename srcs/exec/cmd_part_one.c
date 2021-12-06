@@ -12,7 +12,6 @@
 
 #include "../minishell.h"
 
-
 int	ft_env(t_struct lst, char **cmd_parts, char ***env)
 {
 	int	i;
@@ -60,7 +59,7 @@ int	ft_unset(t_struct lst, char **cmd_parts, char ***env)
 	return (0);
 }
 
-int	ft_exit_bi(t_struct lst, char **cmd_parts, char ***env)//gerer les erreurs
+int	ft_exit_bi(t_struct lst, char **cmd_parts, char ***env)
 {
 	if (cmd_parts[1] && cmd_parts[2])
 		return (error(TOO_MUCH, &lst, cmd_parts[0], 0));
