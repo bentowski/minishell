@@ -6,13 +6,15 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/29 14:30:16 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/06 14:50:46 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/06 15:37:08 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char **errors(char **error)
+extern int	g_error;
+
+char	**errors(char **error)
 {
 	printf("%d\n", UKN_ERR);
 	error[UKN_ERR] = "Unknown error.";
@@ -43,7 +45,7 @@ int	error(t_err raised, t_struct *lst, char *line, int critical)
 	char	*msg;
 
 	msg = get_error_msg(lst, raised);
-	lst->exit_status = raised;
+	g_error = raised;
 	printf("minishell: %s: %s\n", line, msg);
 	if (critical)
 	{

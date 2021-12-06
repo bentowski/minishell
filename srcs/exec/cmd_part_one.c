@@ -6,11 +6,13 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 13:34:31 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/06 14:56:19 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/06 15:37:25 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+extern int	g_error;
 
 int	ft_env(t_struct lst, char **cmd_parts, char ***env)
 {
@@ -68,9 +70,9 @@ int	ft_exit_bi(t_struct lst, char **cmd_parts, char ***env)
 	else if (cmd_parts[1])
 	{
 		if (non_num_found(cmd_parts[1]))
-			lst.exit_status = error(NON_NUM_FOUND, &lst, cmd_parts[1], 0);
+			g_error = error(NON_NUM_FOUND, &lst, cmd_parts[1], 0);
 		else
-			lst.exit_status = ft_atoi(cmd_parts[1]);
+			g_error = ft_atoi(cmd_parts[1]);
 	}
 	free(lst.err);
 	del_cmd_list(&lst.cmd_line);
@@ -78,5 +80,5 @@ int	ft_exit_bi(t_struct lst, char **cmd_parts, char ***env)
 	rl_clear_history();
 	if (!lst.is_child)
 		printf("Bye bye 😎\n");
-	exit(lst.exit_status);
+	exit(g_error);
 }

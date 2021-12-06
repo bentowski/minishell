@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vgallois <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vgallois <vgallois@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 06:17:06 by vgallois          #+#    #+#             */
-/*   Updated: 2021/12/06 06:17:09 by vgallois         ###   ########.fr       */
+/*   Updated: 2021/12/06 15:35:30 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+extern int	g_error;
 
 static void	_openpipe(t_cmd_line *cmd, int len, int i)
 {
@@ -74,7 +76,7 @@ static void	_execcmd(t_cmd_line *cmd, t_struct *lst, int i, pid_t *pid)
 		dup2(cmd->fd[1], 1);
 		close_all(lst->cmd_line);
 		free(pid);
-		lst->exit_status = select_cmd(*lst, cmd);
+		g_error = select_cmd(*lst, cmd);
 		ft_exit(*lst, NULL, lst->env);
 	}
 	signal(SIGQUIT, SIG_IGN);

@@ -6,11 +6,13 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 12:49:29 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/06 11:21:20 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/06 15:36:41 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+extern int	g_error;
 
 int	find_c(char c, char *s)
 {
@@ -80,7 +82,7 @@ int	_parse_fail(t_struct *lst, t_cmd_line *cmd)
 {
 	del_cmd_list(&cmd);
 	lst->cmd_line = NULL;
-	lst->exit_status = 2;
+	g_error = 2;
 	return (2);
 }
 

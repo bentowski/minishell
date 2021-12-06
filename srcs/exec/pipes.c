@@ -6,11 +6,13 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/28 18:38:04 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/06 08:23:48 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/06 15:37:32 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+extern int	g_error;
 
 static int	cmd_count(t_cmd_line *cmds)
 {
@@ -70,7 +72,7 @@ int	ft_run(t_struct *lst)
 	int		ret;
 
 	if (!lst->cmd_line->token)
-		return (lst->exit_status);
+		return (g_error);
 	here_doc_checker(lst);
 	ret = gestion_file(lst);
 	if (ret)
