@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cmd_line_utils.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/06 08:25:50 by bbaudry           #+#    #+#             */
+/*   Updated: 2021/12/06 08:26:28 by bbaudry          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 t_cmd_line	*new_cmd_line(void)
@@ -21,7 +33,7 @@ t_cmd_line	*new_cmd_line(void)
 t_cmd_line	*del_one_cmd_line(t_cmd_line *cmd_line)
 /* free cmd_line and return cmd_line->next (may be NULL) */
 {
-	t_cmd_line *next;
+	t_cmd_line	*next;
 
 	if (!cmd_line)
 		return (NULL);
