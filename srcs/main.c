@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 17:38:31 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/06 15:39:22 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/06 15:56:32 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	start(t_struct lst)
 	{
 		lst.is_child = 0;
 		signal(SIGINT, handle_sigint);
-		signal(SIGQUIT, handle_sigquit);
+		signal(SIGQUIT, SIG_IGN);
 		lst.here_doc_flag = 0;
 		ft_parsing(&lst);
 		end = real_start(&lst, end);

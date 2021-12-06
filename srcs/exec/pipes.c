@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/28 18:38:04 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/06 15:37:32 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/06 15:52:56 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	ft_run(t_struct *lst)
 	{
 		lst->is_child = 1;
 		signal(SIGINT, handle_sigint_ii);
-		signal(SIGQUIT, handle_sigquit_ii);
+		signal(SIGQUIT, handle_sigquit);
 		return (ft_pipes(cmd_count(lst->cmd_line), lst));
 	}
 	else

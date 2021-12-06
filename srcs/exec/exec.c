@@ -6,7 +6,7 @@
 /*   By: vgallois <vgallois@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 06:17:06 by vgallois          #+#    #+#             */
-/*   Updated: 2021/12/06 15:35:30 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/06 15:56:00 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static void	_execcmd(t_cmd_line *cmd, t_struct *lst, int i, pid_t *pid)
 	if (!pid[i])
 	{
 		signal(SIGINT, handle_sigint_ii);
-		signal(SIGQUIT, SIG_DFL);
+		signal(SIGQUIT, handle_sigquit);
 		dup2(cmd->fd[0], 0);
 		dup2(cmd->fd[1], 1);
 		close_all(lst->cmd_line);
@@ -79,7 +79,7 @@ static void	_execcmd(t_cmd_line *cmd, t_struct *lst, int i, pid_t *pid)
 		g_error = select_cmd(*lst, cmd);
 		ft_exit(*lst, NULL, lst->env);
 	}
-	signal(SIGQUIT, SIG_IGN);
+	signal(SIGQUIT, handle_sigquit);
 	if (cmd->fd[0] != 0)
 		close(cmd->fd[0]);
 	if (cmd->fd[1] != 1)
