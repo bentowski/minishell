@@ -50,7 +50,7 @@ all:			$(NAME)
 $(NAME) :		$(OBJS)
 				$(MAKE) -C $(LIBFT_DIR) bonus
 				cp $(LIBFT_DIR)/libft.a libft.a
-				# cd $(READLINE_DIR) && ./configure && cd ../..
+				cd $(READLINE_DIR) && ./configure && cd ../..
 				$(MAKE) -C $(READLINE_DIR)
 				$(CC) $(FLAGS) $(COMPIL) $(NAME)
 
