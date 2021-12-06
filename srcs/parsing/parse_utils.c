@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 01:39:10 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/05 01:54:53 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/06 11:23:24 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,11 @@ int	check_pipes_good(t_struct *lst, char *line)
 
 	x = -1;
 	ret = 0;
+	while ((line[x] == '\t' || line[x] == '\n' || line[x] == '\r'
+			|| line[x] == '\v' || line[x] == '\f'))
+		x++;
+	if (line[x] == '|')
+		return (error(LON_PIPE, lst, NULL, 0));
 	while (line[++x])
 	{
 		if (line[x] == '|')

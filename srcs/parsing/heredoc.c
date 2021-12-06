@@ -6,7 +6,7 @@
 /*   By: vgallois <vgallois@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 11:59:22 by vgallois          #+#    #+#             */
-/*   Updated: 2021/12/03 16:56:20 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/06 11:20:16 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int	here_doc_checker(t_struct *lst)
 			{
 				tmp->limiter = ft_strdup(token->word);
 				tmp->expanded = _found_quote(tmp->limiter);
-				tmp->limiter = third_lecture(tmp->limiter);
+				tmp->limiter = third_lecture(lst, tmp->limiter);
 				if (!here_doc_read(lst, tmp))
 					return (1);
 			}
