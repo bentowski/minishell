@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 19:02:45 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/06 06:27:33 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/06 08:21:19 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,28 +30,21 @@ static void	get_new_lenght_ii(char *line, int x, int *lenght)
 		}
 		else if (line[x] == 34)
 		{
-			*lenght = *lenght + 1;
-			while (line[++x] && line[x] != 34)
-			{
-				if (line[x] == '$')
-				{
-					x++;
+			x++;
+			while (line[x] && line[x] != 34)
+				if (line[++x] == '$')
 					while (ft_isalnum(line[x]) || line[x] == '_')
 						x++;
-				}
-				else if (line[x])
-					*lenght = *lenght + 1;
-			}
-			*lenght = *lenght + 1;
+			else if (line[x])
+				*lenght = *lenght + 1;
+			*lenght = *lenght + 2;
 		}
 		else
-		{
 			if (line[x] == '$')
 				while (ft_isalnum(line[++x]) || line[x] == '_')
 					;
-			else if (line[x++])
-				*lenght = *lenght + 1;
-		}
+		else if (line[x++])
+			*lenght = *lenght + 1;
 	}
 }
 
@@ -84,82 +77,85 @@ static int	get_new_lenght(t_struct lst, char *line, char **vars_name,
 	return (lenght);
 }
 
-static char	*get_new_line(t_struct lst, char *new, char *line, char **vars_name)
+static char	*get_new_line_iii(t_struct lst,
+		char *vars_name, char **trash, int *i)
 {
-	char	*tmp;
 	int		x;
 	int		y;
-	int		i;
-	int		lenght;
+	int		z;
+	char	*tmp;
 
-	x = 0;
-	y = 0;
+	x = i[0] + 1;
+	y = i[1];
+	z = 0;
+	if (trash[0][x] == '?')
+	{
+		tmp = v_itoa(lst.exit_status);
+		x++;
+	}
+	else
+		tmp = ft_get_env(vars_name, *lst.env);
+	if (tmp)
+		while (tmp[z])
+			trash[1][y++] = tmp[z++];
+	while (ft_isalnum(trash[0][x]) || trash[0][x] == '_')
+		x++;
+	i[0] = x;
+	i[1] = y;
+	free(tmp);
+	return (trash[1]);
+}
+
+//trash[0] = line
+//trash[1] = new;
+static char	*get_new_line_ii(t_struct lst, char **trash,
+		char **vars_name, int l)
+{
+	int	x[2];
+
+	x[0] = 0;
+	x[1] = 0;
+	while (trash[0][x[0]])
+	{
+		if (trash[0][x[0]] == 39)
+			trash[1][x[1]++] = trash[1][x[0]++];
+		else if (trash[0][x[0]] == 34)
+		{
+			trash[1][x[1]++] = trash[0][x[0]++];
+			while (trash[0][x[0]] && trash[0][x[0]] != 34)
+				if (trash[0][x[0]] == '$')
+					trash[1] = get_new_line_iii(lst, vars_name[l++], trash, x);
+			else
+				trash[1][x[1]++] = trash[0][x[0]++];
+			trash[1][x[1]++] = trash[0][x[0]++];
+		}
+		else if (trash[0][x[0]] == '$')
+			trash[1] = get_new_line_iii(lst, vars_name[l++], trash, x);
+		else
+			trash[1][x[1]++] = trash[0][x[0]++];
+	}
+	trash[1][x[1]] = '\0';
+	return (trash[1]);
+}
+
+static char	*get_new_line(t_struct lst, char *line, char **vars_name)
+{
+	int		lenght;
+	char	*new;
+	char	*trash[2];
+
 	lenght = get_new_lenght(lst, line, vars_name, *lst.env);
 	if (!lenght)
 		return (NULL);
 	new = malloc(sizeof(char) * (lenght + 1));
 	if (!new)
 		error(MEM_ERR, &lst, NULL, 1);
-	lenght = 0;
-	while (line[x])
-	{
-		if (line[x] == 39)
-			new[y++] = line[x++];
-		else if (line[x] == 34)
-		{
-			new[y++] = line[x++];
-			while (line[x] && line[x] != 34)
-			{
-				if (line[x] == '$')
-				{
-					x++;
-					i = 0;
-					if (line[x] == '?')
-					{
-						tmp = v_itoa(lst.exit_status);
-						x++;
-					}
-					else
-						tmp = ft_get_env(vars_name[lenght++], *lst.env);
-					if (tmp)
-						while (tmp[i])
-							new[y++] = tmp[i++];
-					while (ft_isalnum(line[x]) || line[x] == '_')
-						x++;
-				}
-				else
-					new[y++] = line[x++];
-			}
-			new[y++] = line[x++];
-		}
-		else if (line[x] == '$')
-		{
-			x++;
-			i = 0;
-			if (line[x] == '?')
-			{
-				tmp = v_itoa(lst.exit_status);
-				x++;
-			}
-			else
-			{
-				tmp = ft_get_env(vars_name[lenght++], *lst.env);
-				while (ft_isalnum(line[x]) || line[x] == '_')
-					x++;
-			}
-			if (tmp)
-				while (tmp[i])
-					new[y++] = tmp[i++];
-		}
-		else
-			new[y++] = line[x++];
-	}
-	new[y] = '\0';
-	free(tmp);
-	return (new);
+	trash[0] = line;
+	trash[1] = new;
+	return (get_new_line_ii(lst, trash, vars_name, 0));
 }
 
-static char	*get_vars_names_ii(char *line, char *voidline, int *xvalue)
+static char	*get_vars_names_iii(char *line, char *voidline, int *xvalue)
 {
 	char	*new;
 	int		lenght;
@@ -173,6 +169,24 @@ static char	*get_vars_names_ii(char *line, char *voidline, int *xvalue)
 	new[lenght] = '\0';
 	*xvalue = x;
 	return (new);
+}
+
+static char	**get_vars_names_ii(char *line, char **vars_name, int *i, int *j)
+{
+	int	x;
+
+	x = *i;
+	if (line[x] == '?')
+	{
+		vars_name[*j][0] = '?';
+		vars_name[*j][1] = '\0';
+	}
+	else
+		vars_name[*j] = get_vars_names_iii(line,
+				vars_name[*j], &x);
+	*i = x;
+	*j = *j + 1;
+	return (vars_name);
 }
 
 static char	**get_vars_names(char *line, char **vars_name)
@@ -192,30 +206,11 @@ static char	**get_vars_names(char *line, char **vars_name)
 			while (line[x] && line[x] != 34)
 			{
 				if (line[x++] == '$')
-				{
-					if (line[x] == '?')
-					{
-						vars_name[y][0] = '?';
-						vars_name[y][1] = '\0';
-					}
-					else
-						vars_name[y] = get_vars_names_ii(line,
-								vars_name[y], &x);
-					y++;
-				}
+					vars_name = get_vars_names_ii(line, vars_name, &x, &y);
 			}
 		}
 		else if (line[x++] == '$')
-		{
-			if (line[x] == '?')
-			{
-				vars_name[y][0] = '?';
-				vars_name[y][1] = '\0';
-			}
-			else
-				vars_name[y] = get_vars_names_ii(line, vars_name[y], &x);
-			y++;
-		}
+			vars_name = get_vars_names_ii(line, vars_name, &x, &y);
 	}
 	return (vars_name);
 }
@@ -279,7 +274,7 @@ static char	*tab_filling(t_struct lst, char *line, char **vars_name)
 	new_line = NULL;
 	vars_name = malloc_names(lst, line, vars_name);
 	vars_name = get_vars_names(line, vars_name);
-	new_line = get_new_line(lst, new_line, line, vars_name);
+	new_line = get_new_line(lst, line, vars_name);
 	return (new_line);
 }
 
