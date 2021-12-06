@@ -6,11 +6,13 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/28 18:38:04 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/06 08:23:48 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/06 16:01:23 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+extern int	g_error;
 
 static int	cmd_count(t_cmd_line *cmds)
 {
@@ -70,7 +72,7 @@ int	ft_run(t_struct *lst)
 	int		ret;
 
 	if (!lst->cmd_line->token)
-		return (lst->exit_status);
+		return (g_error);
 	here_doc_checker(lst);
 	ret = gestion_file(lst);
 	if (ret)
@@ -79,6 +81,8 @@ int	ft_run(t_struct *lst)
 	if (cmd_count(lst->cmd_line) > 1 || do_fork(lst->cmd_line))
 	{
 		lst->is_child = 1;
+		signal(SIGINT, handle_sigint_ii);
+		signal(SIGQUIT, handle_sigquit);
 		return (ft_pipes(cmd_count(lst->cmd_line), lst));
 	}
 	else

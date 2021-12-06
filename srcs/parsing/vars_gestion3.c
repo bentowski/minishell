@@ -6,11 +6,13 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 08:34:53 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/06 08:36:29 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/06 15:36:53 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+extern int	g_error;
 
 static char	*get_new_line_iii(t_struct lst,
 		char *vars_name, char **trash, int *i)
@@ -25,7 +27,7 @@ static char	*get_new_line_iii(t_struct lst,
 	z = 0;
 	if (trash[0][x] == '?')
 	{
-		tmp = v_itoa(lst.exit_status);
+		tmp = v_itoa(g_error);
 		x++;
 	}
 	else
@@ -79,7 +81,7 @@ char	*get_new_line(t_struct lst, char *line, char **vars_name)
 	char	*new;
 	char	*trash[2];
 
-	lenght = get_new_lenght(lst, line, vars_name, *lst.env);
+	lenght = get_new_lenght(line, vars_name, *lst.env);
 	if (!lenght)
 		return (NULL);
 	new = malloc(sizeof(char) * (lenght + 1));

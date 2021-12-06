@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 13:34:26 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/06 09:37:08 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/06 15:58:30 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ typedef struct s_error
 
 typedef struct s_struct
 {
+	char		**err;
 	t_list		*cmds;
 	t_cmd_line	*cmd_line;
 	char		***env;
@@ -93,7 +94,6 @@ typedef struct s_struct
 	char		*here_doc_content;
 	char		*limiter;
 	char		*path;
-	int			exit_status;
 	int			is_child;
 	int			startin;
 	int			startout;
@@ -134,6 +134,7 @@ void		ft_free(char **cmd_parts);
 /* ================================= Errors ================================= */
 int			error(t_err raised, t_struct *lst, char *line, int critical);
 char		*v_itoa(int n);
+char		**errors(char **error);
 void		ft_putstr_fd(char *s, int fd);
 
 /* ================================= Env ==================================== */
@@ -157,8 +158,7 @@ void		skip_quote(char *res, char *s, int *x, int *y);
 char		*var_gestion(t_struct lst, char *line);
 char		**get_vars_names(char *line, char **vars_name);
 char		*get_new_line(t_struct lst, char *line, char **vars_name);
-int			get_new_lenght(t_struct lst, char *line,
-				char **vars_name, char **env);
+int			get_new_lenght(char *line, char **vars_name, char **env);
 
 /* ================================= Run ==================================== */
 int			do_fork(t_cmd_line *cmd);

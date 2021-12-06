@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vgallois <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vgallois <vgallois@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 08:14:29 by vgallois          #+#    #+#             */
-/*   Updated: 2021/12/06 08:14:31 by vgallois         ###   ########.fr       */
+/*   Updated: 2021/12/06 15:37:14 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+extern int	g_error;
 
 int	ft_echo(t_struct lst, char **cmd_parts, char ***env)
 {
@@ -33,7 +35,7 @@ int	ft_echo(t_struct lst, char **cmd_parts, char ***env)
 	}
 	if (n != -1)
 		write(1, "\n", 1);
-	lst.exit_status = 0;
+	g_error = 0;
 	if (lst.is_child)
 		ft_exit(lst, cmd_parts, env);
 	return (0);
