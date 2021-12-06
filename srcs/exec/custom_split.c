@@ -60,7 +60,7 @@ static int	_find_next_sp(char *s)
 	return (i);
 }
 
-static char	*_get_next_part(char *s)
+static char	*_get_next_part(t_struct *lst, char *s, char **tab)
 {
 	int		len;
 	char	*res;
@@ -69,7 +69,10 @@ static char	*_get_next_part(char *s)
 	len = _find_next_sp(s);
 	res = malloc(sizeof(char) *(len + 1));
 	if (!res)
-		return (NULL);
+	{
+		ft_free(tab);
+		error(MEM_ERR, lst, NULL, 1);
+	}
 	i = -1;
 	while (++i < len)
 		res[i] = s[i];
@@ -77,7 +80,7 @@ static char	*_get_next_part(char *s)
 	return (res);
 }
 
-char	**custom_split(char *s)
+char	**custom_split(char *s, t_struct *lst)
 {
 	int		nb;
 	char	**res;
@@ -89,19 +92,14 @@ char	**custom_split(char *s)
 	nb = _get_len_split(s) + 1;
 	res = malloc(sizeof(char *) * (nb + 1));
 	if (!res)
-		return (NULL);
+		error(MEM_ERR, lst, NULL, 1);
 	while (s[i])
 	{
 		while (s[i] == ' ')
 			i++;
 		if (s[i])
 		{
-			res[j++] = _get_next_part(s + i);
-			if (!res[j - 1])
-			{
-				ft_free(res);
-				error(MEM_ERR, NULL, NULL, 1);
-			}
+			res[j++] = _get_next_part(lst, s + i, res);
 			i += _find_next_sp(s + i);
 		}
 	}

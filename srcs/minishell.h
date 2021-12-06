@@ -49,13 +49,13 @@ typedef enum	e_filetype
 	NONE,
 	ARG,
 	FILE_IN,
-	HERE_DOC,
+	H_D,
 	FILE_OUT,
-	FILE_OUT_APPEND,
-	OPEN_FILE,
-	LIMITER,
-	OUT_FILE,
-	OUT_FILE_APPEND
+	FILE_OUT_APP,
+	IN_F,
+	LIM,
+	OUT_F,
+	OUT_F_APP
 }	t_filetype;
 
 typedef struct s_token
@@ -182,9 +182,9 @@ t_cmd_line	*new_cmd_line(void);
 t_cmd_line	*del_one_cmd_line(t_cmd_line *cmd_line);
 
 /* token utils */
-int			create_token(t_cmd_line *cmd);
+int			create_token(t_cmd_line *cmd, t_struct *lst);
 void		del_token_list(t_token **token);
-t_token		*create_token2(char *s, t_token	*start, t_token *next);
+t_token		*create_token2(char *s, t_token	*start, t_token *next, t_struct *lst);
 t_token		*del_one_token(t_token *token);
 t_token		*new_token(void);
 t_token		*remove_word_token(t_token *token);
@@ -197,10 +197,20 @@ char		*here_doc_read(t_struct *lst, t_cmd_line *cmd);
 
 /* pseudo libft */
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
-char		**custom_split(char *s);
+char		**custom_split(char *s, t_struct *lst);
 char		*change_line(char *line, int opt);
 char		*clean_join(char *s1, char *s2);
 char		**ft_split(char const *s, char c);
 size_t		ft_strlen(const char *s);
 
+
+int ft_pipes(int n, t_struct *lst);
+int no_pipe(t_struct *lst);
+
+void    close_all(t_cmd_line *cmd);
+
+void    fd_free(int **tab);
+
+int **init_fd_tab(int len);
+int  gestion_file(t_struct *lst);
 #endif

@@ -70,7 +70,7 @@ int	ft_run(t_struct *lst)
 	int		ret;
 
 	here_doc_checker(lst);
-	gestion_file(lst, lst->cmd_line, lst->cmd_line->token);
+	gestion_file(lst);
 	lst->is_child = 0;
 	if (cmd_count(lst->cmd_line) > 1 || do_fork(lst->cmd_line))
 	{

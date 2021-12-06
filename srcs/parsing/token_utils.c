@@ -30,32 +30,32 @@ static void	_add_token_back(t_token **lst, t_token *new)
 static t_filetype	_assign_type(t_token *token, t_filetype prec)
 {
 	if (prec == FILE_IN)
-		token->type = OPEN_FILE;
-	else if (prec == HERE_DOC)
-		token->type = LIMITER;
+		token->type = IN_F;
+	else if (prec == H_D)
+		token->type = LIM;
 	else if (prec == FILE_OUT)
-		token->type = OUT_FILE;
-	else if (prec == FILE_OUT_APPEND)
-		token->type = OUT_FILE_APPEND;
+		token->type = OUT_F;
+	else if (prec == FILE_OUT_APP)
+		token->type = OUT_F_APP;
 	if (!ft_strncmp(token->word, "<", 2))
 		token->type = FILE_IN;
 	else if (!ft_strncmp(token->word, "<<", 3))
-		token->type = HERE_DOC;
+		token->type = H_D;
 	else if (!ft_strncmp(token->word, ">", 2))
 		token->type = FILE_OUT;
 	else if (!ft_strncmp(token->word, ">>", 3))
-		token->type = FILE_OUT_APPEND;
+		token->type = FILE_OUT_APP;
 	if (token->type == NONE)
 		token->type = ARG;
-	if ((prec == FILE_IN && token->type != OPEN_FILE)
-		|| (prec == FILE_OUT && token->type != OUT_FILE)
-		|| (prec == FILE_OUT_APPEND && token->type != OUT_FILE_APPEND)
-		|| (prec == HERE_DOC && token->type != LIMITER))
+	if ((prec == FILE_IN && token->type != IN_F)
+		|| (prec == FILE_OUT && token->type != OUT_F)
+		|| (prec == FILE_OUT_APP && token->type != OUT_F_APP)
+		|| (prec == H_D && token->type != LIM))
 		token->type = NONE;
 	return (token->type);
 }
 
-int	create_token(t_cmd_line *cmd)
+int	create_token(t_cmd_line *cmd, t_struct *lst)
 {
 	char		**tab;
 	t_token		*new;
@@ -64,7 +64,7 @@ int	create_token(t_cmd_line *cmd)
 
 	if (!cmd)
 		return (0);
-	tab = custom_split(cmd->line);
+	tab = custom_split(cmd->line, lst);
 	prec = NONE;
 	i = 0;
 	while (tab[i])
@@ -78,10 +78,10 @@ int	create_token(t_cmd_line *cmd)
 	}
 	free(tab);
 	tab = NULL;
-	return (create_token(cmd->next));
+	return (create_token(cmd->next, lst));
 }
 
-t_token	*create_token2(char *s, t_token	*start, t_token *next)
+t_token	*create_token2(char *s, t_token	*start, t_token *next, t_struct *lst)
 {
 	char	**tab;
 	t_token	*new;
@@ -89,7 +89,7 @@ t_token	*create_token2(char *s, t_token	*start, t_token *next)
 
 	if (!s)
 		return (start);
-	tab = custom_split(s);
+	tab = custom_split(s, lst);
 	start->word = tab[0];
 	i = 1;
 	if (tab[1])

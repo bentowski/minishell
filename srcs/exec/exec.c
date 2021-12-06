@@ -49,12 +49,14 @@ static void	_putfile(t_cmd_line *cmd)
 	{
 		if (tmp->file[0] != 0)
 		{
-			close(tmp->fd[0]);
+			if (tmp->fd[0] != 0)
+				close(tmp->fd[0]);
 			tmp->fd[0] = tmp->file[0];
 		}
 		if (tmp->file[1] != 1)
 		{
-			close(tmp->fd[0]);
+			if (tmp->fd[1] != 1)
+				close(tmp->fd[1]);
 			tmp->fd[1] = tmp->file[1];
 		}
 		tmp = tmp->next;

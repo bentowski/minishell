@@ -106,9 +106,9 @@ int	here_doc_checker(t_struct *lst)
 		token = tmp->token;
 		while (token)
 		{
-			if (token->type == HERE_DOC)
+			if (token->type == H_D)
 				token = remove_word_token(token);
-			else if (token->type == LIMITER)
+			else if (token->type == LIM)
 			{
 				tmp->limiter = ft_strdup(token->word);
 				tmp->expanded = _found_quote(tmp->limiter);

@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 13:32:42 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/05 22:02:28 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/06 08:13:30 by vgallois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,14 +67,17 @@ static int	ft_exec(t_struct lst, char **cmd_parts, char ***env)
 	return (ret);
 }
 
-int	select_cmd(t_struct lst, t_cmd_line *cmd)
+static void	_mapping(char **bltin,
+	int (*functions[7])(t_struct, char **, char ***))
 {
-	char	*bltin[8] = {"echo", "cd", "pwd", "export", "unset", "env", "exit"};
-	int		(*functions[7])(t_struct lst, char **cmd_parts, char ***env);
-	int		x;
-	int		len;
-
-	cmd->arg = token_join(cmd->token);
+	bltin[0] = "echo";
+	bltin[1] = "cd";
+	bltin[2] = "pwd";
+	bltin[3] = "export";
+	bltin[4] = "unset";
+	bltin[5] = "env";
+	bltin[6] = "exit";
+	bltin[7] = NULL;
 	functions[0] = ft_echo;
 	functions[1] = ft_cd;
 	functions[2] = ft_pwd;
@@ -82,6 +85,17 @@ int	select_cmd(t_struct lst, t_cmd_line *cmd)
 	functions[4] = ft_unset;
 	functions[5] = ft_env;
 	functions[6] = ft_exit_bi;
+}
+
+int	select_cmd(t_struct lst, t_cmd_line *cmd)
+{
+	char	*bltin[8];
+	int		(*functions[7])(t_struct lst, char **cmd_parts, char ***env);
+	int		x;
+	int		len;
+
+	_mapping(bltin, functions);
+	cmd->arg = token_join(cmd->token);
 	x = -1;
 	lst.here_doc_flag = cmd->here_doc_flag;
 	lst.here_doc_content = cmd->here_doc_content;
