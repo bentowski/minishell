@@ -46,7 +46,7 @@ int	do_fork(t_cmd_line *cmd)
 	int		x;
 
 	tmp = cmd->token;
-	while (tmp && !tmp->word)
+	while (tmp && !(tmp->type == ARG))
 		tmp = tmp->next;
 	builtin[0] = "cd";
 	builtin[1] = "pwd";

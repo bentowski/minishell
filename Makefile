@@ -54,7 +54,7 @@ $(NAME) :		$(OBJS)
 				$(MAKE) -C $(READLINE_DIR)
 				$(CC) $(FLAGS) $(COMPIL) $(NAME)
 
-%.o: %.c
+%.o: %.c ./srcs/minishell.h
 				$(CC) $(FLAGS) -c $< -o $@
 				@echo "Compiled "$<" successfully!"
 

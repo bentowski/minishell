@@ -69,8 +69,7 @@ int	create_token(t_cmd_line *cmd, t_struct *lst)
 	i = 0;
 	while (tab[i])
 	{
-		new = new_token();
-		new->word = tab[i++];
+		new = new_token(tab[i++]);
 		prec = _assign_type(new, prec);
 		if (prec == NONE)
 			exit(printf("caca %s \n", new->word));//mettre error parsing < <file
@@ -97,9 +96,8 @@ t_token	*create_token2(char *s, t_token	*start, t_token *next, t_struct *lst)
 		start->next = NULL;
 		while (tab[i])
 		{
-			new = new_token();
+			new = new_token(tab[i++]);
 			new->type = ARG;
-			new->word = tab[i++];
 			_add_token_back(&start, new);
 		}
 		new->next = next;

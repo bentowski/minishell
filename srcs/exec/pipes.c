@@ -69,8 +69,12 @@ int	ft_run(t_struct *lst)
 {
 	int		ret;
 
+	if (!lst->cmd_line->token)
+		return (lst->exit_status);
 	here_doc_checker(lst);
-	gestion_file(lst);
+	ret = gestion_file(lst);
+	if (ret)
+		return (ret);
 	lst->is_child = 0;
 	if (cmd_count(lst->cmd_line) > 1 || do_fork(lst->cmd_line))
 	{

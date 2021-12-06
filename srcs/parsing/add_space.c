@@ -55,7 +55,7 @@ static void	_redir(char *res, char *s, int *x, int *y)
 	res[j++] = s[i++];
 	if (s[i] == '<' || s[i] == '>')
 		res[j++] = s[i++];
-	if (s[i + 1] != '<' && s[i + 1] != '>')
+	if (s[i] != '<' && s[i] != '>')
 		res[j++] = ' ';
 	*x = i;
 	*y = j;
