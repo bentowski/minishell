@@ -81,6 +81,43 @@ static int	cmd_count(t_cmd_line *cmds)
 	return (x);
 }
 
+// static int	ft_childs(int in, int *fd, t_struct lst, t_cmd_line *cmd_line)
+// {
+// 	pid_t	pid;
+// 	int		x;
+// 	int		out;
+
+// 	x = 0;
+// 	out = fd[1];
+// 	if (cmd_line->file[1] != 1)
+// 		out = cmd_line->file[1];
+// 	pid = fork();
+// 	if (!pid)
+// 	{
+// 		if (in != 0)
+// 		{
+// 			dup2(in, 0);
+// 			close(in);
+// 		}
+// 		if (out != 1)
+// 		{
+// 			dup2(out, 1);
+// 			close(out);
+// 		}
+// 		close(fd[0]);
+// 		select_cmd(lst, cmd_line);
+// 		exit(EXIT_SUCCESS);
+// 	}
+// 	else
+// 	{
+// 		if (out != 1)
+// 			close(out);
+// 		if (in)
+// 			close(in);
+// 		return (1);
+// 	}
+// }
+
 void	close_all(t_cmd_line *cmd)
 {
 	t_cmd_line	*tmp;
@@ -88,22 +125,12 @@ void	close_all(t_cmd_line *cmd)
 	tmp = cmd;
 	while (tmp)
 	{
-		if (tmp->fd[0] != 0)
-			close(tmp->fd[0]);
-		if (tmp->fd[1] != 1)
-			close(tmp->fd[1]);
+		if (tmp->file[0] != 0)
+			close(tmp->file[0]);
+		if (tmp->file[1] != 1)
+			close(tmp->file[1]);
 		tmp = tmp->next;
 	}
-}
-
-void	fd_free(int **tab)
-{
-	int	i;
-
-	i = 0;
-	while (tab[i])
-		free(tab[i++]);
-	free(tab);
 }
 
 int	**init_fd_tab(int len)
@@ -117,6 +144,16 @@ int	**init_fd_tab(int len)
 		tab[i++] = malloc(sizeof(int) * 2);
 	tab[i] = NULL;
 	return (tab);
+}
+
+void	fd_free(int **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i])
+		free(tab[i++]);
+	free(tab);
 }
 
 void	openpipe(t_cmd_line *cmd, int len)
@@ -157,77 +194,53 @@ void	putfile(t_cmd_line *cmd)
 	while (tmp)
 	{
 		if (tmp->file[0] != 0)
-		{
-			close(tmp->fd[0]);
 			tmp->fd[0] = tmp->file[0];
-		}
 		if (tmp->file[1] != 1)
-		{
-			close(tmp->fd[0]);
 			tmp->fd[1] = tmp->file[1];
-		}
 		tmp = tmp->next;
 	}
 }
 
-void	execcmd(t_cmd_line *cmd, t_struct *lst, int i, pid_t *pid)
+int	execcmd(t_struct *lst, t_cmd_line *cmd)
 {
-	int	ret;
-	pid[i] = fork();
-	if(!pid[i])
+	pid_t	pid;
+	int		ret;
+
+	if (!cmd->next)
 	{
 		dup2(cmd->fd[0], 0);
 		dup2(cmd->fd[1], 1);
-		close_all(lst->cmd_line);
+		close_all(cmd);
 		ret = select_cmd(*lst, cmd);
-		exit(ret);
+		return (ret);
 	}
-	if (cmd->fd[0] != 0)
-		close(cmd->fd[0]);
+	pid = fork();
+	if (!pid)
+	{
+		dup2(cmd->fd[0], 0);
+		dup2(cmd->fd[1], 1);
+		close_all(cmd);
+		select_cmd(*lst, cmd);
+		exit(EXIT_SUCCESS);
+	}
 	if (cmd->fd[1] != 1)
 		close(cmd->fd[1]);
-
+	if (cmd->fd[0] != 0)
+		close(cmd->fd[0]);
+	return (execcmd(lst, cmd->next));
 }
 
 static int	ft_pipes(int n, t_struct *lst)
 {
-	int	i;
-	t_cmd_line	*tmp;
-	pid_t	*pid;
-	int	ret;
-	
-	i = -1;
-	tmp = lst->cmd_line;
-	openpipe(tmp, n);
-	putfile(tmp);
-	pid = malloc(sizeof(pid_t) * n);
-	while (++i < n)
-	{
-		execcmd(tmp, lst, i, pid);
-		tmp = tmp->next;
-	}
-	i = 0;
-	while (i < n)
-	{
-		waitpid(pid[i++], &ret, 0);
-		if (WIFEXITED(ret))
-			ret = WEXITSTATUS(ret);
-	}
-	free(pid);
-	return (ret);
-}
-
-static int	no_pipe(t_struct *lst)
-{
-	int	ret;
-	//tbd
-	ret = select_cmd(*lst, lst->cmd_line);
-	return (0);
+	openpipe(lst->cmd_line, n);
+	putfile(lst->cmd_line);
+	return (execcmd(lst, lst->cmd_line));
 }
 
 int	ft_run(t_struct *lst)
 {
 	int		ret;
+	int		pid;
 
 	here_doc_checker(lst);
 	gestion_file(lst, lst->cmd_line, lst->cmd_line->token);
@@ -236,9 +249,22 @@ int	ft_run(t_struct *lst)
 	{
 		signal(SIGINT, handle_sigint_ii);
 		signal(SIGQUIT, handle_sigquit_ii);
-		return (ft_pipes(cmd_count(lst->cmd_line), lst));
+		pid = fork();
+		if (pid == 0)
+		{
+			lst->is_child = 1;
+			ret = ft_pipes(cmd_count(lst->cmd_line), lst);
+			printf("prout\n");
+			return (ret);
+		}
+		else
+		{
+			waitpid(pid, &ret, 0);
+			if (WIFEXITED(ret))
+				ret = (((ret) & 0xff00) >> 8);
+		}
 	}
 	else
-		return (no_pipe(lst));//tbd
+		return (ft_pipes(cmd_count(lst->cmd_line), lst));
 	return (ret);
 }

@@ -71,6 +71,7 @@ typedef struct s_cmd_line
 	struct s_cmd_line	*next;
 	char				**arg;
 	int					file[2];
+	int					fd[2];
 	int					here_doc_flag;
 	char				*here_doc_content;
 	char				*limiter;

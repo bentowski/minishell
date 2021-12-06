@@ -206,15 +206,17 @@ char	*get_path(void *cmd, char ***env)
 	char	**possible;
 	char	*path_line;
 	char	*ret;
+	char	*tmp;
 	int		x;
 
 	(void)env;
 	path_line = ft_get_env("PATH", *env);
 	if (!path_line)
 		return (NULL);
-	path_line = ft_substr(path_line, 5, ft_strlen(path_line) - 5);
-	possible = ft_split(path_line, ':');
+	tmp = ft_substr(path_line, 5, ft_strlen(path_line) - 5);
 	free(path_line);
+	possible = ft_split(tmp, ':');
+	free(tmp);
 	ret = get_path_deux(possible, cmd);
 	x = 0;
 	while (possible[x])

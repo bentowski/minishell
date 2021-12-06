@@ -139,7 +139,7 @@ t_token	*create_token2(char *s, t_token	*start, t_token *next)
 	int	i;
 
 	if (!s)
-		return (NULL);
+		return (start);
 	tab = custom_split(s);
 	start->word = tab[0];
 	i = 1;

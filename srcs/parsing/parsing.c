@@ -20,8 +20,22 @@ int	find_c(char c, char *s)
 		return (-1);
 	i = -1;
 	while (s[++i])
+	{
+		if (s[i] == '"')
+		{
+			i++;
+			while (s[i] != '"')
+				i++;
+		}
+		if (s[i] == '\'')
+		{
+			i++;
+			while (s[i] != '\'')
+				i++;
+		}
 		if (s[i] == c)
 			return (i);
+	}
 	return (i);
 }
 
@@ -62,7 +76,8 @@ int	ft_parsing(t_struct *lst)
 	line = readline("minishell$> ");
 	if (!line)
 		ft_exit(*lst, NULL, lst->env);
-	add_history(line);
+	if (*line)
+		add_history(line);
 	x = check_pipes_good(lst, line);
 	if (x)
 	{
