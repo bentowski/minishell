@@ -18,8 +18,9 @@ int	start(t_struct lst)
 	int	ret;
 
 	end = 0;
-	while (end == 0 && !lst.is_child)
+	while (end == 0)
 	{
+		lst.is_child = 0;
 		signal(SIGINT, handle_sigint);
 		signal(SIGQUIT, handle_sigquit);
 		lst.here_doc_flag = 0;

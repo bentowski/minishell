@@ -172,15 +172,15 @@ void	putfile(t_cmd_line *cmd)
 
 void	execcmd(t_cmd_line *cmd, t_struct *lst, int i, pid_t *pid)
 {
-	int	ret;
 	pid[i] = fork();
 	if(!pid[i])
 	{
 		dup2(cmd->fd[0], 0);
 		dup2(cmd->fd[1], 1);
 		close_all(lst->cmd_line);
-		ret = select_cmd(*lst, cmd);
-		exit(ret);
+		free(pid);
+		lst->exit_status = select_cmd(*lst, cmd);
+		ft_exit(*lst, NULL, lst->env);
 	}
 	if (cmd->fd[0] != 0)
 		close(cmd->fd[0]);
@@ -220,9 +220,15 @@ static int	ft_pipes(int n, t_struct *lst)
 static int	no_pipe(t_struct *lst)
 {
 	int	ret;
-	//tbd
+
+	lst->startin = dup(0);
+	lst->startout = dup(1);
+	dup2(lst->cmd_line->file[0], 0);
+	dup2(lst->cmd_line->file[1], 1);
 	ret = select_cmd(*lst, lst->cmd_line);
-	return (0);
+	dup2(lst->startin, 0);
+	dup2(lst->startout, 1);
+	return (ret);
 }
 
 int	ft_run(t_struct *lst)
@@ -234,6 +240,7 @@ int	ft_run(t_struct *lst)
 	lst->is_child = 0;
 	if (cmd_count(lst->cmd_line) > 1 || do_fork(lst->cmd_line))
 	{
+		lst->is_child = 1;
 		signal(SIGINT, handle_sigint_ii);
 		signal(SIGQUIT, handle_sigquit_ii);
 		return (ft_pipes(cmd_count(lst->cmd_line), lst));

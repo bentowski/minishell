@@ -27,6 +27,7 @@
 # include <errno.h>
 # include <string.h>
 
+
 typedef enum e_err
 {
 	ERRNO_TO_STR = -1,
@@ -95,6 +96,8 @@ typedef struct s_struct
 	char	*path;
 	int		exit_status;
 	int		is_child;
+	int		startin;
+	int		startout;
 	pid_t	pid;
 }		t_struct;
 

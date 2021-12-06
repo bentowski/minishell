@@ -73,7 +73,11 @@ static int	get_new_lenght(t_struct lst, char *line, char **vars_name,
 			free(tmp);
 		}
 		else if (_connard(tmp) && ft_strncmp(vars_name[x], "?", 2) == 0)
-			lenght += ft_strlen(v_itoa(lst.exit_status));
+		{
+			tmp = v_itoa(lst.exit_status);
+			lenght += ft_strlen(tmp);
+			free(tmp);
+		}
 	}
 	return (lenght);
 }
