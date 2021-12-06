@@ -6,16 +6,37 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 17:38:31 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/05 23:38:47 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/06 09:10:34 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int	real_start(t_struct *lst, int end)
+{
+	int	ret;
+
+	if (lst->cmd_line)
+	{
+		ret = ft_run(lst);
+		if (ret == -1)
+			end = 1;
+		else
+			lst->exit_status = ret;
+		if (lst->here_doc_content)
+		{
+			free(lst->here_doc_content);
+			lst->here_doc_content = NULL;
+		}
+		if (lst->cmd_line)
+			del_cmd_list(&lst->cmd_line);
+	}
+	return (end);
+}
+
 int	start(t_struct lst)
 {
 	int	end;
-	int	ret;
 
 	end = 0;
 	while (end == 0)
@@ -24,24 +45,10 @@ int	start(t_struct lst)
 		signal(SIGINT, handle_sigint);
 		signal(SIGQUIT, handle_sigquit);
 		lst.here_doc_flag = 0;
-		ret = ft_parsing(&lst);
-		if (lst.cmd_line)
-		{
-			ret = ft_run(&lst);
-			if (ret == -1)
-				end = 1;
-			else
-				lst.exit_status = ret;
-			if (lst.here_doc_content)
-			{
-				free(lst.here_doc_content);
-				lst.here_doc_content = NULL;
-			}
-			if (lst.cmd_line)
-				del_cmd_list(&lst.cmd_line);
-		}
+		ft_parsing(&lst);
+		end = real_start(&lst, end);
 	}
-	return (ret);
+	return (0);
 }
 
 int	main(int argc, char **argv, char **env)

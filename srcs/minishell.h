@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 13:34:26 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/06 08:48:53 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/06 09:37:08 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ int			ft_parsing(t_struct *lst);
 int			check_pipes_good(t_struct *lst, char *line);
 char		*add_space(t_struct lst, char *s);
 char		*get_exit_status(t_struct *lst);
-char		*third_lecture(char *line);
+char		*third_lecture(t_struct *lst, char *line);
 void		skip_quote(char *res, char *s, int *x, int *y);
 
 /* === vars_gestion === */
@@ -197,6 +197,7 @@ char		*here_doc_read(t_struct *lst, t_cmd_line *cmd);
 /* pseudo libft */
 int			ft_strcmp(const char *s1, const char *s2);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
+int			ft_strcmp(const char *s1, const char *s2);
 char		**custom_split(char *s, t_struct *lst);
 char		*change_line(char *line, int opt);
 char		*clean_join(char *s1, char *s2);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gestion_file.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vgallois <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vgallois <vgallois@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 06:08:58 by vgallois          #+#    #+#             */
-/*   Updated: 2021/12/06 07:52:37 by vgallois         ###   ########.fr       */
+/*   Updated: 2021/12/06 09:37:35 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	_gestion_file(t_struct *lst, t_cmd_line *cmd, t_token *t)
 		t->word = var_gestion(*lst, t->word);
 		if (t->type == ARG)
 			t = create_token2(t->word, t, t->next, lst);
-		t->word = third_lecture(t->word);
+		t->word = third_lecture(lst, t->word);
 		if (t->type == IN_F || t->type == OUT_F || t->type == OUT_F_APP)
 		{
 			_open_close(t, cmd);

@@ -6,30 +6,11 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 10:25:52 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/05 21:54:36 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/06 09:42:06 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-char	*ft_get_env(char *str, char **env)
-{
-	int	i;
-	int	x;
-	int	y;
-
-	i = -1;
-	while (env[++i])
-	{
-		x = ft_strchr(env[i], '=') - env[i];
-		y = ft_strlen(str);
-		if (x < y)
-			x = y;
-		if (ft_strncmp(str, env[i], x) == 0)
-			return (ft_strdup(&env[i][ft_strlen(str) + 1]));
-	}
-	return (NULL);
-}
 
 char	*clean_join(char *s1, char *s2)
 {
@@ -43,52 +24,11 @@ char	*clean_join(char *s1, char *s2)
 	return (tmp);
 }
 
-char	*third_lecture(char *line)
+char	*third_lecture_iv(char *line, char *new)
 {
-	int		x;
-	int		y;
-	int		count;
-	char	*new;
+	int	x;
+	int	y;
 
-	if (!line)
-		return (ft_strdup(""));
-	x = 0;
-	count = 0;
-	while (line[x])
-	{
-		if (line[x] == 34)
-		{
-			x++;
-			while (line[x] && line[x] != 34)
-			{
-				count++;
-				x++;
-			}
-			if (!line[x])
-				return (NULL);
-			x++;
-		}
-		else if (line[x] == 39)
-		{
-			x++;
-			while (line[x] && line[x] != 39)
-			{
-				count++;
-				x++;
-			}
-			if (!line[x])
-				return (NULL);
-			x++;
-		}
-		else
-		{
-			count++;
-			x++;
-		}
-	}
-	new = malloc(sizeof(char) * (count + 1));
-	if (!new)
-		return (NULL);
 	x = -1;
 	y = 0;
 	while (line[++x])
@@ -107,3 +47,62 @@ char	*third_lecture(char *line)
 	return (new);
 }
 
+int	third_lecture_iii(char *line, int *i, int count, int opt)
+{
+	int	x;
+
+	x = *i + 1;
+	while (line[x] && line[x] != opt)
+	{
+		count++;
+		x++;
+	}
+	*i = x;
+	return (count);
+}
+
+int	third_lecture_ii(char *line, int x)
+{
+	int	count;
+
+	count = 0;
+	while (line[x])
+	{
+		if (line[x] == 34)
+		{
+			count = third_lecture_iii(line, &x, count, 34);
+			if (!line[x++])
+				return (-1);
+		}
+		else if (line[x] == 39)
+		{
+			count = third_lecture_iii(line, &x, count, 39);
+			if (!line[x++])
+				return (-1);
+		}
+		else
+		{
+			count++;
+			x++;
+		}
+	}
+	return (count);
+}
+
+char	*third_lecture(t_struct *lst, char *line)
+{
+	int		x;
+	int		y;
+	char	*new;
+
+	if (!line)
+		return (ft_strdup(""));
+	x = 0;
+	y = third_lecture_ii(line, x);
+	if (y == -1)
+		return (NULL);
+	new = malloc(sizeof(char) * (y + 1));
+	if (!new)
+		error(MEM_ERR, lst, NULL, 1);
+	return (third_lecture_iv(line, new));
+}

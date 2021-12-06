@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vgallois <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vgallois <vgallois@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 08:45:54 by vgallois          #+#    #+#             */
-/*   Updated: 2021/12/06 08:45:55 by vgallois         ###   ########.fr       */
+/*   Updated: 2021/12/06 09:41:30 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,25 @@ int	non_num_found(char *s)
 		if (!isdigit(s[i]))
 			return (1);
 	return (0);
+}
+
+char	*ft_get_env(char *str, char **env)
+{
+	int	i;
+	int	x;
+	int	y;
+
+	i = -1;
+	while (env[++i])
+	{
+		x = ft_strchr(env[i], '=') - env[i];
+		y = ft_strlen(str);
+		if (x < y)
+			x = y;
+		if (ft_strncmp(str, env[i], x) == 0)
+			return (ft_strdup(&env[i][ft_strlen(str) + 1]));
+	}
+	return (NULL);
 }
 
 int	ft_exit(t_struct lst, char **cmd_parts, char ***env)
