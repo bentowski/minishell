@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 19:02:45 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/05 20:26:22 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/06 06:27:33 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,16 @@ static void	get_new_lenght_ii(char *line, int x, int *lenght)
 		}
 		else if (line[x] == 34)
 		{
-			x++;
 			*lenght = *lenght + 1;
-			while (line[x] && line[x] != 34)
+			while (line[++x] && line[x] != 34)
 			{
 				if (line[x] == '$')
-					while (ft_isalnum(line[++x]) || line[x] == '_')
-						;
-				else if (line[x++])
+				{
+					x++;
+					while (ft_isalnum(line[x]) || line[x] == '_')
+						x++;
+				}
+				else if (line[x])
 					*lenght = *lenght + 1;
 			}
 			*lenght = *lenght + 1;
@@ -102,7 +104,7 @@ static char	*get_new_line(t_struct lst, char *new, char *line, char **vars_name)
 	while (line[x])
 	{
 		if (line[x] == 39)
-			x++;
+			new[y++] = line[x++];
 		else if (line[x] == 34)
 		{
 			new[y++] = line[x++];
@@ -227,24 +229,20 @@ static char	**malloc_names_ii(t_struct lst, char *line, char **vars_name,
 
 	tmpx = x[0];
 	ptry = x[1];
-	if (line[tmpx] == '$')
+	if (line[tmpx++] == '$')
 	{
 		lenght = 0;
-		tmpx++;
-		if (line[tmpx] != '?')
-			while (ft_isalnum(line[tmpx]))
-			{
-				tmpx++;
-				lenght++;
-			}
-		else
+		while (ft_isalnum(line[tmpx]) || line[tmpx] == '?')
+		{
+			if (line[tmpx] != '?')
+				break ;
+			tmpx++;
 			lenght++;
+		}
 		vars_name[ptry] = malloc(sizeof(char) * (lenght + 1));
 		if (!vars_name[ptry++])
 			error(MEM_ERR, &lst, NULL, 1);
 	}
-	else
-		tmpx++;
 	x[0] = tmpx;
 	x[1] = ptry;
 	return (vars_name);
@@ -315,27 +313,6 @@ static int	var_count(t_struct lst, char *line)
 	return (ret);
 }
 
-// char	*_etoile_etoile(char *etoile)
-// {
-// 	char	**etoile_etoile;
-// 	char	*etoile_filante;
-// 	int		star;
-
-// 	etoile_etoile = custom_split(etoile);
-// 	etoile_filante = ft_strdup("");
-// 	star = 0;
-// 	while (etoile_etoile[star])
-// 	{
-// 		etoile_filante = clean_join(etoile_filante, etoile_etoile[star]);
-// 		star++;
-// 		if (etoile_etoile[star])
-// 			etoile_filante = clean_join(etoile_filante, ft_strdup(" "));
-// 	}
-// 	free(etoile_etoile);
-// 	free(etoile);
-// 	return (etoile_filante);
-// }
-
 char	*var_gestion(t_struct lst, char *line)
 {
 	char	*new_line;
@@ -358,7 +335,6 @@ char	*var_gestion(t_struct lst, char *line)
 		new_line = tab_filling(lst, line, vars_tab);
 		ft_free(vars_tab);
 		free(line);
-		//new_line = _etoile_etoile(new_line);
 		return (new_line);
 	}
 	return (line);
