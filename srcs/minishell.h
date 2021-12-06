@@ -22,7 +22,6 @@
 # include <readline/history.h>
 # include <signal.h>
 # include <fcntl.h>
-# include "./errors/errors.h"
 # include "../includes/libft/libft.h"
 # include <errno.h>
 # include <string.h>
@@ -31,8 +30,8 @@ typedef enum e_err
 {
 	ERRNO_TO_STR = -1,
 	UKN_ERR,
-	BAD_FILE,
 	MEM_ERR,
+	BAD_FILE,
 	QUOTE_ERR,
 	NO_VAR,
 	BAD_ARG,
@@ -185,7 +184,7 @@ void		del_token_list(t_token **token);
 t_token		*create_token2(char *s, t_token	*start,
 				t_token *next, t_struct *lst);
 t_token		*del_one_token(t_token *token);
-t_token		*new_token(void);
+t_token		*new_token(char *s);
 t_token		*remove_word_token(t_token *token);
 
 /* here_doc */
@@ -195,6 +194,7 @@ int			here_doc_exec(char *path, t_struct lst, char **cmd_part,
 char		*here_doc_read(t_struct *lst, t_cmd_line *cmd);
 
 /* pseudo libft */
+int			ft_strcmp(const char *s1, const char *s2);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
 char		**custom_split(char *s, t_struct *lst);
 char		*change_line(char *line, int opt);

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minisell.h"
+#include "../minishell.h"
 
 static char	*get_vars_names_iii(char *line, char *voidline, int *xvalue)
 {

@@ -34,6 +34,8 @@ SRC =	srcs/main.c \
 		srcs/utils/ft_clear.c \
 		srcs/utils/array_size.c \
 		srcs/utils/utils.c \
+		srcs/utils/utils2.c \
+		srcs/utils/utils3.c \
 		srcs/utils/env.c \
 		srcs/utils/signals.c
 
@@ -52,7 +54,7 @@ $(NAME) :		$(OBJS)
 				$(MAKE) -C $(READLINE_DIR)
 				$(CC) $(FLAGS) $(COMPIL) $(NAME)
 
-%.o: %.c
+%.o: %.c ./srcs/minishell.h
 				$(CC) $(FLAGS) -c $< -o $@
 				@echo "Compiled "$<" successfully!"
 

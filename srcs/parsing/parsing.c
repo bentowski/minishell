@@ -66,6 +66,17 @@ static t_cmd_line	*_create_cmd_lines(char *line)
 	return (start);
 }
 
+// void test(t_cmd_line *cmd)
+// {
+// 	t_token *token;
+// 	token = cmd->token;
+// 	while (token)
+// 	{
+// 		printf("%s %d\n", token->word, token->type);
+// 		token = token->next;
+// 	}
+// }
+
 int	ft_parsing(t_struct *lst)
 {
 	int			x;

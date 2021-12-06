@@ -12,13 +12,13 @@
 
 #include "../minishell.h"
 
-t_token	*new_token(void)
+t_token	*new_token(char *s)
 {
 	t_token	*new;
 
 	new = malloc(sizeof(t_token));
 	new->next = NULL;
-	new->word = NULL;
+	new->word = s;
 	new->type = NONE;
 	return (new);
 }
