@@ -13,6 +13,9 @@ SRC =	srcs/main.c \
 		srcs/parsing/parse_utils.c \
 		srcs/parsing/heredoc.c \
 		srcs/parsing/vars_gestion.c \
+		srcs/parsing/vars_gestion2.c \
+		srcs/parsing/vars_gestion3.c \
+		srcs/parsing/vars_gestion4.c \
 		srcs/parsing/add_space.c \
 		srcs/parsing/add_space2.c \
 		srcs/parsing/cmd_line_utils.c\
