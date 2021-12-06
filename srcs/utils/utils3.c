@@ -6,7 +6,7 @@
 /*   By: vgallois <vgallois@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 08:45:54 by vgallois          #+#    #+#             */
-/*   Updated: 2021/12/06 09:41:30 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/06 14:56:12 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int	ft_exit(t_struct lst, char **cmd_parts, char ***env)
 	rl_clear_history();
 	del_cmd_list(&lst.cmd_line);
 	(void)cmd_parts;
+	free(lst.err);
 	if (!lst.is_child)
 		printf("Bye bye 😎\n");
 	exit(lst.exit_status);

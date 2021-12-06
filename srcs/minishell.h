@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 13:34:26 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/06 09:37:08 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/06 14:48:13 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ typedef struct s_error
 
 typedef struct s_struct
 {
+	char		**err;
 	t_list		*cmds;
 	t_cmd_line	*cmd_line;
 	char		***env;
@@ -134,6 +135,7 @@ void		ft_free(char **cmd_parts);
 /* ================================= Errors ================================= */
 int			error(t_err raised, t_struct *lst, char *line, int critical);
 char		*v_itoa(int n);
+char		**errors(char **error);
 void		ft_putstr_fd(char *s, int fd);
 
 /* ================================= Env ==================================== */

@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 13:34:31 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/05 20:25:58 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/06 14:56:19 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ int	ft_exit_bi(t_struct lst, char **cmd_parts, char ***env)
 		else
 			lst.exit_status = ft_atoi(cmd_parts[1]);
 	}
+	free(lst.err);
 	del_cmd_list(&lst.cmd_line);
 	ft_free(*env);
 	rl_clear_history();
