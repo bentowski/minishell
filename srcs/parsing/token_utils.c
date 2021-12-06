@@ -55,6 +55,15 @@ static t_filetype	_assign_type(t_token *token, t_filetype prec)
 	return (token->type);
 }
 
+static int	_create_token_error(t_struct *lst, t_token *new, int i, char **tab)
+{
+	error(UN_TOKEN, lst, new->word, 0);
+	while (tab[i])
+		free(tab[i++]);
+	free(tab);
+	return (2);
+}
+
 int	create_token(t_cmd_line *cmd, t_struct *lst)
 {
 	char		**tab;
@@ -71,9 +80,9 @@ int	create_token(t_cmd_line *cmd, t_struct *lst)
 	{
 		new = new_token(tab[i++]);
 		prec = _assign_type(new, prec);
-		if (prec == NONE)
-			exit(printf("caca %s \n", new->word));//mettre error parsing < <file
 		_add_token_back(&cmd->token, new);
+		if (prec == NONE)
+			return (_create_token_error(lst, new, i, tab));
 	}
 	free(tab);
 	tab = NULL;
@@ -108,15 +117,3 @@ t_token	*create_token2(char *s, t_token	*start, t_token *next, t_struct *lst)
 	return (start);
 }
 // free tab[i] ?
-
-t_token	*remove_word_token(t_token *token)
-{
-	if (!token)
-		return (NULL);
-	if (token->word)
-	{
-		free(token->word);
-		token->word = NULL;
-	}
-	return (token);
-}

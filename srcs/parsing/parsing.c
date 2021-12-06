@@ -76,6 +76,13 @@ static t_cmd_line	*_create_cmd_lines(char *line)
 // 		token = token->next;
 // 	}
 // }
+int	_parse_fail(t_struct *lst, t_cmd_line *cmd)
+{
+	del_cmd_list(&cmd);
+	lst->cmd_line = NULL;
+	lst->exit_status = 2;
+	return (2);
+}
 
 int	ft_parsing(t_struct *lst)
 {
@@ -100,7 +107,8 @@ int	ft_parsing(t_struct *lst)
 		return (x);
 	cmd_line = _create_cmd_lines(line);
 	free(line);
-	create_token(cmd_line, lst);
+	if (create_token(cmd_line, lst))
+		return (_parse_fail(lst, cmd_line));
 	lst->cmd_line = cmd_line;
 	return (0);
 }

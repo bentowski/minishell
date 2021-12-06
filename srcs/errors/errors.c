@@ -20,10 +20,11 @@ static t_error	g_errors[] = {
 {NO_VAR, "no variables found"},
 {BAD_ARG, "no arguments is supported." },
 {TOO_MUCH, "too many arguments."},
-{LON_PIPE, "pipe whithout next command."},
+{LON_PIPE, "pipe without command."},
 {NON_NUM_FOUND, "numeric argument required."},
 {NO_ALPH, "alphabetic argument required."},
-{NO_PERM, "permission denied."}
+{NO_PERM, "permission denied or cannot be executed."},
+{UN_TOKEN, "syntax error near unexpected token"}
 };
 
 static	char	*get_error_msg(t_err raised)

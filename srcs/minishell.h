@@ -39,7 +39,8 @@ typedef enum e_err
 	LON_PIPE,
 	NON_NUM_FOUND,
 	NO_ALPH,
-	NO_PERM
+	NO_PERM,
+	UN_TOKEN
 }		t_err;
 
 typedef enum e_filetype
