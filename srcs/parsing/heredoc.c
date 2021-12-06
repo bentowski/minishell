@@ -6,7 +6,7 @@
 /*   By: vgallois <vgallois@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 11:59:22 by vgallois          #+#    #+#             */
-/*   Updated: 2021/12/06 11:20:16 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/06 16:46:29 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,12 @@ char	*here_doc_read(t_struct *lst, t_cmd_line *cmd)
 		free(cmd->here_doc_content);
 		cmd->here_doc_content = NULL;
 	}
-	signal(SIGQUIT, SIG_DFL);
 	content = ft_strdup("");
 	if (!content || !cmd->limiter)
 		return (NULL);
 	line = readline("here_doc> ");
-	while (ft_strcmp(line, cmd->limiter))
+	while (line && ft_strcmp(line, cmd->limiter))
 	{
-		if (!line)
-			break ;//erreur bash: warning: here-document at line 18 delimited by end-of-file (wanted `e')
 		tmp = ft_strjoin(line, "\n");
 		content = clean_join(content, tmp);
 		free(line);
@@ -49,7 +46,6 @@ char	*here_doc_read(t_struct *lst, t_cmd_line *cmd)
 	if (!cmd->expanded && content)
 		content = var_gestion(*lst, content);
 	_end_here_doc(line, cmd, content);
-		signal(SIGQUIT, handle_sigquit);
 	return (tmp);
 }
 

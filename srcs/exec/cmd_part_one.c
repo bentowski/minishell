@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 13:34:31 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/06 15:37:25 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/06 16:33:35 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	ft_export(t_struct lst, char **cmd_parts, char ***env)
 	{
 		if (!ft_isalpha(cmd_parts[i][0]))
 		{
-				if (!flag)
+			if (!flag)
 				flag = error(NO_ALPH, &lst, cmd_parts[0], 0);
 		}
 		else

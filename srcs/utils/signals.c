@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 17:43:15 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/06 15:58:14 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/06 16:32:34 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,6 @@ void	handle_sigquit(int signal)
 {
 	(void)signal;
 	write(2, "Quit (core dumped)\n", ft_strlen("Quit (core dumped)\n"));
+	write(1, "  ", 2);
+	write(1, "\b\b", 2);
 }

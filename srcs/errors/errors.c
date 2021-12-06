@@ -6,7 +6,7 @@
 /*   By: bbaudry <bbaudry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/29 14:30:16 by bbaudry           #+#    #+#             */
-/*   Updated: 2021/12/06 15:37:08 by bbaudry          ###   ########.fr       */
+/*   Updated: 2021/12/06 16:04:58 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ extern int	g_error;
 
 char	**errors(char **error)
 {
-	printf("%d\n", UKN_ERR);
 	error[UKN_ERR] = "Unknown error.";
 	error[MEM_ERR] = "Memory allocation failed while parsing shapes.";
 	error[BAD_FILE] = "no such file or directory.";
