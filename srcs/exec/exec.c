@@ -68,6 +68,8 @@ static void	_execcmd(t_cmd_line *cmd, t_struct *lst, int i, pid_t *pid)
 	pid[i] = fork();
 	if (!pid[i])
 	{
+		signal(SIGINT, handle_sigint_ii);
+		signal(SIGQUIT, SIG_DFL);
 		dup2(cmd->fd[0], 0);
 		dup2(cmd->fd[1], 1);
 		close_all(lst->cmd_line);
@@ -75,6 +77,7 @@ static void	_execcmd(t_cmd_line *cmd, t_struct *lst, int i, pid_t *pid)
 		lst->exit_status = select_cmd(*lst, cmd);
 		ft_exit(*lst, NULL, lst->env);
 	}
+	signal(SIGQUIT, SIG_IGN);
 	if (cmd->fd[0] != 0)
 		close(cmd->fd[0]);
 	if (cmd->fd[1] != 1)

@@ -32,10 +32,10 @@ int	ft_export(t_struct lst, char **cmd_parts, char ***env)
 	if (!cmd_parts[1])
 		return (ft_env(lst, cmd_parts, env));
 	i = 1;
-	if (!ft_isalpha(cmd_parts[i][0]))
-		return (error(NO_ALPH, &lst, cmd_parts[0], 0));
 	while (cmd_parts[i])
 	{
+		if (!ft_isalpha(cmd_parts[i][0]))
+			return (error(NO_ALPH, &lst, cmd_parts[0], 0));
 		ft_setenv(env, cmd_parts[i]);
 		i++;
 	}
@@ -51,6 +51,8 @@ int	ft_unset(t_struct lst, char **cmd_parts, char ***env)
 	i = 1;
 	while (cmd_parts[i])
 	{
+		if (!ft_isalpha(cmd_parts[i][0]))
+			return (error(NO_ALPH, &lst, cmd_parts[0], 0));
 		ft_unsetenv(env, cmd_parts[i]);
 		i++;
 	}

@@ -38,12 +38,14 @@ char	*here_doc_read(t_struct *lst, t_cmd_line *cmd)
 	line = readline("here_doc> ");
 	while (ft_strcmp(line, cmd->limiter))
 	{
+		if (!line)
+			break ;
 		tmp = ft_strjoin(line, "\n");
 		content = clean_join(content, tmp);
 		free(line);
 		line = readline("here_doc> ");
 	}
-	if (!cmd->expanded)
+	if (!cmd->expanded && content)
 		content = var_gestion(*lst, content);
 	_end_here_doc(line, cmd, content);
 	return (tmp);
@@ -63,7 +65,8 @@ int	here_doc_exec(char *path, t_struct lst, char **cmd_part, char ***env)
 		write(1, lst.here_doc_content, ft_strlen(lst.here_doc_content));
 		free(path);
 		lst_free(lst);
-		exit (0);
+		ft_exit(lst, cmd_part, env);
+		return (0);
 	}
 	else
 	{

@@ -46,14 +46,14 @@ int	check_pipes_good(t_struct *lst, char *line)
 	int	x;
 	int	ret;
 
-	x = -1;
+	x = 0;
 	ret = 0;
 	while ((line[x] == '\t' || line[x] == '\n' || line[x] == '\r'
 			|| line[x] == '\v' || line[x] == '\f'))
 		x++;
 	if (line[x] == '|')
 		return (error(LON_PIPE, lst, NULL, 0));
-	while (line[++x])
+	while (line[x])
 	{
 		if (line[x] == '|')
 		{
@@ -64,6 +64,7 @@ int	check_pipes_good(t_struct *lst, char *line)
 			if (!line[x])
 				return (error(LON_PIPE, lst, NULL, 0));
 		}
+		x++;
 	}
 	return (check_quotes_good(lst, line));
 }
