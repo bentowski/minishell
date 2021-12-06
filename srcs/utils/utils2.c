@@ -45,6 +45,8 @@ int	do_fork(t_cmd_line *cmd)
 	char	*builtin[6];
 	int		x;
 
+	if (!found_arg(cmd))
+		return (1);
 	tmp = cmd->token;
 	while (tmp && !(tmp->type == ARG))
 		tmp = tmp->next;

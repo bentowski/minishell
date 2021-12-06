@@ -28,15 +28,21 @@ int	ft_env(t_struct lst, char **cmd_parts, char ***env)
 int	ft_export(t_struct lst, char **cmd_parts, char ***env)
 {
 	int	i;
+	int	flag;
 
+	flag = 0;
 	if (!cmd_parts[1])
 		return (ft_env(lst, cmd_parts, env));
 	i = 1;
 	while (cmd_parts[i])
 	{
 		if (!ft_isalpha(cmd_parts[i][0]))
-			return (error(NO_ALPH, &lst, cmd_parts[0], 0));
-		ft_setenv(env, cmd_parts[i]);
+		{
+				if (!flag)
+				flag = error(NO_ALPH, &lst, cmd_parts[0], 0);
+		}
+		else
+			ft_setenv(env, cmd_parts[i]);
 		i++;
 	}
 	if (lst.is_child)
@@ -47,18 +53,24 @@ int	ft_export(t_struct lst, char **cmd_parts, char ***env)
 int	ft_unset(t_struct lst, char **cmd_parts, char ***env)
 {
 	int	i;
+	int	flag;
 
 	i = 1;
+	flag = 0;
 	while (cmd_parts[i])
 	{
 		if (!ft_isalpha(cmd_parts[i][0]))
-			return (error(NO_ALPH, &lst, cmd_parts[0], 0));
-		ft_unsetenv(env, cmd_parts[i]);
+		{
+			if (!flag)
+				flag = error(NO_ALPH, &lst, cmd_parts[0], 0);
+		}
+		else
+			ft_unsetenv(env, cmd_parts[i]);
 		i++;
 	}
 	if (lst.is_child)
 		ft_exit(lst, cmd_parts, env);
-	return (0);
+	return (flag);
 }
 
 int	ft_exit_bi(t_struct lst, char **cmd_parts, char ***env)

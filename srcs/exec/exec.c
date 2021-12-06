@@ -74,7 +74,8 @@ static void	_execcmd(t_cmd_line *cmd, t_struct *lst, int i, pid_t *pid)
 		dup2(cmd->fd[1], 1);
 		close_all(lst->cmd_line);
 		free(pid);
-		lst->exit_status = select_cmd(*lst, cmd);
+		if (found_arg(cmd))
+			lst->exit_status = select_cmd(*lst, cmd);
 		ft_exit(*lst, NULL, lst->env);
 	}
 	signal(SIGQUIT, SIG_IGN);

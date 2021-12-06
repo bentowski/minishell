@@ -79,8 +79,6 @@ int	ft_run(t_struct *lst)
 	if (cmd_count(lst->cmd_line) > 1 || do_fork(lst->cmd_line))
 	{
 		lst->is_child = 1;
-		signal(SIGINT, handle_sigint_ii);
-		signal(SIGQUIT, handle_sigquit_ii);
 		return (ft_pipes(cmd_count(lst->cmd_line), lst));
 	}
 	else

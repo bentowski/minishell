@@ -97,7 +97,7 @@ int	ft_cd(t_struct lst, char **cmd_parts, char ***env)
 	buf = malloc(len * sizeof(char));
 	if (!buf)
 		return (error(MEM_ERR, &lst, NULL, 0));
-	while (getcwd(buf, len) == NULL)
+	while (getcwd(buf, len) == NULL && len < 1000)
 	{
 		free(buf);
 		len++;

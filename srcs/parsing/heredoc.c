@@ -32,6 +32,7 @@ char	*here_doc_read(t_struct *lst, t_cmd_line *cmd)
 		free(cmd->here_doc_content);
 		cmd->here_doc_content = NULL;
 	}
+	signal(SIGQUIT, SIG_DFL);
 	content = ft_strdup("");
 	if (!content || !cmd->limiter)
 		return (NULL);
@@ -39,7 +40,7 @@ char	*here_doc_read(t_struct *lst, t_cmd_line *cmd)
 	while (ft_strcmp(line, cmd->limiter))
 	{
 		if (!line)
-			break ;
+			break ;//erreur bash: warning: here-document at line 18 delimited by end-of-file (wanted `e')
 		tmp = ft_strjoin(line, "\n");
 		content = clean_join(content, tmp);
 		free(line);
@@ -48,6 +49,7 @@ char	*here_doc_read(t_struct *lst, t_cmd_line *cmd)
 	if (!cmd->expanded && content)
 		content = var_gestion(*lst, content);
 	_end_here_doc(line, cmd, content);
+		signal(SIGQUIT, handle_sigquit);
 	return (tmp);
 }
 

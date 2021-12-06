@@ -162,6 +162,7 @@ int			get_new_lenght(t_struct lst, char *line,
 
 /* ================================= Run ==================================== */
 int			do_fork(t_cmd_line *cmd);
+int			found_arg(t_cmd_line *cmd);
 int			select_cmd(t_struct lst, t_cmd_line *cmd);
 int			ft_run(t_struct *lst);
 char		*get_path(void *cmd, char ***env);

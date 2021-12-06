@@ -24,6 +24,7 @@ SRC =	srcs/main.c \
 		srcs/parsing/token_utils3.c\
 		srcs/errors/errors.c \
 		srcs/exec/exec.c \
+		srcs/exec/exec2.c \
 		srcs/exec/gestion_cmds.c \
 		srcs/exec/gestion_file.c \
 		srcs/exec/ft_pwd.c \
