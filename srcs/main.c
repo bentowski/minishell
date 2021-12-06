@@ -58,6 +58,7 @@ int	main(int argc, char **argv, char **env)
 	lst.limiter = NULL;
 	lst.exit_status = 0;
 	lst.cmd_line = 0;
+	lst.is_child = 0;
 	ret = start(lst);
 	ft_free(env);
 	rl_clear_history();

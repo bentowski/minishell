@@ -56,7 +56,7 @@ static int	cd_relative(char **cmd_parts, char *buf, size_t len)
 
 static int	cd_part2(t_struct lst, char **cmd_parts, char *buf, size_t len)
 {
-	if (cmd_parts[1] == NULL)
+	if (cmd_parts[1] == NULL || !ft_strncmp(cmd_parts[1], "~", 2))
 	{
 		if (cd_base(lst))
 			return (error(MEM_ERR, &lst, NULL, 0));
