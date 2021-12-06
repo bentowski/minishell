@@ -17,8 +17,11 @@ SRC =	srcs/main.c \
 		srcs/parsing/add_space2.c \
 		srcs/parsing/cmd_line_utils.c\
 		srcs/parsing/token_utils.c\
+		srcs/parsing/token_utils2.c\
 		srcs/errors/errors.c \
+		srcs/exec/exec.c \
 		srcs/exec/gestion_cmds.c \
+		srcs/exec/gestion_file.c \
 		srcs/exec/ft_pwd.c \
 		srcs/exec/ft_cd.c \
 		srcs/exec/ft_echo.c \
